@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>签名</title>
+    <meta name="description" content="">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <link rel="stylesheet" href="css/webapp_reset.css">
+    <meta name="keywords" content="">
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <link href="" rel="stylesheet">
+    <style>
+        body {
+            background: #f5f5f5;
+        }
+
+        ul {
+            list-style: none;
+            width: 100%;
+
+        }
+
+        .policy_main_msg_name img {
+            width: 100px;
+            height: 60px;
+        }
+
+        .policy_main_msg_name span {
+            width: 160px;
+            line-height: 60px;
+            text-align: right;
+            margin-right: 5px;
+        }
+
+        .policy_main_msg_name li {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .code {
+            font-size: 16px;
+            text-indent: 10px;
+        }
+
+        .btn {
+            font-size: 16px;
+            background: #e51c23;
+            color: #fff;
+            display: block;
+            width: 25%;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            margin: 0 auto;
+            border-radius: 5px;
+        }
+
+        /*加载样式*/
+        .loading {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+
+        .loading_box {
+            height: 60px;
+            width: 90%;
+            margin: 0 auto;
+            background: rgba(255, 255, 2555, .9);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            line-height: 60px;
+            border-radius: 5px;
+        }
+
+        .loading_box > span {
+            margin-left: 20px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: 20px;
+            margin: 0 0 10px 10px;
+        }
+
+        .container1 > div, .container2 > div, .container3 > div {
+            width: 6px;
+            height: 6px;
+            background-color: #333;
+            border-radius: 100%;
+            position: absolute;
+            -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+            animation: bouncedelay 1.2s infinite ease-in-out;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .spinner .spinner-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container2 {
+            -webkit-transform: rotateZ(45deg);
+            transform: rotateZ(45deg);
+        }
+
+        .container3 {
+            -webkit-transform: rotateZ(90deg);
+            transform: rotateZ(90deg);
+        }
+
+        .circle1 {
+            top: 0;
+            left: 0;
+        }
+
+        .circle2 {
+            top: 0;
+            right: 0;
+        }
+
+        .circle3 {
+            right: 0;
+            bottom: 0;
+        }
+
+        .circle4 {
+            left: 0;
+            bottom: 0;
+        }
+
+        .container2 .circle1 {
+            -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s;
+        }
+
+        .container3 .circle1 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        .container1 .circle2 {
+            -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s;
+        }
+
+        .container2 .circle2 {
+            -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s;
+        }
+
+        .container3 .circle2 {
+            -webkit-animation-delay: -0.7s;
+            animation-delay: -0.7s;
+        }
+
+        .container1 .circle3 {
+            -webkit-animation-delay: -0.6s;
+            animation-delay: -0.6s;
+        }
+
+        .container2 .circle3 {
+            -webkit-animation-delay: -0.5s;
+            animation-delay: -0.5s;
+        }
+
+        .container3 .circle3 {
+            -webkit-animation-delay: -0.4s;
+            animation-delay: -0.4s;
+        }
+
+        .container1 .circle4 {
+            -webkit-animation-delay: -0.3s;
+            animation-delay: -0.3s;
+        }
+
+        .container2 .circle4 {
+            -webkit-animation-delay: -0.2s;
+            animation-delay: -0.2s;
+        }
+
+        .container3 .circle4 {
+            -webkit-animation-delay: -0.1s;
+            animation-delay: -0.1s;
+        }
+
+        @-webkit-keyframes bouncedelay {
+            0%, 80%, 100% {
+                -webkit-transform: scale(0.0)
+            }
+            40% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes bouncedelay {
+            0%, 80%, 100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            }
+            40% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+            }
+        }
+
+        #dialog {
+            display: none;
+            background-color: #fff;
+            /* border: 1px solid rgba(0,0,0, 0.4); */
+            height: 100%;
+            left: 0;
+            top: 0;
+            /* margin: -200px 0 0 -200px; */
+            position: fixed !important;
+            position: absolute;
+            width: 100%;
+            z-index: 5;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .orange {
+            background: red;
+            border: 0;
+            width: 77px;
+            height: 32px;
+            color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="policy_main_msg_name" id="policy">
+    <p class="code">投保单号: <span>{{policyCode}}</span></p>
+    <ul class="policy_main_msg">
+        <li class="tb_name clearfix">
+            <span class="fl">被保人/监护人签名:</span>
+            <a href="javascript:;" class="name fl">
+                <img class="myimg myimg_t img11" src="">
+            </a>
+        </li>
+    </ul>
+    <a href="javascript:;" class="btn">确定</a>
+</div>
+
+<!--签名-->
+<center>
+    <div id="dialog" style=" display:none;">
+        <!-- 显示签名区域-->
+        <div id="anysign_title" style="color:#333333;" width="100%" height="10%">请签名</div>
+        <div id="container" onmousedown="return false;">
+            <canvas id="anysignCanvas" width="2">
+            </canvas>
+        </div>
+
+        <div id="single_scrollbar" style="text-align: center;  vertical-align:middle; " width="100%">
+            <span id="single_scroll_text"> *滑动操作：</span>
+            <input id="single_scrollbar_up" type="button" class="button orange" value="左移"/>
+            <input id="single_scrollbar_down" type="button" class="button orange" value="右移"/>
+        </div>
+
+        <div id="btnContainerOuter" width="100%">
+
+            <div id="btnContainerInner" style="text-align: center;   font-size:5pt;" width="100%">
+                <input id="btnOK" type="button" class="button orange" value="确 定" onclick="sign_confirm();"/>
+                <input id="btnClear" type="button" class="button orange" style=" display:none;" value="清 屏"
+                       onclick="javascript:clear_canvas();">
+                <input id="btnCancel" type="button" class="button orange" value="取 消" onclick="cancelSign();">
+            </div>
+
+        </div>
+
+    </div>
+</center>
+
+<!--加载动画-->
+<div class="loading clearfix" style="display: block">
+    <div class="loading_box">
+        <div class="fl">
+            <div class="spinner">
+                <div class="spinner-container container1">
+                    <div class="circle1"></div>
+                    <div class="circle2"></div>
+                    <div class="circle3"></div>
+                    <div class="circle4"></div>
+                </div>
+                <div class="spinner-container container2">
+                    <div class="circle1"></div>
+                    <div class="circle2"></div>
+                    <div class="circle3"></div>
+                    <div class="circle4"></div>
+                </div>
+                <div class="spinner-container container3">
+                    <div class="circle1"></div>
+                    <div class="circle2"></div>
+                    <div class="circle3"></div>
+                    <div class="circle4"></div>
+                </div>
+            </div>
+        </div>
+        <span class="fl">加载中,请稍后</span>
+    </div>
+</div>
+
+<!--签名密匙-->
+<input type="hidden" id="sign_data">
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="sign/anysignWebInterface.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="js/websql.js"></script>
+<script src="js/style.js"></script>
+<script src="js/kk-1.1.52.min.js"></script>
+<script>
+    $(function () {
+        //判断电子签名还是纸质签名
+        var signWay = localStorage.paperPolicy;
+
+        //创建数据库类
+        var db = WebSql().openDB();
+
+        //当前保单流水号
+        var policyId = localStorage.proposalId;
+        // 图片 base64 串
+        $('.img11').attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIcAAABICAYAAADcWeZrAAAACXBIWXMAAAsTAAALEwEAmpwYAAA7P2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMwNjcgNzkuMTU3NzQ3LCAyMDE1LzAzLzMwLTIzOjQwOjQyICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgICAgICAgICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoTWFjaW50b3NoKTwveG1wOkNyZWF0b3JUb29sPgogICAgICAgICA8eG1wOkNyZWF0ZURhdGU+MjAxNy0wMy0xN1QxOToyNDoxMSswODowMDwveG1wOkNyZWF0ZURhdGU+CiAgICAgICAgIDx4bXA6TW9kaWZ5RGF0ZT4yMDE3LTAzLTE3VDE5OjMxOjI3KzA4OjAwPC94bXA6TW9kaWZ5RGF0ZT4KICAgICAgICAgPHhtcDpNZXRhZGF0YURhdGU+MjAxNy0wMy0xN1QxOTozMToyNyswODowMDwveG1wOk1ldGFkYXRhRGF0ZT4KICAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9wbmc8L2RjOmZvcm1hdD4KICAgICAgICAgPHBob3Rvc2hvcDpDb2xvck1vZGU+MzwvcGhvdG9zaG9wOkNvbG9yTW9kZT4KICAgICAgICAgPHBob3Rvc2hvcDpUZXh0TGF5ZXJzPgogICAgICAgICAgICA8cmRmOkJhZz4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxwaG90b3Nob3A6TGF5ZXJOYW1lPueCueWHu+etvuWQjTwvcGhvdG9zaG9wOkxheWVyTmFtZT4KICAgICAgICAgICAgICAgICAgPHBob3Rvc2hvcDpMYXllclRleHQ+54K55Ye7562+5ZCNPC9waG90b3Nob3A6TGF5ZXJUZXh0PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6QmFnPgogICAgICAgICA8L3Bob3Rvc2hvcDpUZXh0TGF5ZXJzPgogICAgICAgICA8eG1wTU06SW5zdGFuY2VJRD54bXAuaWlkOjY0ZTcwZWQ0LWVmNTgtNDhlZS1iMDZkLTY4NmYwZGNhMzkxMjwveG1wTU06SW5zdGFuY2VJRD4KICAgICAgICAgPHhtcE1NOkRvY3VtZW50SUQ+YWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmFlZDIzNDJjLTRiOTMtMTE3YS05NTRlLWVhZmFhYWE2ZDU3OTwveG1wTU06RG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD54bXAuZGlkOjU1MTA2ZjM5LWM4YTAtNDZiNC04YWNkLWRjMmZiZmI5NmU2YzwveG1wTU06T3JpZ2luYWxEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06SGlzdG9yeT4KICAgICAgICAgICAgPHJkZjpTZXE+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPmNyZWF0ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDo1NTEwNmYzOS1jOGEwLTQ2YjQtOGFjZC1kYzJmYmZiOTZlNmM8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTctMDMtMTdUMTk6MjQ6MTErMDg6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDo2NGU3MGVkNC1lZjU4LTQ4ZWUtYjA2ZC02ODZmMGRjYTM5MTI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTctMDMtMTdUMTk6MzE6MjcrMDg6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICAgICA8c3RFdnQ6Y2hhbmdlZD4vPC9zdEV2dDpjaGFuZ2VkPgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6U2VxPgogICAgICAgICA8L3htcE1NOkhpc3Rvcnk+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlhSZXNvbHV0aW9uPjcyMDAwMC8xMDAwMDwvdGlmZjpYUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6WVJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOllSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpSZXNvbHV0aW9uVW5pdD4yPC90aWZmOlJlc29sdXRpb25Vbml0PgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjY1NTM1PC9leGlmOkNvbG9yU3BhY2U+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj4xMzU8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NzI8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/PiSWkSEAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAABgZJREFUeNrsnF1Mk1cYx/+uTdpVpYGCpIWIKJhQMa5ExC1cNFvmnHDjhUSIW5ssQ0Iylm0SswW4YJ8EYjIjpjNb7MWCBjdNNuqFSuwSov1g4EdpCVRA7EdKoU1d25XE5t1F02LpW6Aiobjnd3nOeU/Oe86Pc57nvKGbZAodA4JggQsAQ+oKmgkijjKlHq/RNBDJIDkIkoMgOQiSgyA5CJKDIDkIkoMgOQiSgyA5CILkIEgOguQgSA6C5CBIDoLkIEgOguQgSA6CIDkIkoMgOYj/nRzBUBhlSj0uXJnCY0eQVovkWEDA5yBXyIVpIoACiWBVffVpnTHRUn2utXsUfVpnQp3W4MaJlvvQGtwpj+dEy31cum6D0eQlOdab3Gw+AEBWIkxp57p8awY+fxhvH9yWUH/19gyytnIhP5CTsnBmWwgAUF6ambZztkmm0DHp/I/U73/6N1y+Z0nr25XbUS0Xp/QMGwOq/RDwOXFlrd2j0Bh9CW2ba/KwVcBBm3qata+fTu1OuujBUBj135hiciSjuSYPtUfy123ey5R6QKbQMenM4aZB5pMfTKvux/DQw8gUOsbw0LOi9p0Xx5nDTYPMlD3AjFh9jEyhY6bsAYZhGGbE6mNazlmY2/oZhmEYpuWchem8OL6iflvOWZK+z5+3HYxMoXsp77taZAodQ9kKC9Hgt/3jnSiQCLAtiwcAmLQFcOHKFL44O46KPcLYcSIt3IL+Yd+y/XaprdAYfRiw+BNimD6tE23qaUjz+WirL0qLeeBuhGPE5fNHtrkVHAUvgwKJAKeUCwuUncnDkLoCl67boNK40K7cju5rDgBAtVyM2iP5qD2Sj2AozDqeYCiM738Zh8boQ51chP5hH9rU07ih96CtvghXbzmh0riQK+Ti28ZiZGfySA42iiV8vCPjxS0O219g/7BvTcRIRmv3KAbHArF4Yu9uIRo6LBidCqDxeCEEfE7S8RgeeCDczI3FEY3HF2Q59Nm9SMAs5EJ1umTVWdkrLcdq6FJb0aOdW7LNya6xlIJArcGNn/9wwGwLoaEqF9bpAKzTAQDA0UoRVBoXerRzaKjKxe6CzayZi/xATly5gM/Blx8VY9IZCUwrS7agrb4obXaMV1KOU8qipDuO0eTFya6xJTOJxTHADb0HAxY/qsoj6a9K40poV1UuhLRwC8yT/kj9+QnWDGpx393XHHD5nqFOLmIds/nRU0h3ZZAczzPuCGHA4l92B4ie5WxbudbghnN2HuJs3pJ3ELPeedy868ZWASduMaOLVyzh40zjzrg+tAY3/MFnsfaz3nkIXueils/B10uM6bEjiDv3POjstceV92jnWN+1Ti4iORbze8cbq44lnLPz6Oy149p3e5dsF/g3jM5eO9qV2+PKq+ViHNyXhexMHowmL8qUevzaWgLprgyMPQ5ApXHF6m/edcf6qJaLE8YezUKiSPP5MNtCSYPpYCiMyoZBuiFlYykxnv++YjR5X+jaeqVEz//y0kzkCrkYGPIAACrLsgAApvGnAADNnTnUyUVJj5FquRjNNXlorsnDkLoCVW+JNswxnVZyNHWM4NJ1W2zxmzpGEAyFY8FmQ4cl1vavwTl8fn4C5kdP13xcRytFeDITudHckbcZZxp3orQ4A0aTF2ZbCMcOSZZ8PprqbjTS5lgxmrwYsPjxQdXCRA9Y/JiyByDdlYH9UiF6tHMwmrwoL81E4/FC9A/7oPrtCc6e3rOmY6s/tiNuZ4vGIO0XrKiTi14o/UyXoyPt5QiGwvjxcuR2MJpJRG8lJ55E5CgtzojtGOWlmRDwOfjwvVx09trRp3WybutHv3qYUiq7+Ahjez6BRcHzcpnKchd46RRzpIUchgceFIp5qNiz8MU0J4uH5po8HNyXFYsBFn8gfPfNHNbtOll5MgH+CYYT6gokgjX5ZWfzpH/ZmCv6YW+9SfuvssT6QD9vTWysVJYgOQiSgyA5CJKDIDkIguQgSA6C5CBIDoLkIEgOguQgSA6C5CBIDoLkIAiSgyA5CJKDIDkIkoMgOQiSgyA5iFebTTKFjqFpINj4bwDqyR03kH0McAAAAABJRU5ErkJggg==');
+
+        //查询被保人信息和投保人信息
+        function tInfo(id, obj) {
+            // $('.signing_statement').hide();//投保提示书
+            //被保人
+            db.query('SELECT * FROM customer c JOIN plan p ON c.customerId = p.insuredId WHERE p.policyUUID = ? ORDER BY id', [id], function (custInfo) {
+                for (var i in custInfo) {
+                    if (i == 0) {
+                        $('.bimg1').css('display', 'block');
+                    }
+                    if (i == 1) {
+                        $('.cust_name2').css('display', 'block');
+                        window.localStorage.custNum = 1;
+                    }
+                    if (i == 2) {
+                        $('.cust_name3').css('display', 'block');
+                        window.localStorage.custNum2 = 2;
+                    }
+                    obj.bres.push(custInfo[i]);
+                }
+            });
+            //投保人
+            db.query('SELECT * FROM policy p JOIN customer c ON p.uuid = c.policyUUID And p.applicantUUID = c.customerId  WHERE p.uuid=?', [id], function (tbInfo) {
+                for (var i in tbInfo) {
+                    obj.cres.push(tbInfo[i]);
+                }
+            });
+            db.query('SELECT * FROM policy WHERE uuid = ? ', [id], function (res) {
+                for (var i in res) {
+                    obj.policy.push(res[i]);
+                }
+                if (res.length) {
+                    //投保单号
+                    obj.policyCode = res[0].code;
+                    localStorage.policunumber = res[0].code;
+                    //缴费信息
+                    db.query('SELECT * FROM policypay WHERE policyUUID = ? ', [id], function (pres) {
+                        obj.pres = pres;
+                    });
+                    //保险计划信息
+                    db.query('SELECT * FROM product WHERE policyUUID = ? ', [id], function (jres) {
+                        for (var i in jres) {
+                            obj.jres.push(jres[i]);
+                        }
+                    });
+                    //告知信息
+                    db.query('SELECT * FROM questAnswer WHERE policyUUID = ? ', [id], function (gres) {
+                        for (var i in gres) {
+                            obj.gres.push(gres[i]);
+                        }
+                    });
+                    //受益人
+                    db.query('SELECT * FROM benefit WHERE policyUUID = ? ', [id], function (gres) {
+                        for (var i in gres) {
+                            obj.sres.push(gres[i]);
+                        }
+                    });
+                    //业务员表agentinfo
+                    db.query('SELECT a.* FROM agentinfo a JOIN policy p ON a.groupAgentCode = p.agentcode  WHERE p.uuid=?', [id], function (ares) {
+                        for (var i in ares) {
+                            obj.agentres.push(ares[i]);
+                        }
+                    });
+                    if (obj.ires) {
+                        //照片
+                        db.query('SELECT * FROM imagetif WHERE policyUUID = ? ', [id], function (gres) {
+                            for (var i in gres) {
+                                obj.ires.push(gres[i]);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+
+        //保单数据
+        var dataAll = {
+            policy: [],
+            agentres: [],
+            bres: [],//被保人
+            cres: [],//投保人
+            pres: {},
+            jres: [],
+            gres: [],
+            sres: []
+        };
+
+        tInfo(policyId, dataAll);
+        //vue
+        var policy = new Vue({
+            el: '#policy',
+            data: {
+                totalData: dataAll,
+                item: ''
+            },
+            computed: {
+                //投保人信息
+                insureInfo: function () {
+                    var msg = this.totalData.cres;
+                    var data = {
+                        id: [],
+                        name: [],
+                        cardnum: []
+                    };
+                    msg.forEach(function (v) {
+                        data.id.push(v.customerId);//投保人id
+                        data.name.push(v.name);//投保人姓名
+                        data.cardnum.push(v.cardNum);//投保人身份证号码
+                    });
+                    return data;
+                },
+                //被保人信息
+                custInfo: function () {
+                    var msg = this.totalData.bres;
+                    var data = {
+                        id: [],//被保人id
+                        name: [],//被保人姓名
+                        cardnum: []//被保人身份证号码
+                    };
+                    msg.forEach(function (v) {
+                        data.id.push(v.customerId);
+                        data.name.push(v.name);
+                        data.cardnum.push(v.cardNum);
+                    });
+                    return data;
+                },
+                //代理人信息
+                dlrInfo: function () {
+                    var msg = this.totalData.agentres;
+                    var data = {
+                        name: [],
+                        cardnum: []
+                    };
+                    msg.forEach(function (v) {
+                        data.name.push(v.name);
+                        data.cardnum.push(v.groupAgentCode)
+                    });
+                    return data;
+                },
+                //保单号
+                policyCode: function () {
+                    var msg = this.totalData.policy;
+                    var data = {};
+                    msg.forEach(function (v) {
+                        data = v.code
+                    });
+                    return data;
+                }
+            },
+            mounted: function () {
+                var _this = this;
+                //签名 src
+                var _tSrc1 = $('.myimg_t').attr('src'),
+                    _bSrc11 = $('.myimg2').attr('src'),
+                    _dSrc1 = $('.myimg5').attr('src');
+                setTimeout(function () {
+//                    //总保险金额
+//                    var Num = 0;
+//                    $('.numMoney').each(function () {
+//                        Num += parseInt($(this).html());
+//                    });
+//                    Num = Num + "元";
+//                    $('.sumMoney').text(Num);
+//                    if (Num !== 0) {
+//                        //总保费表
+//                        db.exeSql('CREATE TABLE IF NOT EXISTS premium (policyUUID TEXT, money TEXT)', [], function (res) {
+//                            if (res) {
+//                                db.exeSql('INSERT INTO premium (policyUUID,money) VALUES(?,?)', [policyId, Num], function (res) {
+//                                });
+//                            } else {
+//                                alert('创建失败')
+//                            }
+//                        });
+//                    } else {
+//                        alert('保费计算错误')
+//                    }
+//                    if (signWay == 'yes') {
+//                        $('.myimg').hide();
+//                        $('.signing_statement').hide();//投保提示书
+//                        $('.dlr_sign').hide();//代理人签名
+//                        var tName = _this.totalData.cres;
+//                        var cName = _this.totalData.bres;
+//                        var cNameList = [];
+//                        //被保人
+//                        tName.forEach(function (v) {
+//                            $('.tb_name').html(v.name)
+//                        });
+//                        cName.forEach(function (v) {
+//                            cNameList.push(v.name)
+//                        });
+//                        //投保人
+//                        $('.cust_name1').html(cNameList[0]);
+//                        $('.cust_name2').html(cNameList[1]);
+//                        $('.cust_name3').html(cNameList[2]);
+//                    }
+                    /*---------------------------------------------页面事件---------------------------------------------------*/
+//                    //关闭弹层
+//                    $('.submit .confirm').click(function () {
+//                        $('.submit').hide();
+//                        window.location = "policycenter.html";
+//                    });
+                    /*---------------------------------------------签名部分---------------------------------------------------*/
+                    console.log(dataAll,'dataAll')
+                    //获取用户姓名
+                    var name1 = $('.myimg_t').attr('tb_name'),
+                        name2 = $('.myimg2').attr('cust_name'),
+                        name3 = $('.myimg3').attr('cust_name'),
+                        name4 = $('.myimg4').attr('cust_name'),
+                        name5 = $('.myimg5').attr('agent_name'),
+                        name6 = dataAll.cres[0].cardNum;
+
+                    //获取id
+                    var cardnum1 = $('.myimg_t').attr('tb_card');
+                    var cardnum2 = $('.myimg2').attr('cust_card');
+                    var cardnum3 = $('.myimg3').attr('cust_card');
+                    var cardnum4 = $('.myimg4').attr('cust_card');
+                    var cardnum5 = $('.myimg5').attr('agent_code');
+                    var cardnum6 = dataAll.cres[0].name;
+                    //关键字
+                    var word1 = '投保人签名',
+                        word2 = '第一被保险人或监护人',
+                        word3 = '第二被保险人或监护人',
+                        word4 = '第三被保险人或监护人',
+                        word5 = '代理人签名',
+                        word6 = '监护人签名';
+                    // var apiInstance = new AnySignApi();
+                    // //demo总入口
+                    // testAnySign(10010);
+                    // var obj = null;
+
+                    // function testAnySign(channel) {
+                    //     var res;
+                    //     var callback = function (context_id, context_type, val) {
+                    //         if (context_type == CALLBACK_TYPE_START_RECORDING || context_type == CALLBACK_TYPE_STOP_RECORDING) {
+                    //             return;
+                    //         }
+                    //         if (context_type == CALLBACK_TYPE_SIGNATURE) {
+                    //             //签名回显
+                    //             obj.attr('src', 'data:image/png;base64,' + val);
+                    //         } else if (context_type == CALLBACK_TYPE_ON_PICTURE_TAKEN) {
+                    //             document.getElementById("preview").src = "data:image/png;base64," + val;
+                    //         } else if (context_type == CALLBACK_TYPE_ON_MEDIA_DATA) {
+                    //             var audio = createElement("audio");
+                    //             if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
+                    //                 audio.src = "data:image/png;base64," + val;
+                    //                 audio.play();
+                    //             }
+                    //         }
+                    //     };
+                    //     //初始化签名接口
+                    //     res = apiInstance.initAnySignApi(callback, channel);
+                    //     if (!res) {
+                    //     } else {
+                    //     }
+                    //     //动态添加签字对象
+                    //     res = testAddSignatureObj(20, name1, cardnum1, word1);
+                    //     res = testAddSignatureObj(21, name2, cardnum2, word2);
+                    //     res = testAddSignatureObj(22, name5, cardnum5, word5);
+                    //     var custNum = window.localStorage.custNum;
+                    //     var custNum2 = window.localStorage.custNum2;
+                    //     if (custNum == 1) {
+                    //         res = testAddSignatureObj(23, name3, cardnum3, word3);
+                    //     }
+                    //     if (custNum2 == 2) {
+
+                    //         res = testAddSignatureObj(24, name4, cardnum4, word4);
+                    //     }
+                    //     //注册一个单位签章
+                    //     var cachet_config = new CachetConfig(new Signer("小明", "110xxxxxx"), new SignRule_Tid("11900"), true);
+                    //     res = apiInstance.addCachetObj(cachet_config);
+                    //     if (!res) {
+                    //     } else {
+                    //     }
+                    //     //将配置提交
+                    //     res = apiInstance.commitConfig();
+                    // }
+
+                    // //配置模板数据
+                    // testSetTemplateData();
+
+                    // function testSetTemplateData() {
+                    //     var policynumber = localStorage.policunumber;
+
+                    //     // var formData = "{\"bjcaxssrequest\":{\"submitinfo\":[{\"username\":\"测星雨\",\"identitycardnbr\":\"320902198901191012\"},{\"username\":\"测星雨123\",\"identitycardnbr\": \"320902198901191012\"}]}}";
+                    //     var formData = "<html><head></head><body><div id=\"colArea\" class=\"pageFormContent\" style=\"width:95%;background:#f9fbf9;display:block;\"><div class=\"unit\"><label class=\"fontLabel\">keyword：</label></div><div class=\"unit\"><label class=\"fontLabel\">列名2：</label></div><div class=\"unit\"><label class=\"fontLabel\">列名3：</label></div></div></body></html>";
+                    //     var businessId = policynumber;//工单号，业务流水号集成信手书业务的唯一标识
+                    //     var template_serial = "23";//用于生成PDF的模板ID
+                    //     var channel = "10010";//渠道号，由信手书提供，请咨询项目经理
+                    //     var res;
+                    //     //配置JSON格式签名原文
+                    //     res = apiInstance.setTemplate(TemplateType.HTML, formData, businessId, template_serial);
+                    //     if (res) {
+                    //         return res;
+                    //     }
+                    //     else {
+                    //         return res;
+                    //     }
+                    // }
+
+                    // //添加签名框
+                    // function testAddSignatureObj(id, name, cardnum, word) {
+                    //     var context_id = id;
+                    //     var len = 0;
+                    //     if (word.length == '5') {
+                    //         len = 70;
+                    //     } else {
+                    //         len = 20;
+                    //     }
+                    //     var signatureConfig = new SignatureConfig(new Signer(name, cardnum), new SignRule_KeyWord(word,3, len, 1));
+                    //     //var signatureConfig = new SignatureConfig(new Signer("李明", "11011111111"), new SignRule_XYZ(20.0, 750.1, 80.2, 650.3, 1, "pt"));
+                    //     signatureConfig.signatureImgRatio = 3.0;
+                    //     signatureConfig.singleWidth = 90;
+                    //     signatureConfig.singleHeight = -40;
+
+                    //     /**
+                    //      * 关键字定位方式，寻找PDF中的关键字，根据关键字位置放置签名图片
+                    //      * @param keyword 关键字
+                    //      * @param keyWordAlignMethod 签字图片和关键字位置关系：等于0时，签字图片和关键字矩形重心重合
+                    //      *                            等于1时，签字图片位于关键字正下方，中心线对齐；等于2时，签字图片位于关键字正右方，中心线对齐；
+                    //      *                            等于3时，签字图片左上角和关键字右下角重合，可能额外附加偏移量，详见构造函数的offset参数
+                    //      * @param keyWordOffset 当keyWordAlignMethod非零时，额外附加的偏移量，单位pt
+                    //      * @param pageNo 寻找关键字的PDF起始页码
+                    //      * @constructor
+                    //      */
+                    //     var res = apiInstance.addSignatureObj(context_id, signatureConfig);
+                    //     if (res) {
+                    //         return res;
+                    //     } else {
+                    //         return res;
+                    //     }
+                    // }
+
+                    // //生成签名加密数据
+                    // function testGenData() {
+                    //     var res = document.getElementById('sign_data');
+                    //     try {
+                    //         res.value = apiInstance.getUploadDataGram();
+                    //     }
+                    //     catch (err) {
+                    //         alert(err)
+                    //     }
+                    // }
+
+                    // //弹出签名框签名
+                    // function testPopupDialog(id) {
+                    //     switch (apiInstance.showSignatureDialog(id)) {
+                    //         case RESULT_OK:
+                    //             break;
+                    //         case EC_API_NOT_INITED:
+                    //             alert("信手书接口没有初始化");
+                    //             break;
+                    //         case EC_WRONG_CONTEXT_ID:
+                    //             alert("没有配置相应context_id的签字对象");
+                    //             break;
+                    //     }
+                    // }
+
+
+
+                    /**********************************Ca签名***********************************/
+                    testAnySign(10010)
+                    document.onreadystatechange = setAlertTitle;
+
+                    var apiInstance;
+                    var fileData;
+                    var ocrCapture;
+
+                    var DATA_CANNOT_PARSED = "10003"; //输入数据项无法解析
+                    var SERVICE_SYSTEM_EXCEPTION = "10011"; //服务系统异常错误
+                    var RECOGNITION_RESULT_EMPTY = "10100"; //识别结果为空
+                    var CONNECTION_SERVICE_TIMEOUT = "10101"; //连接识别服务超时
+                    var CONNECTION_RECOGNITION_EXCEPTION = "10102"; //连接识别服务异常
+                    var SUCCESS = "0"; //识别成功
+                    var RECOGNITION_FALSE = "-1";//识别错误
+
+                    function setAlertTitle()
+                    {
+                        // document.title = "返回结果";
+                    }
+
+
+                    //配置模板数据
+                    testSetTemplateData();
+                    function testSetTemplateData()
+                    {
+
+                        // var formData = "{\"bjcaxssrequest\":{\"submitinfo\":[{\"username\":\"测星雨\",\"identitycardnbr\":\"320902198901191012\"},{\"username\":\"测星雨123\",\"identitycardnbr\": \"320902198901191012\"}]}}";
+                        var policynumber = localStorage.policunumber;
+                        var formData = "<html><head><title></title><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body><div><div><label>keyword:</label></div><div><label>列名2：</label></div><div><label>列名3：</label></div></div></body></html>";
+                        //文件数据
+//              var formData = fileData;
+                        var businessId = policynumber;//集成信手书业务的唯一标识
+
+                        var template_serial = "4000";//用于生成PDF的模板ID
+
+
+                        var res;
+
+                        //配置JSON格式签名原文
+                        /**
+                         * 设置表单数据，每次业务都需要set一次
+                         * @param template_type 签名所用的模板类型
+                         * @param contentUtf8Str 表单数据，类型为Utf8字符串
+                         * @param businessId 业务工单号
+                         * @param template_serial 模板序列号
+                         * @returns {*} 是否设置成功
+                         */
+                        res = apiInstance.setTemplate(TemplateType.HTML,formData,businessId,template_serial);
+
+                        if(res)
+                        {
+                            // alert("setTemplateData success");
+                            return res;
+                        }
+                        else
+                        {
+                            // alert("setTemplateData error");
+                            return res;
+                        }
+                    }
+
+                    //选择文件
+                    function  handleFiles(files)
+                    {
+                        if(files.length)
+                        {
+                            var file = files[0];
+                            var reader = new FileReader();
+
+                            reader.onload = function FileReaderOnload() {
+                                var buffer = reader.result;
+                                var uint8Array = new Uint8Array(reader.result);
+                                var bufStr = "";
+                                var bufarray = Base64.encodeUint8Array(uint8Array);
+                                bufStr = bufarray;
+                                fileData = bufStr;
+                            };
+                            reader.readAsArrayBuffer(file);
+                        }
+                    }
+
+                    //添加单签签名框
+                    function testAddSignatureObj(objId,name,card,word)
+                    {
+                        console.log(objId+'----'+name+'-----'+card+'-----'+word)
+                        var context_id = objId;
+                        var signer = new Signer(name, card);
+
+                        /**
+                         * 根据坐标定位签名方式
+                         * @param left 签名图片最左边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param top 签名图片顶边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param right 签名图片最右边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param bottom 签名图片底边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param pageNo 签名在PDF中的页码，从1开始
+                         * @param unit 坐标系单位，目前支持"dp"和"pt"
+                         * @constructor
+                         */
+                        if(objId == 20){
+                            var signerRule = new SignRule_XYZ(100.0, 110.1, 180.2, 50.3, 1, "pt");
+                        }else{
+                            var signerRule = new SignRule_XYZ(100.0, 110.1, 180.2, 50.3, 1, "pt");
+                        }
+
+
+                        /**
+                         * 关键字定位方式，寻找PDF中的关键字，根据关键字位置放置签名图片
+                         * @param keyword 关键字
+                         * @param keyWordAlignMethod 签字图片和关键字位置关系：等于1时，签字图片和关键字矩形重心重合
+                         *                            等于2时，签字图片位于关键字正下方，中心线对齐；等于3时，签字图片位于关键字正右方，中心线对齐；
+                         *                            等于4时，签字图片左上角和关键字右下角重合，可能额外附加偏移量，详见构造函数的offset参数
+                         * @param keyWordOffset 当keyWordAlignMethod非零时，额外附加的偏移量，单位pt
+                         * @param pageNo 寻找关键字的PDF起始页码
+                         * @param KWIndex KWIndex 第几个关键字
+                         * @constructor
+                         */
+                        var len = 0;
+                        if (word.length == '5') {
+                            len = 70;
+                        } else {
+                            len = 20;
+                        }
+                        var signerRule = new SignRule_KeyWord(word,3,len,1,1);
+                        //var signerRule = new SignRule_KeyWordV2("签名算法",50,0,1,1);
+
+                        /**
+                         *根据关键字定位签名位置
+                         * @param keyWord 关键字字面值
+                         * @param xOffset X轴偏移量，适配关键字和规则
+                         * @param yOffset Y轴偏移量，适配关键字和规则
+                         * @param pageNo 签名在PDF中的页码，第几页查找关键字，正数为正序，当是负数为倒序
+                         * @param KWIndex KWIndex 第几个关键字
+                         * @constructor
+                         */
+                        // var signerRule = new SignRule_KeyWord("代理人签名:",100,100,1,1);
+
+                        /**
+                         * 关键字定位方式，寻找PDF中的关键字，根据关键字位置放置签名图片
+                         * @param keyword 关键字
+                         * @param keyWordAlignMethod 签字图片和关键字位置关系：等于0时，签字图片和关键字矩形重心重合
+                         *                            等于1时，签字图片位于关键字正下方，中心线对齐；等于2时，签字图片位于关键字正右方，中心线对齐；
+                         *                            等于3时，签字图片左上角和关键字右下角重合，可能额外附加偏移量，详见构造函数的offset参数
+                         * @param keyWordOffset 当keyWordAlignMethod非零时，额外附加的偏移量，单位pt
+                         * @param pageNo 寻找关键字的PDF起始页码
+                         * @param KWIndex KWIndex 第几个关键字
+                         * @constructor
+                         */
+//                var signerRule = new SignRule_KeyWordV2("关键字", "0", 10, 1,1);
+
+
+                        var signatureConfig = new SignatureConfig(signer,signerRule);
+//                   1:时间在上、2：时间在下、3：时间在右
+                        var timeTag = new TimeTag(1,"yyMMdd hh:mm;ss");
+//                signatureConfig.timeTag = timeTag;
+                        signatureConfig.singleWidth = 200;
+                        signatureConfig.singleHeight = 200;
+                        signatureConfig.title = "请签名";
+                        signatureConfig.penColor = "#000000";
+                        signatureConfig.isTSS = false;//是否开始时间戳服务
+                        signatureConfig.signatureImgRatio = 3.0;
+                        signatureConfig.nessesary = false;
+                        signatureConfig.isdistinguish = false;
+                        signatureConfig.ocrCapture = ocrCapture;
+                        var res = apiInstance.addSignatureObj(context_id,signatureConfig);
+                        if(res)
+                        {
+                            // alert("addSignatureObj "+context_id+" success");
+                            return res;
+                        }
+                        else
+                        {
+                            // alert("addSignatureObj "+context_id+" error");
+                            return res;
+                        }
+                    }
+
+
+                    //添加批签签名框
+                    function testAddCommentObj(objId){
+                        var context_id = objId;
+                        var signer = new Signer("李明", "11011111111");
+                        /**
+                         * 根据坐标定位签名方式
+                         * @param left 签名图片最左边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param top 签名图片顶边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param right 签名图片最右边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param bottom 签名图片底边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param pageNo 签名在PDF中的页码，从1开始
+                         * @param unit 坐标系单位，目前支持"dp"和"pt"
+                         * @constructor
+                         */
+                        var signerRule = new SignRule_XYZ(84.0, 523.0, 400.0, 477.0, 1, "dp");
+                        /**
+                         * 关键字定位方式，寻找PDF中的关键字，根据关键字位置放置签名图片
+                         * @param keyword 关键字
+                         * @param keyWordAlignMethod 签字图片和关键字位置关系：等于1时，签字图片和关键字矩形重心重合
+                         *                           等于2时，签字图片位于关键字正下方，中心线对齐；等于3时，签字图片位于关键字正右方，中心线对齐；
+                         *                            等于4时，签字图片左上角和关键字右下角重合，可能额外附加偏移量，详见构造函数的offset参数
+                         * @param keyWordOffset 当keyWordAlignMethod非零时，额外附加的偏移量，单位pt
+                         * @param pageNo 寻找关键字的PDF起始页码
+                         * @param KWIndex KWIndex 第几个关键字
+                         * @constructor
+                         */
+                        var signerRule = new SignRule_KeyWord("点击签署声明",4,0,1,1);
+
+
+                        var commentConfig = new CommentConfig(signer,signerRule);
+//                   1:时间在上、2：时间在下、3：时间在右
+                        var timeTag = new TimeTag(1,"yyMMdd hh:mm;ss");
+//                signatureConfig.timeTag = timeTag;
+                        commentConfig.isTSS = false;//是否开始时间戳服务
+//              commentConfig.commitment = "本人已阅读保险条款、产品说明书和投保提示书，了解本产品的特点和保单利益的不确定性。";
+                        commentConfig.commitment = "本人已阅读";
+//              commentConfig.commitmentTextSize = 20+"px";
+                        commentConfig.mass_word_height = 50;
+                        commentConfig.mass_word_width = 50;
+                        commentConfig.mass_words_in_single_line = 4;
+                        commentConfig.penColor = "#FF0000";
+                        commentConfig.nessesary = false;
+                        commentConfig.isdistinguish = false;
+                        commentConfig.ocrCapture = ocrCapture;
+                        var res = apiInstance.addCommentObj(context_id,commentConfig);
+                        if(res)
+                        {
+                            alert("addCommentObj "+context_id+" success");
+                            return res;
+                        }
+                        else
+                        {
+                            alert("addCommentObj "+context_id+" error");
+                            return res;
+                        }
+                    }
+
+
+                    //demo总入口
+                    function testAnySign(channel)
+                    {
+                        var res;
+
+                        //识别回调接口
+                        var identify_callback = function(errCode){
+                            if(errCode == SUCCESS){
+                                return;
+                            }
+                            if(errCode == DATA_CANNOT_PARSED) {
+                                alert("输入数据项无法解析！");
+                            } else if(errCode == SERVICE_SYSTEM_EXCEPTION) {
+                                alert("服务系统异常错误！");
+                            } else if(errCode == RECOGNITION_RESULT_EMPTY) {
+                                alert("识别结果为空！");
+                            } else if(errCode == CONNECTION_SERVICE_TIMEOUT) {
+                                alert("连接识别服务超时！");
+                            } else if(errCode == CONNECTION_RECOGNITION_EXCEPTION) {
+                                alert("连接识别服务异常！");
+                            } else if(errCode == RECOGNITION_FALSE) {
+                                alert("书写错误！");
+                            }else{
+                                alert(errCode);
+                            }
+                        }
+
+                        var callback = function(context_id,context_type,val)
+                        {
+
+                            // document.getElementById("policy").style.display = "block";
+                            if(context_type == CALLBACK_TYPE_START_RECORDING || context_type == CALLBACK_TYPE_STOP_RECORDING)
+                            {
+                                return;
+                            }
+
+                            if(context_type == CALLBACK_TYPE_SIGNATURE)
+                            {
+                                //签名回显
+                                obj.attr('src',"data:image/png;base64," + val);
+                                // var aImg=document.getElementById("img11");
+                                // for(var i=0;i<aImg.length;i++){
+                                //     aImg[i].style.height="1500";
+                                //     aImg[i].style.width="1500";
+                                // }
+                            }
+                            else if(context_type == CALLBACK_TYPE_COMMENTSIGN)
+                            {
+                                //签名回显
+                                $('.signing_statements img').show();
+                                $('.signing_statements img').attr('src',"data:image/png;base64," + val)
+                                // var aImg=document.getElementById("xss_21");
+                                // for(var i=0;i<aImg.length;i++){
+                                //     aImg[i].style.height="250";
+                                //     aImg[i].style.width="250";
+                                // }
+
+                            }
+                            else if(context_type == CALLBACK_TYPE_ON_PICTURE_TAKEN)
+                            {
+                                document.getElementById("preview").src = "data:image/png;base64," + val;
+                            }else if(context_type == CALLBACK_TYPE_ON_MEDIA_DATA)
+                            {
+                                var audio = document.createElement("audio");
+                                if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg"))
+                                {
+                                    audio.src = "data:image/gif;base64," + val;
+                                    audio.play();
+                                }
+                            }
+
+                            // setAlertTitle();
+                            // alert("收到浏览器回调：" + "context_id：" + context_id + " context_type：" + context_type + " value：" + val);
+                        };//测试回调，将回调数据显示
+
+                        ////////////////////////////////////////////////
+
+                        //设置签名算法，默认为RSA，可以设置成SM2
+                        EncAlgType.EncAlg = "RSA";
+
+                        apiInstance = new AnySignApi();
+//                var channel = "10010";//渠道号，由信手书提供，请咨询项目经理
+                        //初始化签名接口
+                        res = apiInstance.initAnySignApi(callback,channel);
+
+                        if(!res){
+                            alert("init error");
+                        }else{
+
+                        }
+                        ////////////////////////////////////////////////
+
+                        //开启识别
+                        ocrCapture = new OCRCapture();
+                        ocrCapture.text = "a";
+                        ocrCapture.IPAdress = "http://192.168.126.32:11203/HWR/RecvServlet";
+                        ocrCapture.appID = "123";
+                        ocrCapture.count = 5;
+                        ocrCapture.language = Language.CHS;
+                        ocrCapture.resolution = 80;
+                        ocrCapture.serviceID = "999999";
+//              apiInstance.startOCR(ocrCapture);
+
+                        setIdentifyCallBack(identify_callback);
+                        console.log(name6 + '------' + cardnum6 + '-------' + word6)
+                        res = testAddSignatureObj(26, name6, cardnum6, word6);
+                        var custNum = window.localStorage.custNum;
+                        var custNum2 = window.localStorage.custNum2;
+                        if (custNum == 1) {
+                            res = testAddSignatureObj(23, name3, cardnum3, word3);
+                        }
+                        if (custNum2 == 2) {
+
+                            res = testAddSignatureObj(24, name4, cardnum4, word4);
+                        }
+                        if(!res){
+                            alert("testAddSignatureObj error");
+                            return;
+                        }else{
+
+                        }
+
+                        // res = testAddCommentObj(30);
+                        if(!res){
+                            alert("testAddCommentObj error");
+                            return;
+                        }else{
+
+                        }
+                        //注册一个单位签章
+
+                        var signer = new Signer("小明","110xxxxxx");
+                        /**
+                         * 使用服务器规则配置签名
+                         * @param tid 服务器端生成的配置规则
+                         * @constructor
+                         */
+                        var signerRule = new SignRule_Tid("888888");
+                        var cachet_config = new CachetConfig(signer, signerRule, false);
+
+//              res = apiInstance.addCachetObj(cachet_config);
+//
+//              if(!res){
+//                  alert("addCachetObj error");
+//              }else{
+//
+//              }
+
+                        //将配置提交
+                        res = apiInstance.commitConfig();
+
+                        if(res){
+                            // alert("Init ALL 提交配置成功");
+                        }else{
+                            alert("Init ALL 提交配置失败");
+                        }
+                    }
+
+                    function testIsReadyToUpload()
+                    {
+                        alert("testIsReadyToUpload :" + apiInstance.isReadyToUpload());
+                    }
+
+                    //生成签名加密数据
+                    function testGenData()
+                    {
+                        var res = document.getElementById('sign_data');
+
+                        try
+                        {
+                            res.value = apiInstance.getUploadDataGram();
+                            // alert("value"+res.value);
+                        }
+                        catch(err)
+                        {
+                            alert(err);
+                        }
+                    }
+
+                    //弹出签名框签名
+                    function testPopupDialog(context_id)
+                    {
+                        if(!apiInstance){
+                            alert("信手书接口没有初始化");
+                            return;
+                        }
+                        switch (apiInstance.showSignatureDialog(context_id))
+                        {
+                            case RESULT_OK:
+                                // document.getElementById("other").style.display = "none";
+                                break;
+                            case EC_API_NOT_INITED:
+                                alert("信手书接口没有初始化");
+                                break;
+                            case EC_WRONG_CONTEXT_ID:
+                                alert("没有配置相应context_id的签字对象");
+                                break;
+                        }
+                    }
+
+                    function setIdentifyCallBack(callback){
+                        if(!apiInstance){
+                            alert("信手书接口没有初始化");
+                            return;
+                        }
+                        apiInstance.setIdentifyCallBack(callback);
+                    }
+
+                    //弹出批注签名框
+                    function testCommentDialog(context_id)
+                    {
+                        if(!apiInstance){
+                            alert("信手书接口没有初始化");
+                            return;
+                        }
+                        switch (apiInstance.showCommentDialog(context_id))
+                        {
+                            case RESULT_OK:
+                                document.getElementById("policy").style.display = "none";
+                                break;
+                            case EC_API_NOT_INITED:
+                                alert("信手书接口没有初始化");
+                                break;
+                            case EC_WRONG_CONTEXT_ID:
+                                alert("没有配置相应context_id的签字对象");
+                                break;
+                            case EC_COMMENT_ALREADY_SHOW:
+                                alert("批注签名框已弹出，请勿重复操作！");
+                        }
+
+                    }
+
+                    //获取签名api版本信息
+                    function testGetVersion()
+                    {
+                        alert(apiInstance.getVersion());
+                    }
+
+                    //获取设备操作系统信息
+                    function testGetOsInfo()
+                    {
+                        alert(apiInstance.getOSInfo());
+                        alert(navigator.userAgent);
+                        alert(window.__wxjs_is_wkwebview);
+                    }
+
+                    //jane
+                    function testAddEvidence(result)
+                    {
+
+                        alert(apiInstance.addEvidence(20,result,DataFormat.IMAGE_JPEG,BioType.PHOTO_SIGNER_IDENTITY_CARD_BACK,0));
+                    }
+
+                    function testSaveBusiness(){
+
+                        var encKey = "334324afa";
+                        var encData = apiInstance.saveBusiness(encKey);
+
+                        var res = document.getElementById('result');
+                        res.value = encData;
+
+                    }
+
+                    function testRestoreBusiness(){
+
+                        var callback = function(context_id,context_type,val)
+                        {
+                            if(context_type == CALLBACK_TYPE_START_RECORDING || context_type == CALLBACK_TYPE_STOP_RECORDING)
+                            {
+                                return;
+                            }
+
+                            if(context_type == CALLBACK_TYPE_SIGNATURE)
+                            {
+                                //签名回显
+                                document.getElementById("xss_20").src = "data:image/png;base64," + val;
+                            }
+                            else if(context_type == CALLBACK_TYPE_ON_PICTURE_TAKEN)
+                            {
+                                document.getElementById("preview").src = "data:image/png;base64," + val;
+                            }else if(context_type == CALLBACK_TYPE_ON_MEDIA_DATA)
+                            {
+                                var audio = document.createElement("audio");
+                                if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg"))
+                                {
+                                    audio.src = "data:image/gif;base64," + val;
+                                    audio.play();
+                                }
+                            }
+
+                            // setAlertTitle();
+                            // alert("收到浏览器回调：" + "context_id：" + context_id + " context_type：" + context_type + " value：" + val);
+                        };//测试回调，将回调数据显示
+
+
+                        var apiInstance = new AnySignApi();
+//                var channel = "10010";//渠道号，由信手书提供，请咨询项目经理
+                        //初始化签名接口
+                        res = apiInstance.initAnySignApi(callback,"1243");
+
+                        if(!res){
+                            alert("init error");
+                        }else{
+                            alert("init success");
+                        }
+
+                        var encData = document.getElementById('result').value;
+                        var desKey = "334324afa";
+                        var res = apiInstance.restoreBusiness(encData,desKey);
+
+
+                        if(res){
+                            alert("恢复数据成功");
+                        }else{
+                            alert("恢复数据失败");
+                        }
+
+
+                    }
+
+
+
+
+                    //图片签名事件
+                    $('.policy_main_msg_name').on('click', '.myimg', function () {
+                        if ($('#signok').is(':hidden')) {
+                            alert('请先签名投保提示书');
+                            return false
+                        }
+                        var id = '26'
+                        testPopupDialog(id);
+                        obj = $(this);
+                    });
+                    //加载弹层关闭
+                    $('.loading').hide();
+                    var tSrc = $('.myimg').attr('src'),
+                        bSrc1 = $('.myimg2').attr('src'),
+                        bSrc2 = $('.myimg3').attr('src'),
+                        bSrc3 = $('.myimg4').attr('src'),
+                        dSrc = $('.myimg5').attr('src');
+                    //确定按钮事件
+                    $('.btn').click(function () {
+                        localStorage.confirm = $('.myimg').attr('src')
+                        //签名数据
+                        var _tSrc = $('.myimg').attr('src'),
+                            _bSrc1 = $('.myimg2').attr('src'),
+                            _bSrc2 = $('.myimg3').attr('src'),
+                            _bSrc3 = $('.myimg4').attr('src'),
+                            _dSrc = $('.myimg5').attr('src'),
+                            tId = $('.myimg_t').attr('tb_id'),
+                            bId1 = $('.myimg2').attr('cust_id'),
+                            bId2 = $('.myimg3').attr('cust_id'),
+                            bId3 = $('.myimg4').attr('cust_id'),
+                            dId = $('.myimg5').attr('agent_id');
+                        if (!localStorage.confirm) {
+                            alert('请签名');
+                            return false;
+                        }
+
+                        if ($('.myimg3').is(':visible')) {
+                            if (tSrc == _tSrc || bSrc1 == _bSrc1  || bSrc2 == _bSrc2) {
+                                alert('请签名');
+                                return false;
+                            }
+                        }
+                        if ($('.myimg4').is(':visible')) {
+                            if (tSrc == _tSrc || bSrc1 == _bSrc1 ||  bSrc2 == _bSrc2 || bSrc3 == _bSrc3) {
+                                alert('请签名');
+                                return false;
+                            }
+                        }
+                        //签名数据
+                        var viewSign = {
+                            src: [],
+                            viewData: []
+                        };
+                        if (_tSrc != tSrc) {
+                            viewSign.src.push(tId + ',' + _tSrc);
+                            viewSign.src = unique(viewSign.src);
+                        }
+                        if (_bSrc1 != bSrc1) {
+                            viewSign.src.push(bId1 + ',' + _bSrc1);
+                            viewSign.src = unique(viewSign.src);
+                        }
+                        if (_bSrc2 != bSrc2) {
+                            viewSign.src.push(bId2 + ',' + _bSrc2);
+                            viewSign.src = unique(viewSign.src);
+                        }
+                        if (_bSrc3 != bSrc3) {
+                            viewSign.src.push(bId3 + ',' + _bSrc3);
+                            viewSign.src = unique(viewSign.src);
+                        }
+                        // if (_dSrc != dSrc) {
+                        // testIsReadyToUpload()
+                        testGenData();
+                        // viewSign.src.push(dId + ',' + _dSrc);
+                        viewSign.src = unique(viewSign.src);
+                        viewSign.viewData.push($('#sign_data').val());
+                        window.localStorage.custNum = '';
+                        window.localStorage.custNum2 = '';
+                        window.localStorage.newsign = JSON.stringify(viewSign);
+                        window.localStorage.newstate = '1';
+                        window.history.back(-1);
+                        // }
+                        //testGenData()
+                    })
+                }, 3000);
+//            $('.determine_btn').click(function(){
+//                localStorage.aclick = '';
+//                history.back(-1);
+//            });
+            }
+        });
+        /***********************************签名******************************************/
+    })
+</script>
+</body>
+</html>

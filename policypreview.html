@@ -1,0 +1,2428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no" />
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=yes" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=1.0, user-scalable=yes" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>投保单预览</title>
+    <link rel="stylesheet" href="css/webapp_reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            font-size: 16px;
+        }
+
+        h3 {
+            font-weight: normal;
+            line-height: 20px;
+            padding-top: 0 !important;
+        }
+
+        li {
+            line-height: 20px;
+        }
+
+        .index_text {
+            padding-top: 10px;
+        }
+
+        .index_text p {
+            line-height: 25px;
+            color: #333;
+        }
+
+        .index_text p:nth-child(1) {
+            font-size: 1em;
+        }
+
+        .index_text p:nth-child(2),
+        .index_text p:nth-child(3) {
+            font-size: 0.8em;
+        }
+
+        .insure_built_bid .mask_con_main {
+            height: 150px;
+        }
+
+        .color {
+            color: #e4ae97;
+        }
+
+        .insure_built2 {
+            display: block;
+        }
+
+        .insure_built .mask_con {
+            margin-top: -123px;
+        }
+
+        body {
+            overflow-x: auto;
+        }
+
+        .policy_main_msg_name ul li>a img {
+            height: 39px;
+            top: 1px;
+            left: 10px;
+        }
+
+        .policy_main_msg_name ul li>a img.myimg2 {
+            left: 10px;
+        }
+
+        .policy_main_msg li {
+            height: 100%;
+        }
+        /*input{*/
+        /*vertical-align: middle;*/
+        /*position: relative;*/
+        /*top: -2px;*/
+        /*}*/
+
+        .myicon {
+            width: 10px;
+            height: 10px;
+            background: rgba(121, 119, 119, 0.29);
+            display: inline-block;
+            position: relative;
+            top: -1px;
+        }
+
+        .myicon.active {
+            background: #000;
+        }
+
+        .inform_list {
+            width: 100%;
+        }
+
+        .inform_list2 ul li {
+            float: none;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            border-right: 0;
+        }
+
+        .inform_list2 ul {
+            width: 202px;
+            float: left;
+            border: 0;
+            border-right: 1px solid #333;
+        }
+
+        .inform_list2 ul:last-child {
+            border-right: 0;
+        }
+
+        .inform_list2 ul:first-child {
+            border-left: 1px solid #333;
+        }
+
+        .inform_list2 ul li:last-child {
+            border-bottom: 0;
+            text-align: center;
+            text-indent: 0;
+        }
+
+        .inform_yes>h3 {
+            /*border-top:1px solid #333;*/
+        }
+
+        .inform_yes ul.bb0 {
+            border-bottom: 0;
+        }
+
+        .inform_yes ul li {
+            height: 20px;
+            line-height: 20px;
+        }
+
+        .remark li {
+            font-size: 10px;
+        }
+
+        .remark li:last-child {
+            border-bottom: 0;
+        }
+        /*.inform_list ul:nth-child(3),*/
+        /*.inform_list ul:nth-child(5),*/
+        /*.inform_list ul:nth-child(6),*/
+        /*.inform_list ul:nth-child(7),*/
+        /*.inform_list ul:nth-child(15),*/
+        /*.inform_list ul:nth-child(17),*/
+        /*.inform_list ul:nth-child(18),*/
+        /*.inform_list ul:nth-child(19),*/
+        /*.inform_list ul:nth-child(20){*/
+        /*height:40px;*/
+        /*}*/
+
+        .inform_list ul:nth-child(3) li:first-child,
+        .inform_list ul:nth-child(5) li:first-child,
+        .inform_list ul:nth-child(6) li:first-child,
+        .inform_list ul:nth-child(7) li:first-child,
+        .inform_list ul:nth-child(15) li:first-child,
+        .inform_list ul:nth-child(17) li:first-child,
+        .inform_list ul:nth-child(18) li:first-child,
+        .inform_list ul:nth-child(19) li:first-child,
+        .inform_list ul:nth-child(20) li:first-child {
+            border-right: none;
+        }
+
+        .inform_list ul li {
+            border-right: none;
+        }
+
+        .inform_list ul:nth-child(16) {
+            /*height:426px;*/
+        }
+
+        .inform_list ul:nth-child(16) li:first-child {
+            /*line-height:426px;*/
+            vertical-align: middle;
+        }
+
+        .inform_list ul:nth-child(20) {
+            /*border-bottom:0;*/
+        }
+
+        #inform_list2 ul:nth-child(3) {
+            border-right: 0 !important;
+        }
+
+        .bimg1,
+        .bimg2,
+        .bimg3 {
+            display: none;
+        }
+
+        .statement {
+            padding: 10px 0 10px 0px;
+        }
+
+        .statement p {
+            line-height: 20px;
+            font-size: 12px;
+            line-height: 24px;
+        }
+        /*加载样式*/
+
+        .loading {
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, .5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+
+        .loading_box {
+            height: 60px;
+            width: 90%;
+            margin: 0 auto;
+            background: rgba(255, 255, 2555, .9);
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translateY(-50%) translateX(-50%);
+            line-height: 60px;
+            border-radius: 5px;
+        }
+
+        .loading_box>span {
+            margin-left: 20px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            top: 20px;
+            margin: 0 0 10px 10px;
+        }
+
+        .container1>div,
+        .container2>div,
+        .container3>div {
+            width: 6px;
+            height: 6px;
+            background-color: #333;
+            border-radius: 100%;
+            position: absolute;
+            -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+            animation: bouncedelay 1.2s infinite ease-in-out;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .spinner .spinner-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .container2 {
+            -webkit-transform: rotateZ(45deg);
+            transform: rotateZ(45deg);
+        }
+
+        .container3 {
+            -webkit-transform: rotateZ(90deg);
+            transform: rotateZ(90deg);
+        }
+
+        .circle1 {
+            top: 0;
+            left: 0;
+        }
+
+        .circle2 {
+            top: 0;
+            right: 0;
+        }
+
+        .circle3 {
+            right: 0;
+            bottom: 0;
+        }
+
+        .circle4 {
+            left: 0;
+            bottom: 0;
+        }
+
+        .container2 .circle1 {
+            -webkit-animation-delay: -1.1s;
+            animation-delay: -1.1s;
+        }
+
+        .container3 .circle1 {
+            -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s;
+        }
+
+        .container1 .circle2 {
+            -webkit-animation-delay: -0.9s;
+            animation-delay: -0.9s;
+        }
+
+        .container2 .circle2 {
+            -webkit-animation-delay: -0.8s;
+            animation-delay: -0.8s;
+        }
+
+        .container3 .circle2 {
+            -webkit-animation-delay: -0.7s;
+            animation-delay: -0.7s;
+        }
+
+        .container1 .circle3 {
+            -webkit-animation-delay: -0.6s;
+            animation-delay: -0.6s;
+        }
+
+        .container2 .circle3 {
+            -webkit-animation-delay: -0.5s;
+            animation-delay: -0.5s;
+        }
+
+        .container3 .circle3 {
+            -webkit-animation-delay: -0.4s;
+            animation-delay: -0.4s;
+        }
+
+        .container1 .circle4 {
+            -webkit-animation-delay: -0.3s;
+            animation-delay: -0.3s;
+        }
+
+        .container2 .circle4 {
+            -webkit-animation-delay: -0.2s;
+            animation-delay: -0.2s;
+        }
+
+        .container3 .circle4 {
+            -webkit-animation-delay: -0.1s;
+            animation-delay: -0.1s;
+        }
+
+        @-webkit-keyframes bouncedelay {
+            0%,
+            80%,
+            100% {
+                -webkit-transform: scale(0.0)
+            }
+            40% {
+                -webkit-transform: scale(1.0)
+            }
+        }
+
+        @keyframes bouncedelay {
+            0%,
+            80%,
+            100% {
+                transform: scale(0.0);
+                -webkit-transform: scale(0.0);
+            }
+            40% {
+                transform: scale(1.0);
+                -webkit-transform: scale(1.0);
+            }
+        }
+
+        .main_msg_info li:last-child {
+            border-left: 1px solid #333;
+        }
+
+        .policy h3 {
+            line-height: 30px;
+        }
+
+        .insure_sign,
+        .insure_sign2,
+        .insure_sign3 {
+            padding: 4px;
+            border-radius: 5px;
+            background: #e51c23;
+            color: #fff;
+            box-shadow: 2px 2px 3px #333;
+        }
+
+        .insure_sign3 {
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            text-indent: 0;
+        }
+
+        #dialog {
+            display: none;
+        }
+
+        .signing_statements {
+            height: 100%;
+            display: none;
+        }
+
+        .signing_statements img {
+            height: 50px;
+            width: 100%;
+            display: block;
+        }
+
+        .dlr_sign a.name img {
+            position: static;
+        }
+        /*.policy,header{
+                width: 200%;
+            }*/
+        /*.policy_main{
+            width: 356px;
+            box-sizing: border-box;
+        }*/
+
+        #anysign_title {
+            font-size: 20px;
+        }
+
+        #single_scroll_text {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body style="box-sizing: border-box">
+    <header><span>投保单预览</span><a href="index.html" class="return">返回</a></header>
+    <section class="policy" id="policy">
+        <p>投保单号:<span class="businessid" v-text="policyCode"></span></p>
+        <div class="policy_main">
+            <!--<h3 class="policy_main_notice" style="font-weight: normal">&nbsp;投保须知</h3>-->
+            <ul class="policy_main_list">
+                <li>
+                    1.本电子投保单是保险合同的重要组成部分，请您认真阅读所投保产品的保险条款、产品说明书、人身保险投保提示书，并确认了解犹豫期、保险责任、免除保险公司责任（条款中凡是以黑体字加下划线标示的内容均为免除本公司责任的条款）、合同解除等条款内容后，再做出投保决定，一切超出产品条款和本电子投保书的解释均属无效。
+                </li>
+                <li>2.投保人、被保险人应对相关填写内容确认后亲自电子签名，未成年人或无民事行为能力者作为被保险人时，应由其法定监护人电子签名确认。</li>
+                <li>
+                    3.请您确认在电子投保单中提供的投保人、被保险人和指定受益人的姓名、性别、出生日期、身份证件或身份证明文件的类型、号码，以及投保人的联系电话和联系地址等个人信息真实、完整。如您未能提供真实、完整的客明文件的类型、号码，以及投保人的联系电话和联系地址等个人信息真实、完整。如您未能提供真实、完整的客户信息，可能会影响您的保单承保，并不能享受我公司提供的保单服务。
+                </li>
+                <li>4.根据我国保险法规定，您应如实告知并详细填写投保书询问的相关个人信息，如因故意或者重大过失未履行如实告知义务，足以影响我司决定是否承保或者提高保险费率的，我司有权解除本合同。</li>
+                <li style="border-left: none">
+                    5.若您选择银行转账作为您的缴费方式，账户持有人必须为投保人本人。为了能使您享受的保障不受影响以及您的资金安全，对于续期或者续保的保费，本公司要求以银行转账形式进行支付。
+                </li>
+            </ul>
+            <!--    保单信息html     -->
+            <div class="policy_info">
+                <div class="policyholder">
+                    <template v-for="item_1 in totalData.cres">
+                        <h3 style="border-bottom:1px solid #333;font-weight: normal">投保人基本信息</h3>
+                        <ul class="policy_main_msg">
+                            <li style="width: 5%;">姓名</li>
+                            <li style="width: 10%;" v-text="item_1.name||''"></li>
+                            <li style="width:10%;">出生日期</li>
+                            <li style="width:10%;" v-text="item_1.birthday.substring(0,4)"></li>
+                            <li style="width:5%;">年</li>
+                            <li style="width:5%;" v-text="item_1.birthday.substring(5,7)"></li>
+                            <li style="width:5%;">月</li>
+                            <li style="width:5%;" v-text="item_1.birthday.substring(8,10)"></li>
+                            <li style="width:5%;">日</li>
+                            <li style="width:5%;">性别</li>
+                            <li style="width:10%;">
+                                <span><label class="myicon"
+                                             :class="{ active : item_1.genderCode==1 }"></label><em>男</em></span>
+                                <span><label class="myicon"
+                                         :class="{ active : item_1.genderCode==2 }"></label><em>女</em></span>
+                            </li>
+                            <li style="width:5%;">婚姻</li>
+                            <li style="width:20%;">
+                                <span><label class="myicon"
+                                             :class="{ active : JSON.parse(item_1.marriage).code==0 }"></label><em>未婚</em></span>
+                                <span><label class="myicon"
+                                         :class="{ active : JSON.parse(item_1.marriage).code==1 }"></label><em>已婚</em></span>
+                                <span><label class="myicon"
+                                         :class="{ active : JSON.parse(item_1.marriage).code==7 }"></label><em>其他</em><i
+                                    v-if="JSON.parse(item_1.marriage).code==7"
+                                    v-text="JSON.parse(item_1.marriage).des"></i></span>
+                            </li>
+                        </ul>
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">证件类型</li>
+                            <li style="width:10%;" v-text="JSON.parse(item_1.card_type).name"></li>
+                            <li style="width:5%;">号码</li>
+                            <li style="width:20%;" v-text="item_1.cardNum"></li>
+                            <li style="width:10%;">证件有效期</li>
+                            <li style="width:20%;">
+                                <span v-text="item_1.cardStartTime"></span>
+                                <span>至</span>
+                                <span v-text="item_1.cardTime"></span>
+                            </li>
+                            <li style="width:5%;">国籍</li>
+                            <li style="width:15%;">
+                                <span><label class="myicon" :class="{active : JSON.parse(item_1.citizenship).type==='ML'}"></label><em>中国</em></span>
+                                <span><label class="myicon" :class="{active : JSON.parse(item_1.citizenship).type==='OS'}"></label><em>其他<em
+v-text="JSON.parse(item_1.citizenship).name2.replace(/中国/g,'')"></em></em>
+                                <!--<i></i>
+                            </span> -->
+                            </li>
+                        </ul>
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">工作单位</li>
+                            <li style="width:18%;" v-text="item_1.enterprise">{{}}</li>
+                            <li style="width:10%;">岗位职务</li>
+                            <li style="width:15%;" class="post_">
+                                {{JSON.parse(item_1.occupCate).name||''}}{{JSON.parse(item_1.occupation).name||''}}
+                            </li>
+                            <li style="width:10%;">职业代码</li>
+                            <li style="width:12%;" v-text="JSON.parse(item_1.occupation).code"></li>
+                            <li style="width:5%;">类别</li>
+                            <li style="width:3%;" v-text="JSON.parse(item_1.occupation).level"></li>
+                            <li style="width:7%;">年收入</li>
+                            <li style="width:9%;" v-text="item_1.yearIncome+'万元'"></li>
+                        </ul>
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">联系地址</li>
+                            <li style="width:65%;" v-text="">
+                                {{JSON.parse(item_1.provinceCode).name||''}}{{JSON.parse(item_1.cityCode).name||''}}{{JSON.parse(item_1.area).name||''}}{{item_1.street}}{{item_1.community}}
+                            </li>
+                            <li style="width:10%;">邮编</li>
+                            <li style="width:14%;" v-text="item_1.postalcode || '--'"></li>
+                        </ul>
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">联系电话</li>
+                            <li style="width:20%;" v-text="item_1.phone || '--'"></li>
+                            <li style="width:10%;">手机</li>
+                            <li style="width:20%;" v-text="item_1.mobile || '--'"></li>
+                            <li style="width:10%;">电子邮箱</li>
+                            <li style="width:28%;" v-text="item_1.email || '--'"></li>
+                        </ul>
+                    </template>
+                </div>
+                <div class="recognizee">
+                    <!--被保人-->
+                    <template v-for="(item,index) in totalData.bres">
+                        <h3 class="policy_main_notice" style="font-weight: normal">&nbsp;第{{('一二三')[index]}}被保险人<span>是投保人的:{{JSON.parse(item.relation).name||''}}</span>
+                    </h3>
+                        <ul class="policy_main_msg">
+                            <li style="width: 5%;">姓名</li>
+                            <li style="width: 10%;" v-text="item.name||''"></li>
+                            <li style="width:10%;">出生日期</li>
+                            <li style="width:10%" v-text="item.birthday.substring(0,4)"></li>
+                            <li style="width:5%;">年</li>
+                            <li style="width:5%;" v-text="item.birthday.substring(5,7)"></li>
+                            <li style="width:5%;">月</li>
+                            <li style="width:5%;" v-text="item.birthday.substring(8,10)"></li>
+                            <li style="width:5%;">日</li>
+                            <li style="width:5%;">性别</li>
+                            <li style="width:10%;">
+                                <span><label class="myicon"
+                                             :class="{ active : item.genderCode==1 }"></label><em>男</em></span>
+                                <span><label class="myicon"
+                                         :class="{ active : item.genderCode==2 }"></label><em>女</em></span>
+                            </li>
+                            <li style="width:5%;">婚姻</li>
+                            <li style="width:20%;">
+                                <span><label class="myicon" :class="{ active : JSON.parse(item.marriage).code==0 }"></label><em>未婚</em></span>
+                                <span><label class="myicon" :class="{ active : JSON.parse(item.marriage).code==1 }"></label><em>已婚</em></span>
+                                <span><label class="myicon" :class="{ active : JSON.parse(item.marriage).code==7 }"></label><em>其他</em>
+                                <!--<i>{{JSON.parse(item.marriage).des}}</i>-->
+                            </span>
+                            </li>
+                        </ul>
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">证件类型</li>
+                            <li style="width:10%;" v-text="JSON.parse(item.card_type).name||''"></li>
+                            <li style="width:5%;">号码</li>
+                            <li style="width:20%;" v-text="item.cardNum"></li>
+                            <li style="width:10%;">证件有效期</li>
+                            <li style="width:20%;">
+                                <span v-text="item.cardStartTime"></span>
+                                <span>至</span>
+                                <span v-text="item.cardTime.substring(0,4)"></span>-<span v-text="item.cardTime.substring(5,7)"></span>-<span v-text="item.cardTime.substring(8,10)"></span>
+                            </li>
+                            <li style="width:5%;">国籍</li>
+                            <li style="width:15%;">
+                                <span><label class="myicon"
+                                             :class="{active : JSON.parse(item.citizenship).type==='ML'}"></label><em>中国</em></span>
+                                <span><label class="myicon"
+                                         :class="{active : JSON.parse(item.citizenship).type==='OS'}"></label><em>其他<em v-text="JSON.parse(item.citizenship).name2.replace(/中国/g,'')"></em></em>
+                                <!--<i></i>-->
+                            </span>
+                            </li>
+                        </ul>
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">工作单位</li>
+                            <li style="width:18%;" v-text="item.enterprise">{{}}</li>
+                            <li style="width:10%;">岗位职务</li>
+                            <li style="width:15%;" class="post_">
+                                {{JSON.parse(item.occupCate).name||''}}{{JSON.parse(item.occupation).name||''}}
+                            </li>
+                            <li style="width:10%;">职业代码</li>
+                            <li style="width:9%;" v-text="JSON.parse(item.occupation).code"></li>
+                            <li style="width:5%;">类别</li>
+                            <li style="width:3%;" v-text="JSON.parse(item.occupation).level"></li>
+                            <li style="width:7%;">年收入</li>
+                            <li style="width:13%;" v-text="item.yearIncome+'万元'"></li>
+                        </ul>
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">联系地址</li>
+                            <li style="width:60%;">
+                                {{JSON.parse(item.provinceCode).name||''}}{{JSON.parse(item.cityCode).name||''}}{{JSON.parse(item.area).name||''}}{{item.street}}{{item.community}}
+                            </li>
+                            <li style="width:10%;">邮编</li>
+                            <li style="width:15%;" v-text="item.postalcode || '--'"></li>
+                        </ul>
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">联系电话</li>
+                            <li style="width:20%;" v-text="item.phone || '--'"></li>
+                            <li style="width:10%;">手机</li>
+                            <li style="width:20%;" v-text="item.mobile || '--'"></li>
+                            <li style="width:10%;">电子邮箱</li>
+                            <li style="width:28%;" v-text="item.email || '--'"></li>
+                        </ul>
+                    </template>
+                </div>
+                <template v-for="item in totalData.pres">
+                    <h3 class="policy_main_notice" style="font-weight: normal">&nbsp;缴费信息</h3>
+                    <ul class="policy_main_msg">
+                        <li style="width:15%;">首期缴费方式</li>
+                        <li style="width:28%;">
+                            <span><label class="myicon" v-bind:class="{active : item.payTypeCode==0}"></label><em>转账支付</em></span>
+                            <span><label class="myicon"
+                                     v-bind:class="{active : item.payTypeCode==1}"></label><em>自缴</em></span>
+                            <span><label class="myicon"
+                                     v-bind:class="{active : item.payTypeCode==2}"></label><em>其他</em><i> </i></span>
+                        </li>
+                        <li style="width:18%;">续期续保缴费方式</li>
+                        <li style="width:12%px;"><span><label class="myicon"
+                                                          v-bind:class="{active : item.rollPayTypeCode==0}"></label><em>转账支付</em></span>
+                        </li>
+                        <li style="width:27%;">选择银行转账缴费方式的,请填写下面内容</li>
+                    </ul>
+                    <ul class="policy_main_msg">
+                        <li style="width:10%;">开户银行</li>
+                        <li style="width:15%;" v-text="item.bankName||''"></li>
+                        <li style="width:5%;">银行</li>
+                        <li style="width:20%;" v-text="item.bankName_1 || '--'"></li>
+                        <li style="width:5%;">分行</li>
+                        <li style="width:15%;" v-text="item.bankName_2 || '--'"></li>
+                        <li style="width:30%;">↓银行账户必须为投保人本人账户</li>
+                    </ul>
+                    <ul class="policy_main_msg">
+                        <li style="width:10%;">银行账号</li>
+                        <li style="width:60%;" v-text="item.bankAccountCode"></li>
+                        <li style="width:10%;">开户名</li>
+                        <li style="width: 20%" v-text="item.bankAccountName||''"></li>
+                    </ul>
+                    <h3 style="border-bottom: 1px solid #333; padding-bottom: 2px;font-weight: normal"><p>&nbsp;转账授权声明</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;兹授权中国人民健康保险股份有限公司按合同约定从上述账户中划出本次投保申请所需缴纳的各期保险费（包括保单服务相关费用），本声明在保险合同结束或书面中止前持续有效。</p>
+                </h3>
+                    <ul class="policy_main_msg">
+                        <li>您是否需要续期缴费提醒: <span><label class="myicon"
+                                                  v-bind:class="{active : item.remind==1001}"></label><em>是</em></span><span><label
+                            class="myicon" v-bind:class="{active : item.remind==1002}"></label><em>否</em></span></li>
+                    </ul>
+                </template>
+                <h3 class="policy_main_notice" style="font-weight: normal">&nbsp;保障计划</h3>
+                <ul class="policy_main_msg">
+                    <li style="width:5%;">序号</li>
+                    <li style="width:15%;">被保险人</li>
+                    <li style="width:20%;">保障名称</li>
+                    <li style="width:10%;">代码</li>
+                    <li style="width:10%;">保额/档次</li>
+                    <li style="width:10%;">保险期间</li>
+                    <li style="width:10%;">缴费年期</li>
+                    <li style="width:6%;">缴费频次</li>
+                    <li style="width:6%;padding: 0;">期缴保费</li>
+                    <li style="width:7%">领取方式</li>
+                </ul>
+                <template v-for="(item,index) in totalData.jres">
+                    <ul class="policy_main_msg">
+                        <li style="width:5%;" v-text="index+1"></li>
+                        <li style="width:15%;">
+                            <span><label class="myicon" :class="{active : item.planNo==1}"></label><em>①</em></span>
+                            <span><label class="myicon" :class="{active : item.planNo==2}"></label><em>②</em></span>
+                            <span><label class="myicon" :class="{active : item.planNo==3}"></label><em>③</em></span>
+                        </li>
+                        <li style="width:20%;">
+                            <span>{{item.abbrName}}</span>
+                        </li>
+                        <li style="width:10%;" v-text="item.code"></li>
+                        <li style="width:10%;">{{rankOrAnount(item,item.amount)?rankOrAnount(item,item.amount):''}}</li>
+                        <li style="width:10%;">
+                            <span>{{item.insureDesc}}</span>
+                        </li>
+                        <li style="width:10%;">{{item.code == '340602'?'':item.payDesc}}</li>
+                        <li style="width:6%;">{{item.payDesc == '一次交清'?'一次缴清':'年缴'}}</li>
+                        <li style="width:6%;" class="numMoney" v-text="item.premium+'元'"></li>
+                        <li style="width:7%" v-if="item.dividends">
+                            <span v-if="item.dividends=='1'" style="color:red">现金领取</span>
+                            <span v-if="item.dividends=='2'" style="color:red">累积生息</span>
+                        </li>
+                        <li style="width:7%" v-if="!item.dividends">
+                            <span>-----</span>
+                        </li>
+                    </ul>
+                    <!--附加险-->
+                    <!--<div v-for="lists in productList[0].addit">-->
+                    <ul class="policy_main_msg" v-for="list in totalData.fux" v-if="item.productUUID==list.addUUID && item.code!='340602'">
+                        <li style="width:5%;" v-text="index+1"></li>
+                        <li style="width:15%;">
+                            <span><label class="myicon" :class="{active : item.planNo==1}"></label><em>①</em></span>
+                            <span><label class="myicon" :class="{active : item.planNo==2}"></label><em>②</em></span>
+                            <span><label class="myicon" :class="{active : item.planNo==3}"></label><em>③</em></span>
+                        </li>
+                        <li style="width:20%;" v-if="item.productUUID==list.addUUID">{{list.abbrName||''}}</li>
+                        <li style="width:10%;" v-if="item.productUUID==list.addUUID">{{list.fxCode}}</li>
+                        <!-- <li style="width:10%;" v-if="item.productUUID==list.addUUID">{{list.code}}</li> -->
+                        <li style="width:10%;" v-if="item.productUUID==list.addUUID">{{list.fxAmount?list.fxAmount + '元':''}}</li>
+                        <li style="width:10%;">
+                            {{list.insurDec}}
+                        </li>
+                        <li style="width:10%;" v-if="item.productUUID==list.addUUID">{{list.payDec}}</li>
+                        <li style="width:6%;" v-if="item.productUUID==list.addUUID">{{list.payDec=='一次交清'?'一次缴清':'年缴'}}</li>
+                        <li style="width:6%;" v-if="item.productUUID==list.addUUID" class="fumoney">{{list.premium}}元</li>
+                        <li style="width:7%">-----</li>
+                    </ul>
+                    <!--</div>-->
+                </template>
+                <ul class="policy_main_msg">
+                    <li style="width:15%;">追加保费金额</li>
+                    <li style="width:10%;">--</li>
+                    <li style="width:40%;">首期保费金额为以上各项期缴保费之和</li>
+                    <li style="width:15%;">总金额</li>
+                    <li style="width:10%;border-left: none;padding: 0;text-align: center" class="sumMoney"></li>
+                </ul>
+                <h3 class="policy_main_notice" style="font-size: 18px;font-weight: normal">&nbsp;身故受益人信息</h3>
+                <ul class="policy_main_msg">
+                    <li style="width:15%;">被保险人</li>
+                    <li style="width:15%;">身故受益人姓名</li>
+                    <li style="width:15%;">与被保险人关系</li>
+                    <li style="width:10%;">证件类型</li>
+                    <li style="width:25%;">号码</li>
+                    <li style="width:10%;">受益顺位</li>
+                    <li style="width:10%;border-left: none;padding: 0;text-align: center">受益比例</li>
+                </ul>
+                <template v-for="(item,index) in totalData.sres">
+                    <div v-if="item.isByLaw==='1'">
+                        <ul class="policy_main_msg">
+                            <li style="width:15%;">
+                                <span><label class="myicon"
+                                             :class="{active : item.isByLaw==1}"></label><em>①</em></span>
+                                <span><label class="myicon"
+                                         :class="{active :item.isByLaw==2}"></label><em>②</em></span>
+                                <span><label class="myicon"
+                                         :class="{active :item.isByLaw==3}"></label><em>③</em></span>
+                            </li>
+                            <li style="width:15%;">{{item.name||''}}</li>
+                            <li style="width:15%;" v-if="item.relation==0">本人</li>
+                            <li style="width:15%;" v-if="item.relation==1">妻子</li>
+                            <li style="width:15%;" v-if="item.relation==2">丈夫</li>
+                            <li style="width:15%;" v-if="item.relation==3">儿女</li>
+                            <li style="width:15%;" v-if="item.relation==4">父亲</li>
+                            <li style="width:15%;" v-if="item.relation==5">母亲</li>
+                            <li style="width:15%;" v-if="item.relation==6">岳父</li>
+                            <li style="width:15%;" v-if="item.relation==7">岳母</li>
+                            <li style="width:15%;" v-if="item.relation==8">女婿</li>
+                            <li style="width:15%;" v-if="item.relation==9">公公</li>
+                            <li style="width:15%;" v-if="item.relation==10">婆婆</li>
+                            <li style="width:15%;" v-if="item.relation==11">媳妇</li>
+                            <li style="width:15%;" v-if="item.relation==12">兄弟姐妹</li>
+                            <li style="width:15%;" v-if="item.relation==13">表兄弟姐妹</li>
+                            <li style="width:15%;" v-if="item.relation==14">叔伯</li>
+                            <li style="width:15%;" v-if="item.relation==15">姑姑</li>
+                            <li style="width:15%;" v-if="item.relation==16">舅舅</li>
+                            <li style="width:15%;" v-if="item.relation==17">姨</li>
+                            <li style="width:15%;" v-if="item.relation==18">侄子/女</li>
+                            <li style="width:15%;" v-if="item.relation==19">爷爷</li>
+                            <li style="width:15%;" v-if="item.relation==20">奶奶</li>
+                            <li style="width:15%;" v-if="item.relation==21">孙子/女</li>
+                            <li style="width:15%;" v-if="item.relation==22">外公</li>
+                            <li style="width:15%;" v-if="item.relation==23">外婆</li>
+                            <li style="width:15%;" v-if="item.relation==24">外孙子/女</li>
+                            <li style="width:15%;" v-if="item.relation==25">其他亲戚</li>
+                            <li style="width:15%;" v-if="item.relation==26">同事</li>
+                            <li style="width:15%;" v-if="item.relation==27">朋友</li>
+                            <li style="width:15%;" v-if="item.relation==28">雇主</li>
+                            <li style="width:15%;" v-if="item.relation==29">雇员</li>
+                            <li style="width:15%;" v-if="item.relation==30">其他</li>
+                            <li style="width:15%;" v-if="item.relation==31">配偶</li>
+                            <li style="width:15%;" v-if="item.relation==32">父母</li>
+                            <li style="width:15%;" v-if="item.relation==33">子女</li>
+                            <li style="width:10%;">
+                                <span v-if="item.cardType==='0'">身份证</span>
+                                <span v-else-if="item.cardType==='1'">护照</span>
+                                <span v-else-if="item.cardType==='2'">军官证</span>
+                                <span v-else-if="item.cardType==='3'">驾照</span>
+                                <span v-else-if="item.cardType==='4'">出生证明</span>
+                                <span v-else-if="item.cardType==='5'">户口簿</span>
+                                <span v-else-if="item.cardType==='6'">港澳台胞证</span>
+                                <span v-else-if="item.cardType==='7'">其他</span>
+                            </li>
+                            <li style="width:25%;">{{item.cardNum}}</li>
+                            <li style="width:10%;">{{item.benefitOrder}}</li>
+                            <li style="width:10%;">{{item.benefitScale}}%</li>
+                        </ul>
+                    </div>
+                    <div v-else>
+                        <ul class="policy_main_msg">
+                            <li style="width:145px;">
+                                法定受益人
+                            </li>
+                        </ul>
+                    </div>
+                </template>
+                <div class="policy_main_notice  clearfix" style="font-size: 18px;font-weight: normal"><span>告知栏</span><span class="fr" style="margin-right: 70px">如存在告知事项,请在'□'内打'√',并填写细项 </span></div>
+                <div class="inform clearfix">
+                    <div class="inform_list fl" style="width: 70%">
+                        <ul class="policy_main_msg">
+                            <li style="width:10%;">项目</li>
+                            <li style="width:30%">告知内容</li>
+                        </ul>
+                        <template v-for="(item,key,index) in totalData.text">
+                            <ul class="policy_main_msg main_msg_info">
+                                <li style="width:10%;" v-text="index+1"></li>
+                                <li style="width:90%;" v-text="item"></li>
+                            </ul>
+                        </template>
+                    </div>
+                    <div style="width: 30%; display: inline-block" class="inform_list2 fl clearfix" id="inform_list2">
+                        <template v-for="(item,index) in totalData.gres">
+                            <ul style="width: 32.5%">
+                                <li>被保人{{('一二三')[index]}}</li>
+                                <li v-html="JSON.parse(item.detail).hw"></li>
+                                <li v-html="JSON.parse(item.detail).pay"></li>
+                                <li>{{JSON.parse(item.detail).smoke||'否'}}</li>
+                                <li style="line-height: 48px">{{JSON.parse(item.detail).drink||'否'}}</li>
+                                <li>{{JSON.parse(item.detail).takeeffect ?'是':'否'}}</li>
+                                <li style="line-height: 48px">{{JSON.parse(item.detail).declinature ?'是':'否'}}</li>
+                                <li>{{JSON.parse(item.detail).motion ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).treatment ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).operation ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).medicine ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).test ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).inspect ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).medication ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).symptom ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).disease ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).inheritance ?'是':'否'}}
+                                </li>
+                                <li v-html="">{{JSON.parse(item.detail).children ?'是':'否'}}</li>
+                                <li v-html="">{{JSON.parse(item.detail).pregnant ?'是':'否'}}</li>
+                                <li style="border-left: none;border-bottom: 1px solid #333;padding-left:0" v-html="">
+                                    {{JSON.parse(item.detail).death ?'是':'否'}}
+                                </li>
+                            </ul>
+                        </template>
+                    </div>
+                </div>
+                <div class="inform_yes">
+                    <h3 class="policy_main_notice" style="font-weight: normal">&nbsp;问题5-19中如有回到“是”的，请填写告知明细并提供相关资料证明(如同一事件涉及多个告知项目，可一并回答)</h3>
+                    <ul class="policy_main_msg">
+                        <li style="width:15%;">被保险人</li>
+                        <li style="width:50%;border-right: none;">告知项目</li>
+                        <li style="width:35%;" class="clearfix">说明内容<span class="fr">填写前请详细阅读左侧填写说明</span></li>
+                    </ul>
+                    <template v-for="(item,keys,index) in aList">
+                        <ul class="policy_main_msg">
+                            <li style="width:15%;">
+                                <span><label class="myicon" :class="{active : item[0]}"></label><em>①</em></span>
+                                <span><label class="myicon" :class="{active : item[1]}"></label><em>②</em></span>
+                                <span><label class="myicon" :class="{active : item[2]}"></label><em>③</em></span>
+                            </li>
+                            <li style="width:50%;border-right:none" class="main_msg_project">
+                                <span v-if="item[0]" v-text="totalData.text[keys]"></span>
+                                <span v-if="item[1]" v-text="totalData.text[keys]"></span>
+                                <span v-if="item[2]" v-text="totalData.text[keys]"></span>
+                            </li>
+                            <li style="width:35%;padding-left: 0;" class="clearfix">
+                                <span v-if="item[0]"><span>①</span>{{item[0]}}</span>
+                                <span v-if="item[1]"><span>②</span>{{item[1]}}</span>
+                                <span v-if="item[2]"><span>③</span>{{item[2]}}</span>
+                            </li>
+                        </ul>
+                    </template>
+                    <p class="policy_main_notice" style="font-size: 12px;">&nbsp;投保备注栏&nbsp;&nbsp;&nbsp;&nbsp; <span>
+                    <label class="myicon" :class="{ active : ischecked  }"></label>
+                    <em>有</em></span>&nbsp;&nbsp;<span>
+                    <label class="myicon" :class="{ active : !ischecked  }"></label>
+                    <em>否</em></span>
+                    </p>
+                    <ol class="remark" v-if="isremark">
+                        <li v-for="(item,index) in totalData.gres" v-text="JSON.parse(item.detail).remark"></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="policy_main policy_main2">
+            <div class="statement">
+                <h3>&nbsp;声明与授权</h3>
+                <p style="font-size:16px;">本人己明确知晓并同意下列事项：</p>
+                <p style="font-size:16px;">
+                    如实告知义务：根据我国保险法规定，我有认真、完整、如实回答投保书所列询问事项的义务。如本人故意或者重大过失未履行前述规定的如实告知义务，足以影响贵公司决定是否同意承保或者提高保险费率的，贵公司有权解除合同。 </p>
+                <p style="font-size:16px;">
+                    提示和说明：本人已收到此次投保险种的所有产品条款，阅读并了解了产品条款的内容，业务员已明确提示并说明了犹豫期、保险责任以及减轻或免除保险公责任的条款内容，本人确认己经知晓并理解上述条款的含义，并予问意。</p>
+                <p style="font-size:16px;">合同成立与生效：贵公司同意承保后，保险合同方成立。在贵公司收取了首期保费并签发保险单的次日零时起本合同开始生效。贵公司预收取的保费不视为同意承保，对合同生效前发生的保险事故，贵公司不承担保险责任。</p>
+                <p style="font-size:16px;">
+                    犹豫期：自本人签收保险单之日起有15天的犹豫期，本人犹豫期内撤销合同，贵公司将无息退还本人所交的保险费。</p>
+                <p style="font-size:16px;">
+                    保费缴纳：本人知晓并同意本次投保的首期保费和续期续保保费通过投保单中提供的银行账号收取。对于保险期间为一年期的险种，在保险合同终止日前，如果贵公司和本人均未提出终止本合同，贵公司从本人提供的银行账号中划转续保保险费成功后，将根据本合同的约定继续承担相应的保险责任。
+                </p>
+                <p style="font-size:16px;">未成年人：根据保险法和监管机构相关规定，己知晓并同意：如被保险人身故时不满10周岁，保险公司累计给付的身故保险金总额不超过20万元；如被保险人身故时己满10周岁但未满18周岁的，保险公司累计给付的身故保险金总额不超过50万元。投保人已交保险费或被保险人死亡时合同的现金价值、被保险人死亡时合同的万能险账户价值、航空意外死亡保险金额、重大自然灾害意外死亡保险金额不计算在内。</p>
+                <p style="font-size:16px;">
+                    客户信息使用：本人同意贵公司以及其认为业务必要而委托的第三方将本人提供的全部资料用于为本人提供高质量的服务和推荐产品。贵公司及第三方对本人个人信息承担保密义务。贵公司对于客户信息的使用，包括但不限于计算保费、核保、寄送保单和客户回访等。</p>
+                <p style="font-size:16px;">
+                    授权：本人授权贵公司可以从任何医疗机构、保险公司或任何组织和个人，就本次投保及后续保单服务或理赔相关事宜，查询或索取与投保人、被保险人相关的资料或证明。</p>
+                <p style="font-size:16px;">
+                    本人授权贵公司可以从第三方就有关本次投保、保全或理赔事宜查询、收集与本人相关的信息。本人同意贵公司将本人提供的信息、本人接受贵公司本次投保、保全或理赔产生的信息以及贵公司从第三方查询、收集的信息（包括本单证签署之前提供、查询收集和产生的），用于人保集团及其因服务必要而委托的第三方，向本人提供服务、推介产品、开展市场调查与信息数据分析。人保集团及其委托的第三方对上述个人信息依法承担保密和信息安全义务。</p>
+                <p style="font-size:16px;">
+                    本条中贵公司是指中国人民健康保险股份有限公司，“人保集团”是指中国人民保险集团股份有限公司及其作为控股股东、实际控制人的公司。</p>
+                <p style="font-size:16px;">
+                    本授权自本单证签署时生效，具有独立法律效力，不受合同成立与否及效力状态变化的影响。如取消或变更授权，可发送电子邮件[service@picchealth.com] /致电客服热线95591或4006695518。</p>
+                <p style="font-size:16px;">
+                    本人同意贵公司向中国保险信息技术管理有限责任公司（简称“中国保信”）报送本人的全部保单信息和理赔信息，并通过医疗机构、中国保信及知悉本人信息的其他机构查询与本人有关的承保、理赔、医疗等信息。中国保信基于为本人或保险公司提供服务的需要可对上述信息进行必要的使用及与相关机构进行信息共享，但均应严格履行保密义务。</p>
+            </div>
+            <!-- 批注签名 -->
+            <div class="signing_statement signing_statements clickwritea">
+                <a href="javascript:;" :dlrname="dlrInfo.name[0]||''" :dlrcode="dlrInfo.agentCode[0]||''" style="color:#208fc7;" id="clickwrite">点击签署声明</a>
+                <img src="" style="display:none;">
+        </div>
+                <div class="policy_main_msg_name d_sign">
+                    <ul class="policy_main_msg dlr_sign">
+                        <li class="clearfix">
+                            <span class="fl">代理人签名:</span>
+                            <a href="javascript:;" class="name fl">
+                        <img :agent_id="dlrInfo.cardnum[0]" :agent_name="dlrInfo.name[0]||'暂无'" :agent_code="dlrInfo.cardnum[0]"
+                             data-num="25" id="img11" class="myimg myimg5 img11" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIcAAABICAYAAADcWeZrAAAACXBIWXMAAAsTAAALEwEAmpwYAAA7P2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMwNjcgNzkuMTU3NzQ3LCAyMDE1LzAzLzMwLTIzOjQwOjQyICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgICAgICAgICAgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIgogICAgICAgICAgICB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIKICAgICAgICAgICAgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNSAoTWFjaW50b3NoKTwveG1wOkNyZWF0b3JUb29sPgogICAgICAgICA8eG1wOkNyZWF0ZURhdGU+MjAxNy0wMy0xN1QxOToyNDoxMSswODowMDwveG1wOkNyZWF0ZURhdGU+CiAgICAgICAgIDx4bXA6TW9kaWZ5RGF0ZT4yMDE3LTAzLTE3VDE5OjMxOjI3KzA4OjAwPC94bXA6TW9kaWZ5RGF0ZT4KICAgICAgICAgPHhtcDpNZXRhZGF0YURhdGU+MjAxNy0wMy0xN1QxOTozMToyNyswODowMDwveG1wOk1ldGFkYXRhRGF0ZT4KICAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9wbmc8L2RjOmZvcm1hdD4KICAgICAgICAgPHBob3Rvc2hvcDpDb2xvck1vZGU+MzwvcGhvdG9zaG9wOkNvbG9yTW9kZT4KICAgICAgICAgPHBob3Rvc2hvcDpUZXh0TGF5ZXJzPgogICAgICAgICAgICA8cmRmOkJhZz4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxwaG90b3Nob3A6TGF5ZXJOYW1lPueCueWHu+etvuWQjTwvcGhvdG9zaG9wOkxheWVyTmFtZT4KICAgICAgICAgICAgICAgICAgPHBob3Rvc2hvcDpMYXllclRleHQ+54K55Ye7562+5ZCNPC9waG90b3Nob3A6TGF5ZXJUZXh0PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6QmFnPgogICAgICAgICA8L3Bob3Rvc2hvcDpUZXh0TGF5ZXJzPgogICAgICAgICA8eG1wTU06SW5zdGFuY2VJRD54bXAuaWlkOjY0ZTcwZWQ0LWVmNTgtNDhlZS1iMDZkLTY4NmYwZGNhMzkxMjwveG1wTU06SW5zdGFuY2VJRD4KICAgICAgICAgPHhtcE1NOkRvY3VtZW50SUQ+YWRvYmU6ZG9jaWQ6cGhvdG9zaG9wOmFlZDIzNDJjLTRiOTMtMTE3YS05NTRlLWVhZmFhYWE2ZDU3OTwveG1wTU06RG9jdW1lbnRJRD4KICAgICAgICAgPHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD54bXAuZGlkOjU1MTA2ZjM5LWM4YTAtNDZiNC04YWNkLWRjMmZiZmI5NmU2YzwveG1wTU06T3JpZ2luYWxEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06SGlzdG9yeT4KICAgICAgICAgICAgPHJkZjpTZXE+CiAgICAgICAgICAgICAgIDxyZGY6bGkgcmRmOnBhcnNlVHlwZT0iUmVzb3VyY2UiPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6YWN0aW9uPmNyZWF0ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDo1NTEwNmYzOS1jOGEwLTQ2YjQtOGFjZC1kYzJmYmZiOTZlNmM8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTctMDMtMTdUMTk6MjQ6MTErMDg6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDo2NGU3MGVkNC1lZjU4LTQ4ZWUtYjA2ZC02ODZmMGRjYTM5MTI8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTctMDMtMTdUMTk6MzE6MjcrMDg6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChNYWNpbnRvc2gpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICAgICA8c3RFdnQ6Y2hhbmdlZD4vPC9zdEV2dDpjaGFuZ2VkPgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6U2VxPgogICAgICAgICA8L3htcE1NOkhpc3Rvcnk+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlhSZXNvbHV0aW9uPjcyMDAwMC8xMDAwMDwvdGlmZjpYUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6WVJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOllSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpSZXNvbHV0aW9uVW5pdD4yPC90aWZmOlJlc29sdXRpb25Vbml0PgogICAgICAgICA8ZXhpZjpDb2xvclNwYWNlPjY1NTM1PC9leGlmOkNvbG9yU3BhY2U+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj4xMzU8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+NzI8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/PiSWkSEAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAABgZJREFUeNrsnF1Mk1cYx/+uTdpVpYGCpIWIKJhQMa5ExC1cNFvmnHDjhUSIW5ssQ0Iylm0SswW4YJ8EYjIjpjNb7MWCBjdNNuqFSuwSov1g4EdpCVRA7EdKoU1d25XE5t1F02LpW6Aiobjnd3nOeU/Oe86Pc57nvKGbZAodA4JggQsAQ+oKmgkijjKlHq/RNBDJIDkIkoMgOQiSgyA5CJKDIDkIkoMgOQiSgyA5CILkIEgOguQgSA6C5CBIDoLkIEgOguQgSA6CIDkIkoMgOYj/nRzBUBhlSj0uXJnCY0eQVovkWEDA5yBXyIVpIoACiWBVffVpnTHRUn2utXsUfVpnQp3W4MaJlvvQGtwpj+dEy31cum6D0eQlOdab3Gw+AEBWIkxp57p8awY+fxhvH9yWUH/19gyytnIhP5CTsnBmWwgAUF6ambZztkmm0DHp/I/U73/6N1y+Z0nr25XbUS0Xp/QMGwOq/RDwOXFlrd2j0Bh9CW2ba/KwVcBBm3qata+fTu1OuujBUBj135hiciSjuSYPtUfy123ey5R6QKbQMenM4aZB5pMfTKvux/DQw8gUOsbw0LOi9p0Xx5nDTYPMlD3AjFh9jEyhY6bsAYZhGGbE6mNazlmY2/oZhmEYpuWchem8OL6iflvOWZK+z5+3HYxMoXsp77taZAodQ9kKC9Hgt/3jnSiQCLAtiwcAmLQFcOHKFL44O46KPcLYcSIt3IL+Yd+y/XaprdAYfRiw+BNimD6tE23qaUjz+WirL0qLeeBuhGPE5fNHtrkVHAUvgwKJAKeUCwuUncnDkLoCl67boNK40K7cju5rDgBAtVyM2iP5qD2Sj2AozDqeYCiM738Zh8boQ51chP5hH9rU07ih96CtvghXbzmh0riQK+Ti28ZiZGfySA42iiV8vCPjxS0O219g/7BvTcRIRmv3KAbHArF4Yu9uIRo6LBidCqDxeCEEfE7S8RgeeCDczI3FEY3HF2Q59Nm9SMAs5EJ1umTVWdkrLcdq6FJb0aOdW7LNya6xlIJArcGNn/9wwGwLoaEqF9bpAKzTAQDA0UoRVBoXerRzaKjKxe6CzayZi/xATly5gM/Blx8VY9IZCUwrS7agrb4obXaMV1KOU8qipDuO0eTFya6xJTOJxTHADb0HAxY/qsoj6a9K40poV1UuhLRwC8yT/kj9+QnWDGpx393XHHD5nqFOLmIds/nRU0h3ZZAczzPuCGHA4l92B4ie5WxbudbghnN2HuJs3pJ3ELPeedy868ZWASduMaOLVyzh40zjzrg+tAY3/MFnsfaz3nkIXueils/B10uM6bEjiDv3POjstceV92jnWN+1Ti4iORbze8cbq44lnLPz6Oy149p3e5dsF/g3jM5eO9qV2+PKq+ViHNyXhexMHowmL8qUevzaWgLprgyMPQ5ApXHF6m/edcf6qJaLE8YezUKiSPP5MNtCSYPpYCiMyoZBuiFlYykxnv++YjR5X+jaeqVEz//y0kzkCrkYGPIAACrLsgAApvGnAADNnTnUyUVJj5FquRjNNXlorsnDkLoCVW+JNswxnVZyNHWM4NJ1W2zxmzpGEAyFY8FmQ4cl1vavwTl8fn4C5kdP13xcRytFeDITudHckbcZZxp3orQ4A0aTF2ZbCMcOSZZ8PprqbjTS5lgxmrwYsPjxQdXCRA9Y/JiyByDdlYH9UiF6tHMwmrwoL81E4/FC9A/7oPrtCc6e3rOmY6s/tiNuZ4vGIO0XrKiTi14o/UyXoyPt5QiGwvjxcuR2MJpJRG8lJ55E5CgtzojtGOWlmRDwOfjwvVx09trRp3WybutHv3qYUiq7+Ahjez6BRcHzcpnKchd46RRzpIUchgceFIp5qNiz8MU0J4uH5po8HNyXFYsBFn8gfPfNHNbtOll5MgH+CYYT6gokgjX5ZWfzpH/ZmCv6YW+9SfuvssT6QD9vTWysVJYgOQiSgyA5CJKDIDkIguQgSA6C5CBIDoLkIEgOguQgSA6C5CBIDoLkIAiSgyA5CJKDIDkIkoMgOQiSgyA5iFebTTKFjqFpINj4bwDqyR03kH0McAAAAABJRU5ErkJggg==">
+                    </a>
+                        </li>
+                    </ul>
+                    <ul class="policy_main_msg signing_statement" style="line-height: 12px;height:auto">
+                        <li style="width:50%;">投保提示书</li>
+                        <li class="clearfix" style="width:50%; position: relative;border-left: none;"><a href="javascript:;" class="insure_sign">投保人签名</a><a href="javascript:;" id="signok" class="fr insure_sign3" style="position: absolute; right: 50%; top: 5px; display: none">已签名</a></li>
+                    </ul>
+                    <ul class="policy_main_msg" style="border-bottom: 0">
+                        <li style="width:20%;">请签名</li>
+                        <li style="width:25%;"><a href="autograph.html" class="insure_sign2">点击签名</a></li>
+                        <li style="width:25%">投保申请日期</li>
+                        <li style="width:25%;border-left:none;padding: 0;text-align: center" v-text="policyTime"></li>
+                    </ul>
+                </div>
+                <!--2017-6-27-->
+                <div class="policy_main_msg_name z_sign" style="display: none">
+                    <ul class="policy_main_msg">
+                        <li style="width:20%;">投保人</li>
+                        <li style="width:25%;" class="tb_name"><a href="javascript:;" class="name"><img data-num="21"
+                                                                                                :tb_id="insureInfo.id[0]"
+                                                                                                :tb_name="insureInfo.name[0]"
+                                                                                                :tb_card="insureInfo.cardnum[0]"
+                                                                                                class="myimg myimg_t"
+                                                                                                src="images/sign.png"></a>
+                        </li>
+                        <li style="width:25%">投保申请日期</li>
+                        <li style="width:25%;border-left:none;padding: 0;text-align: center" v-text="policyTime"></li>
+                    </ul>
+                    <ul class="policy_main_msg">
+                        <li style="width:20%;">第一被保险人/监护人</li>
+                        <li style="width:13%;" class="cust_name1"><a href="javascript:;" class="name"><img
+                        :cust_id="custInfo.id[0]" :cust_name="custInfo.name[0]" :cust_card="custInfo.cardnum[0]"
+                        data-num="22" class="myimg myimg2 bimg1" src="images/sign.png"></a></li>
+                        <li style="width:20%;">第二被保险人/监护人</li>
+                        <li style="width:13%;" class="cust_name2"><a href="javascript:;" class="name"><img
+                        :cust_id="custInfo.id[1]" :cust_name="custInfo.name[1]" :cust_card="custInfo.cardnum[1]"
+                        style="position: absolute; left: 10px;" data-num="23" class="myimg myimg3 bimg2"
+                        src="images/sign.png"></a></li>
+                        <li style="width:20%;">第三被保险人/监护人</li>
+                        <li style="width:13%;border-left:none" class="cust_name3"><a href="javascript:;" class="name"><img
+                        :cust_id="custInfo.id[2]" :cust_name="custInfo.name[2]" :cust_card="custInfo.cardnum[2]"
+                        style="position: absolute; left: 10px;" data-num="24" class="myimg myimg4 bimg3"
+                        src="images/sign.png"></a></li>
+                    </ul>
+                </div>
+                <!--2017-6-27-->
+                <!--2017-6-27-->
+                <!--2017-6-27-->
+                <!--2017-6-27-->
+                <!--2017-6-27-->
+                <!--2017-6-27-->
+            </div>
+            <form>
+                <div class="policy_submit policy_submit3" style="width: 100%;padding-bottom:80px;"><a href="javascript:;">上一步</a><a href="javascript:;">提交</a></div>
+                <div class="policy_submit policy_submit2" style="width: 100%;padding-bottom:80px; display:none;text-align:center"><a class="determine_btn" href="javascript:;" style="margin:0 30%; display:inline-block;">确定</a>
+                </div>
+                <em id="policyData"></em>
+                <input type="hidden" id="allData">
+            </form>
+            <input type="hidden" id="sign_data">
+            <input type="hidden" id="result">
+            <input type="hidden" id="result22">
+    </section>
+    <!--签名-->
+    <center>
+        <div id="dialog" style=" display:none;">
+            <!-- 显示签名区域-->
+            <div id="anysign_title" style="color:#333333;" width="100%" height="10%">请签名</div>
+            <div id="container" onmousedown="return false;">
+                <canvas id="anysignCanvas" width="2">
+                </canvas>
+            </div>
+            <div id="single_scrollbar" style="text-align: center;  vertical-align:middle; " width="100%">
+                <span id="single_scroll_text"> *滑动操作：</span>
+                <input id="single_scrollbar_up" type="button" class="button orange" value="左移" />
+                <input id="single_scrollbar_down" type="button" class="button orange" value="右移" />
+            </div>
+            <div id="btnContainerOuter" width="100%">
+                <div id="btnContainerInner" style="text-align: center;   font-size:5pt;" width="100%">
+                    <input id="btnOK" type="button" class="button orange" value="确 定" onclick="sign_confirm();" />
+                    <input id="btnClear" type="button" class="button orange" style=" display:none;" value="清 屏" onclick="javascript:clear_canvas();">
+                    <input id="btnCancel" type="button" class="button orange" value="取 消" onclick="cancelSign();">
+                </div>
+            </div>
+        </div>
+    </center>
+    <!--签名弹层-->
+    <div id="comment_dialog" style=" display:none;">
+        <div id="leftView">
+            <p id="comment_title"></p>
+            <div id="signImage" class="signImagecss"></div>
+        </div>
+        <div id="tmpcanvascss" class="tmpcanvascss">
+            <div id="signTitle"></div>
+            <canvas id="comment_canvas"></canvas>
+        </div>
+        <div id="comment_btnContainerInner" class="comment_btncontainer">
+            <input id="comment_ok" type="button" class="button orange" value="确 定">
+            <input id="comment_back" type="button" class="button orange" value="后退">
+            <input id="comment_cancel" type="button" class="button orange" value="取 消">
+        </div>
+    </div>
+    <!--投保成功！扣费失败! 弹层-->
+    <div id="submit1" class="insure_built insure_built_bid submit">
+        <div class="mask">
+            <div class="mask_con">
+                <div class="mask_con_main">
+                    <p class="index_prompt">提示</p>
+                    <div class="index_text"></div>
+                </div>
+                <div class="mask_con_btn index_btn" style="border-top: 0;">
+                    <p class="clearfix"><a href="javascript:;" style="width: 100%; text-align: center" class="confirm">确定</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--加载动画-->
+    <div class="loading clearfix" style="display: block">
+        <div class="loading_box">
+            <div class="fl">
+                <div class="spinner">
+                    <div class="spinner-container container1">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container2">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container3">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="fl">正在请求服务器，请稍后...</span>
+        </div>
+    </div>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="sign/anysignWebInterface.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/websql.js"></script>
+    <script src="js/style.js"></script>
+    <script src="js/kk-1.1.52.min.js"></script>
+    <script>
+    $(function() {
+        /********************  页面初始化  *********************/
+        // 登录返回的信息
+        // var crossSelling = JSON.parse(localStorage.crossSelling)//移动
+        var crossSelling = localStorage.crossSelling //pc
+        //判断电子签名还是纸质签名
+        var signWay = localStorage.paperPolicy;
+        //创建数据库类
+        var db = WebSql().openDB();
+        var policyId = localStorage.proposalId;
+        var signData = localStorage.signData;
+        //预览入口
+        var offsign = localStorage.aclick;
+        //添加附加险
+        var productAll;
+        var productList = localStorage.productList;
+        var objs = eval("(" + productList + ")");
+        //var planId = productList[0].planid;
+        //if(policyId == planId){
+        //productAll = productList;
+        //}
+
+        //投保人信息
+        function tInfo(id, obj) {
+            // $('.signing_statement').hide();//投保提示书
+            //被保人
+            db.query('SELECT * FROM customer c JOIN plan p ON c.customerId = p.insuredId WHERE p.policyUUID = ? ORDER BY id', [id], function(custInfo) {
+                for (var i in custInfo) {
+                    if (i == 0) {
+                        $('.bimg1').css('display', 'block');
+                    }
+                    if (i == 1) {
+                        $('.bimg2').css('display', 'block');
+                        window.localStorage.custNum = 1;
+                    }
+                    if (i == 2) {
+                        $('.bimg3').css('display', 'block');
+                        window.localStorage.custNum2 = 2;
+                    }
+                    obj.bres.push(custInfo[i]);
+                }
+            });
+            //投保人
+            db.query('SELECT * FROM policy p JOIN customer c ON p.uuid = c.policyUUID And p.applicantUUID = c.customerId  WHERE p.uuid=?', [id], function(tbInfo) {
+                for (var i in tbInfo) {
+                    obj.cres.push(tbInfo[i]);
+                }
+
+            });
+            db.query('SELECT * FROM policy WHERE uuid = ? ', [id], function(res) {
+                for (var i in res) {
+                    obj.policy.push(res[i]);
+                }
+                if (res.length) {
+                    //投保单号
+                    obj.policyCode = res[0].code;
+                    localStorage.policyCode = obj.policyCode
+                    localStorage.policunumber = res[0].code;
+                    //缴费信息
+                    db.query('SELECT * FROM policypay WHERE policyUUID = ? ', [id], function(pres) {
+                        obj.pres = pres;
+                    });
+                    //保险计划信息
+                    db.query('SELECT * FROM product WHERE policyUUID = ? ', [id], function(jres) {
+
+                        //alert(jres,'jres')
+                        for (var i in jres) {
+                            obj.jres.push(jres[i]);
+                        }
+
+                    });
+                    //告知信息
+                    db.query('SELECT * FROM questAnswer WHERE policyUUID = ? ', [id], function(gres) {
+                        for (var i in gres) {
+                            obj.gres.push(gres[i]);
+                        }
+                    });
+                    //受益人
+                    db.query('SELECT * FROM benefit WHERE policyUUID = ? ', [id], function(gres) {
+                        for (var i in gres) {
+                            obj.sres.push(gres[i]);
+                        }
+                        console.log(obj.sres, 'obj.sres')
+                    });
+                    //业务员表agentinfo
+                    db.query('SELECT a.* FROM agentinfo a JOIN policy p ON a.groupAgentCode = p.agentcode  WHERE p.uuid=?', [id], function(ares) {
+                        for (var i in ares) {
+                            obj.agentres.push(ares[i]);
+                        }
+                    });
+                    //附险表
+                    db.query('SELECT * FROM addInsurance WHERE policyUUID = ? ', [id], function(gres) {
+                        for (var i in gres) {
+                            obj.fux.push(gres[i]);
+                        }
+                    });
+                    if (obj.ires) {
+                        //照片
+                        db.query('SELECT * FROM imagetif WHERE policyUUID = ? ', [id], function(gres) {
+                            for (var i in gres) {
+                                obj.ires.push(gres[i]);
+                            }
+                        });
+                    }
+
+                }
+            });
+            console.log(obj, 'obj')
+        }
+
+        //投保人数据
+        var dataAll = {
+            policy: [],
+            agentres: [],
+            bres: [],
+            cres: [],
+            pres: {},
+            jres: [],
+            gres: [],
+            sres: [],
+            Gres: ['takeeffect', 'declinature', 'motion', 'treatment', 'operation', 'medicine', 'test', 'inspect', 'medication', 'symptom', 'disease', 'inheritance', 'children', 'pregnant', 'death'],
+            text: {
+                hw: '被保险人的身高（厘米cm）/体重（千克kg）',
+                pay: '被保险人的医疗费用支付方式  ①公费医疗②社会 医疗保险③商业医疗保险④自费',
+                smoke: '是否有吸烟习惯？如有请告知每日吸烟量与年数。',
+                drink: '是否有饮酒习惯？如有请告知种类(①白酒②啤酒③葡萄酒④黄酒)、每日饮酒量(两)与年数。',
+                takeeffect: '是否有正在生效的商业人身险(医疗险,重大疾病险,护理保险,意外险或寿险)产品？',
+                declinature: '是否有人身保险被保险公司拒保、延期、加费、免责的投保经历或向保险公司提出过理赔申请？',
+                motion: '有无危险运动爱好？',
+                treatment: '过去十年内是否曾住院检查或治疗(包括疗养院、康复医院等医疗机构)？',
+                operation: '过去十年内是否做过手术(包括门诊手术)？',
+                medicine: '过去十年内是否接受过心理或药物成瘾性治疗？',
+                test: '过去两年内是否参加身体检查并发现结果异常？',
+                inspect: '您在过去三年内是否因疾病而持续治疗超过2周？',
+                medication: '过去一年内是否使用过药物？',
+                symptom: '过去一年中是否有发热、疼痛、大小便异常、体重明显变化或者其它不适症状？',
+                disease: '是否曾经或正患有以下疾病： A、高血压、冠心病、心肌梗塞、先天性心脏病、风湿性心脏病、肺源性心脏病、缩窄性心包炎、心内 膜炎、心肌炎、心脏瓣膜疾病、主动脉血管瘤、心律失常、心肌病等心血管系统疾病;B、慢性支气管炎、 哮喘、肺脓肿、胸膜炎、肺气肿、肺大泡、支气管扩张、肺结核、尘肺、矽肺等呼吸系统疾病；C、肝 炎、肝炎病毒携带者、肝硬化、肝脓肿、肝内结石、肝脾肿大、胆囊炎、胆结石、胆管炎、消化道溃疡、 出血及穿孔、胃炎、胰腺炎、溃疡性结肠炎、肛管疾病等消化系统疾病；D、肾炎、肾病综合症、肾功 能异常、尿毒症、肾盂积水、肾囊肿、泌尿系结石、尿路畸形等泌尿系统疾病；E、糖尿病、痛风、甲状 腺疾病、甲状旁腺疾病、肢端肥大症、垂疾机能亢进或减退、肾上腺机能亢进或减退、高脂血症等内分泌 系统疾病；F、精神疾病、神经官能症、智能障碍、脑膜炎、脑炎、脑中风、短暂性脑缺血、脑动脉畸 形、癫痫、重症肌无力、多发性硬化症、帕金森氏综合症、脊髓灰质炎、运动神经元疾病等精神、神经系 统疾病；G、视网膜出血或剥离、视神经病变、青光眼、白内障、高度近视、中耳炎、神经性耳聋等五官 疾病；H、曾被建议不宜献血、血友病、白血病、各类贫血、紫癜等血液系统疾病；I、风湿性关节炎、类风 湿性关节炎、强直性脊柱炎、系统性红斑狼疮、硬皮病等结缔组织疾病；J、骨关节畸形、人工装置物、脊 柱脊椎疾病等运动系统疾病；K、聋、哑、失明、肢体残缺或其他各种部位的残疾；L、恶性肿瘤、尚未证实 性质的肿瘤、息肉、囊肿、包块、赘生物；M、性病、艾滋病或感染艾滋病病毒、吸食或注射毒品、未遵医嘱使用管制型成瘾类药物；N、以上未提及的疾病及症状。',
+                inheritance: '父母兄弟姐妹是否有高血压、糖尿病、恶性肿瘤、心脏 病、高脂血症、肾衰竭、中风、多囊肾等疾病？',
+                children: '(3周岁及以下儿童回答)是否有新生儿窒息、早产儿、产伤、出生体重异常、发育迟缓等？',
+                pregnant: '(16周岁及以上女性回答)是否怀孕？如是请告知妊娠周数以及是否有妊娠并发症.',
+                death: '18周岁以下未成年人回答)是否已拥有正在生效的以死亡为 给付保险金条件的人身保险？如有请告知身故保险金额总额。'
+            },
+            fux: []
+        };
+        tInfo(policyId, dataAll);
+
+        var policy = new Vue({
+            el: '#policy',
+            data: {
+                totalData: dataAll,
+                item: '',
+                productList: objs,
+                bok: false
+            },
+            computed: {
+
+                //关系
+                sequential: function() {
+                    var data = this.totalData.bres;
+                    var arr = [];
+                    data.forEach(function(v) {
+                        arr.push(v.customerId)
+                    })
+                    return arr
+                },
+                aList: function() {
+                    var gData = this.totalData.Gres,
+                        oData = this.totalData.gres,
+                        allData = {};
+                    gData.forEach(function(v) {
+                        allData[v] = [];
+                    });
+                    oData.forEach(function(val) {
+                        var detail = JSON.parse(val.detail);
+                        gData.forEach(function(v) {
+                            allData[v].push(detail[v]);
+                        });
+                    });
+                    return allData
+                },
+                ischecked: function(data) {
+                    return data.totalData.gres.some(function(v) {
+                        return JSON.parse(v.detail).remark !== ''
+                    })
+                },
+                isremark: function() {
+                    var detail;
+                    this.totalData.gres.forEach(function(v) {
+                        detail = JSON.parse(v.detail);
+                        detail = detail.remark;
+                    });
+                    return detail;
+                },
+                //保额总费
+                coverage: function() {
+                    var money = this.totalData.jres;
+                    var num = 0;
+                    money.forEach(function(v) {
+                        num += Number(v.premium);
+                    });
+                    return num
+                },
+                //投保人信息
+                insureInfo: function() {
+                    var msg = this.totalData.cres;
+                    var data = {
+                        id: [],
+                        name: [],
+                        cardnum: []
+                    };
+                    msg.forEach(function(v) {
+                        data.id.push(v.customerId); //投保人id
+                        data.name.push(v.name); //投保人姓名
+                        data.cardnum.push(v.cardNum); //投保人身份证号码
+                    });
+                    return data;
+                },
+                //被保人信息
+                custInfo: function() {
+                    var msg = this.totalData.bres;
+                    var data = {
+                        id: [], //被保人id
+                        name: [], //被保人姓名
+                        cardnum: [] //被保人身份证号码
+                    };
+                    msg.forEach(function(v) {
+                        data.id.push(v.customerId);
+                        data.name.push(v.name);
+                        data.cardnum.push(v.cardNum);
+                    });
+                    return data;
+                },
+                //代理人信息
+                dlrInfo: function() {
+                    var msg = this.totalData.agentres;
+                    var data = {
+                        name: [],
+                        agentCode: [],
+                        cardnum: []
+                    };
+                    msg.forEach(function(v) {
+                        data.name.push(v.name);
+                        data.agentCode.push(v.agentCode)
+                        data.cardnum.push(v.groupAgentCode)
+                    });
+                    return data;
+                },
+                //保单时间
+                policyTime: function() {
+                    var time;
+                    this.totalData.policy.forEach(function(v) {
+                        time = v.policyDate
+                    });
+                    return time;
+                },
+                //保单号
+                policyCode: function() {
+
+                    var msg = this.totalData.policy;
+                    var data = {}
+                    msg.forEach(function(v) {
+                        data = v.code
+                    })
+                    return data;
+                }
+            },
+            methods: {
+                //判断有没有福满
+                isFuman: function() {
+                    if (localStorage.productType == 'bonus' || localStorage.type == '20') {
+                        $('.signing_statements').show();
+                    }
+                },
+                rankOrAnount: function(aa, bb) {
+                    bb = parseInt(Number(bb)) + ''
+                    if (aa.productDefId == 'RANK') {
+                        if (bb == '1') {
+                            return '计划一'
+                        } else if (bb == '2') {
+                            return '计划二'
+                        } else {
+                            return '计划三'
+                        }
+                    } else {
+                        return bb + '元'
+                    }
+                }
+
+            },
+            mounted: function() {
+                var _this = this;
+                //签名 src
+                var _tSrc1 = $('.myimg_t').attr('src'),
+                    _bSrc11 = $('.myimg2').attr('src'),
+                    _dSrc1 = $('.myimg5').attr('src');
+                setTimeout(function() {
+                    //回显批注签名
+                    if (localStorage.pizhuData) {
+                        $('.signing_statements img').show();
+                        $('.signing_statements img').attr('src', JSON.parse(localStorage.pizhuData).psrc);
+                        $('#img11').attr('src', JSON.parse(localStorage.pizhuData).dsrc);
+                    }
+                    //保单详情跳转
+                    _this.isFuman();
+                    var status = localStorage.status;
+                    if (status) {
+                        $('.policy_submit').hide();
+                        $('.policy_submit2').show();
+                        $('.insure_sign').hide();
+                        $('#signok').show();
+                        var app = localStorage.app;
+                        var in1 = localStorage.in1;
+                        var in2 = localStorage.in2;
+                        var in3 = localStorage.in3;
+                        var age = localStorage.age;
+                        $('.myimg').attr('src', app),
+                            $('.myimg2').attr('src', in1),
+                            $('.myimg3').attr('src', in2),
+                            $('.myimg4').attr('src', in3),
+                            $('.myimg5').attr('src', age);
+                    } else {
+                        //判断签名是否已签
+                        if (signData) {
+                            $('#signok').show().siblings().hide();
+                        } else {
+                            $('#signok').hide().siblings().show();
+                        }
+                    }
+                    //总保险金额
+                    var Num = 0;
+                    var Num2 = 0;
+                    $('.numMoney').each(function() {
+                        Num += parseInt($(this).html());
+                    });
+                    $('.fumoney').each(function() {
+                        Num2 += parseInt($(this).html());
+                    });
+                    Num3 = Num + Num2 + "元";
+                    $('.sumMoney').text(Num3);
+                    if (Num !== 0) {
+                        //总保费表
+                        db.exeSql('CREATE TABLE IF NOT EXISTS premium (policyUUID TEXT, money TEXT)', [], function(res) {
+                            if (res) {
+                                db.exeSql('INSERT INTO premium (policyUUID,money) VALUES(?,?)', [policyId, Num], function(res) {});
+                            } else {
+                                alert('创建失败')
+                            }
+                        });
+                    } else {
+                        alert('保费计算错误');
+                        $('.loading').hide();
+                    }
+                    var height = $('.post_').height(),
+                        oUl = $('.post_').closest('.policy_main_msg');
+                    oUl.height(height).children('li').not('.post_').css('line-height', height + 'px');
+                    var flag = true;
+                    var flag_1 = true;
+                    if (signWay) {
+                        if (signWay == 'yes') {
+                            $('.z_sign').show();
+                            $('.d_sign').hide();
+                            $('.myimg').hide();
+                            $('.signing_statement').hide(); //投保提示书
+                            $('.dlr_sign').hide(); //代理人签名
+                            var tName = _this.totalData.cres;
+                            var cName = _this.totalData.bres;
+                            var cNameList = [];
+                            //被保人
+                            tName.forEach(function(v) {
+                                $('.tb_name').html(v.name)
+                            });
+                            cName.forEach(function(v) {
+                                cNameList.push(v.name)
+                            });
+                            //投保人
+                            $('.cust_name1').html(cNameList[0]);
+                            $('.cust_name2').html(cNameList[1]);
+                            $('.cust_name3').html(cNameList[2]);
+                            if (localStorage.paperPolicy_zz == 'yes') {
+                                $('.policy_submit3').hide();
+                                $('.policy_submit2').show();
+                                $('.policy_submit2').click(function() {
+                                    localStorage.paperPolicy_zz = ' ';
+                                    window.history.go(-1);
+                                })
+                            }
+                        } else {
+                            $('.z_sign').hide();
+                            if (localStorage.paperPolicy_dz == 'yes') {
+                                $('.policy_submit3').hide();
+                                $('.insure_sign2').text('已签名');
+                                $('.insure_sign2').attr('href', 'javascript:;');
+                                $('.policy_submit2').show();
+                                $('.insure_sign3').show();
+                                $('.insure_sign').hide();
+                                flag = false;
+                                flag_1 = false;
+
+                                $('.policy_submit2').click(function() {
+                                    localStorage.paperPolicy_dz = ' ';
+                                    window.history.go(-1);
+                                })
+                            }
+                        }
+                    }
+                    $('.inform_yes .main_msg_project').each(function() {
+                        var aSpan = $(this).find('span');
+                        if (aSpan.length > 1) {
+                            aSpan.hide();
+                            aSpan.eq(0).show();
+                        }
+                    });
+                    if ($('.inform_yes .policy_main_msg').eq(11).find('.main_msg_project span').text() !== '' || $('.inform_yes .policy_main_msg').eq(15).find('.main_msg_project span').text() !== '') {
+                        $('.inform_yes .policy_main_msg').eq(11).css('height', '243px').find('li:first-child, li:last-child').css('line-height', '243px');
+                        $('.inform_yes .policy_main_msg').eq(15).css('height', '31px').find('li:first-child, li:last-child').css('line-height', '31px');
+                    }
+                    //隐藏多余的告知项目
+                    $('.inform_yes .main_msg_project').each(function() {
+                        var aSpan = $(this).find('span');
+                        if (aSpan.length > 1) {
+                            aSpan.hide();
+                            aSpan.eq(0).show();
+                        }
+                    });
+                    //告知样式
+                    $('#inform_list2 ul').each(function() {
+                        if ($(this).length < 3) {
+                            $(this).css('border-right', '1px solid #333')
+                        }
+                    });
+
+                    // $('.inform_list ul').each(function(i) {
+                    //     $('#inform_list2 ul li').eq(i).height($(this).height())
+                    //     $('#inform_list2 ul:eq(1) li').eq(i).height($(this).height())
+                    //     $('#inform_list2 ul:eq(2) li').eq(i).height($(this).height())
+                    // })
+
+                    //判断屏幕宽度加载页面百分比
+                    if ($(document).width() <= 375) {
+                        // $('.policy').css('width', '200%');
+                        $('.inform_list ul').each(function(i) {
+                            $('#inform_list2 ul li').eq(i).height($(this).height())
+                            $('#inform_list2 ul:eq(1) li').eq(i).height($(this).height())
+                            $('#inform_list2 ul:eq(2) li').eq(i).height($(this).height())
+                        })
+                    } else {
+                        $('.policy').css('width', '100%');
+                        $('.inform_list ul').each(function(i) {
+                            $('#inform_list2 ul li').eq(i).height($(this).height())
+                            $('#inform_list2 ul:eq(1) li').eq(i).height($(this).height())
+                            $('#inform_list2 ul:eq(2) li').eq(i).height($(this).height())
+                        })
+                    }
+                    //告知动态宽度
+                    $('.inform_list2').find('ul').css('width', ((100 / $('.inform_list2').find('ul').length) - 1) + '%')
+
+                    $('.policy_main_msg').each(function() {
+                        $(this).find('li').css({
+                            'height': $(this).height()
+                        })
+                    })
+
+                    /*-------------------------------------------签名功能---------------------------------*/
+                    var pizhuData = { //批注签名
+                        psrc: [],
+                        dsrc: [],
+                        psign: []
+                    };
+                    // var dlrData = {//代理人签名
+                    //     src:[],
+                    //     sign:[]
+                    // };
+                    // 批注签名
+                    var dlrname = $('.signing_statements a').attr('dlrname'), //代理人醒目
+                        dlrcode = $('.signing_statements a').attr('dlrcode'); //代理人号码
+                    word = '被保险人相关的资料或证明'; //关键字
+                    word1 = '代理人签名';
+                    testAnySign(10010)
+                    document.onreadystatechange = setAlertTitle;
+
+                    var apiInstance;
+                    var fileData;
+                    var ocrCapture;
+
+                    var DATA_CANNOT_PARSED = "10003"; //输入数据项无法解析
+                    var SERVICE_SYSTEM_EXCEPTION = "10011"; //服务系统异常错误
+                    var RECOGNITION_RESULT_EMPTY = "10100"; //识别结果为空
+                    var CONNECTION_SERVICE_TIMEOUT = "10101"; //连接识别服务超时
+                    var CONNECTION_RECOGNITION_EXCEPTION = "10102"; //连接识别服务异常
+                    var SUCCESS = "0"; //识别成功
+                    var RECOGNITION_FALSE = "-1"; //识别错误
+
+                    function setAlertTitle() {
+                        document.title = "返回结果";
+                    }
+
+
+                    //配置模板数据
+                    testSetTemplateData();
+
+                    function testSetTemplateData() {
+
+                        // var formData = "{\"bjcaxssrequest\":{\"submitinfo\":[{\"username\":\"测星雨\",\"identitycardnbr\":\"320902198901191012\"},{\"username\":\"测星雨123\",\"identitycardnbr\": \"320902198901191012\"}]}}";
+
+                        var formData = "<html><head><title></title><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /></head><body><div><div><label>keyword:</label></div><div><label>列名2：</label></div><div><label>列名3：</label></div></div></body></html>";
+                        //文件数据
+                        //              var formData = fileData;
+                        var businessId = $('.businessid').text(); //集成信手书业务的唯一标识
+
+                        var template_serial = "4000"; //用于生成PDF的模板ID
+
+
+                        var res;
+
+                        //配置JSON格式签名原文
+                        /**
+                         * 设置表单数据，每次业务都需要set一次
+                         * @param template_type 签名所用的模板类型
+                         * @param contentUtf8Str 表单数据，类型为Utf8字符串
+                         * @param businessId 业务工单号
+                         * @param template_serial 模板序列号
+                         * @returns {*} 是否设置成功
+                         */
+                        res = apiInstance.setTemplate(TemplateType.HTML, formData, businessId, template_serial);
+
+                        if (res) {
+                            //alert("setTemplateData success");
+                            return res;
+                        } else {
+                            //alert("setTemplateData error");
+                            return res;
+                        }
+                    }
+
+                    //选择文件
+                    function handleFiles(files) {
+                        if (files.length) {
+                            var file = files[0];
+                            var reader = new FileReader();
+
+                            reader.onload = function FileReaderOnload() {
+                                var buffer = reader.result;
+                                var uint8Array = new Uint8Array(reader.result);
+                                var bufStr = "";
+                                var bufarray = Base64.encodeUint8Array(uint8Array);
+                                bufStr = bufarray;
+                                fileData = bufStr;
+                            };
+                            reader.readAsArrayBuffer(file);
+                        }
+                    }
+
+                    //添加单签签名框
+                    function testAddSignatureObj(objId, dlrname, dlrcode, word1) {
+                        // console.log(objId, dlrname, dlrcode, word1)
+                        var context_id = objId;
+                        var signer = new Signer(dlrname, dlrcode);
+
+                        /**
+                         * 根据坐标定位签名方式
+                         * @param left 签名图片最左边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param top 签名图片顶边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param right 签名图片最右边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param bottom 签名图片底边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param pageNo 签名在PDF中的页码，从1开始
+                         * @param unit 坐标系单位，目前支持"dp"和"pt"
+                         * @constructor
+                         */
+                        if (objId == 20) {
+                            var signerRule = new SignRule_XYZ(100.0, 110.1, 180.2, 50.3, 1, "pt");
+                        } else {
+                            var signerRule = new SignRule_XYZ(100.0, 110.1, 180.2, 50.3, 1, "pt");
+                        }
+
+
+                        /**
+                         * 关键字定位方式，寻找PDF中的关键字，根据关键字位置放置签名图片
+                         * @param keyword 关键字
+                         * @param keyWordAlignMethod 签字图片和关键字位置关系：等于1时，签字图片和关键字矩形重心重合
+                         *                            等于2时，签字图片位于关键字正下方，中心线对齐；等于3时，签字图片位于关键字正右方，中心线对齐；
+                         *                            等于4时，签字图片左上角和关键字右下角重合，可能额外附加偏移量，详见构造函数的offset参数
+                         * @param keyWordOffset 当keyWordAlignMethod非零时，额外附加的偏移量，单位pt
+                         * @param pageNo 寻找关键字的PDF起始页码
+                         * @param KWIndex KWIndex 第几个关键字
+                         * @constructor
+                         */
+                        var len = 0;
+                        if (word1.length == '5') {
+                            len = 70;
+                        } else {
+                            len = 20;
+                        }
+                        var signerRule = new SignRule_KeyWord(word1, 3, len, 1, 1);
+                        //var signerRule = new SignRule_KeyWordV2("签名算法",50,0,1,1);
+
+                        /**
+                         *根据关键字定位签名位置
+                         * @param keyWord 关键字字面值
+                         * @param xOffset X轴偏移量，适配关键字和规则
+                         * @param yOffset Y轴偏移量，适配关键字和规则
+                         * @param pageNo 签名在PDF中的页码，第几页查找关键字，正数为正序，当是负数为倒序
+                         * @param KWIndex KWIndex 第几个关键字
+                         * @constructor
+                         */
+                        // var signerRule = new SignRule_KeyWord("代理人签名:",100,100,1,1);
+
+                        /**
+                         * 关键字定位方式，寻找PDF中的关键字，根据关键字位置放置签名图片
+                         * @param keyword 关键字
+                         * @param keyWordAlignMethod 签字图片和关键字位置关系：等于0时，签字图片和关键字矩形重心重合
+                         *                            等于1时，签字图片位于关键字正下方，中心线对齐；等于2时，签字图片位于关键字正右方，中心线对齐；
+                         *                            等于3时，签字图片左上角和关键字右下角重合，可能额外附加偏移量，详见构造函数的offset参数
+                         * @param keyWordOffset 当keyWordAlignMethod非零时，额外附加的偏移量，单位pt
+                         * @param pageNo 寻找关键字的PDF起始页码
+                         * @param KWIndex KWIndex 第几个关键字
+                         * @constructor
+                         */
+                        //                var signerRule = new SignRule_KeyWordV2("关键字", "0", 10, 1,1);
+
+
+                        var signatureConfig = new SignatureConfig(signer, signerRule);
+                        //                   1:时间在上、2：时间在下、3：时间在右
+                        var timeTag = new TimeTag(1, "yyMMdd hh:mm;ss");
+                        //                signatureConfig.timeTag = timeTag;
+                        signatureConfig.singleWidth = 200;
+                        signatureConfig.singleHeight = 200;
+                        signatureConfig.title = "请签名";
+                        signatureConfig.penColor = "#000000";
+                        signatureConfig.isTSS = false; //是否开始时间戳服务
+                        signatureConfig.signatureImgRatio = 3.0;
+                        signatureConfig.nessesary = false;
+                        signatureConfig.isdistinguish = false;
+                        signatureConfig.ocrCapture = ocrCapture;
+                        var res = apiInstance.addSignatureObj(context_id, signatureConfig);
+                        if (res) {
+                            //alert("addSignatureObj "+context_id+" success");
+                            return res;
+                        } else {
+                            //alert("addSignatureObj "+context_id+" error");
+                            return res;
+                        }
+                    }
+
+
+                    //添加批签签名框
+                    function testAddCommentObj(objId, dlrname, dlrcode, word) {
+                        var context_id = objId;
+                        var signer = new Signer(dlrname, dlrcode);
+
+                        /**
+                         * 根据坐标定位签名方式
+                         * @param left 签名图片最左边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param top 签名图片顶边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param right 签名图片最右边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param bottom 签名图片底边坐标值，相对于PDF当页最左下角(0,0)点，向上和向右分别为X轴、Y轴正方向
+                         * @param pageNo 签名在PDF中的页码，从1开始
+                         * @param unit 坐标系单位，目前支持"dp"和"pt"
+                         * @constructor
+                         */
+                        var signerRule = new SignRule_XYZ(84.0, 523.0, 400.0, 477.0, 1, "dp");
+
+
+
+                        /**
+                         * 关键字定位方式，寻找PDF中的关键字，根据关键字位置放置签名图片
+                         * @param keyword 关键字
+                         * @param keyWordAlignMethod 签字图片和关键字位置关系：等于1时，签字图片和关键字矩形重心重合
+                         *                           等于2时，签字图片位于关键字正下方，中心线对齐；等于3时，签字图片位于关键字正右方，中心线对齐；
+                         *                            等于4时，签字图片左上角和关键字右下角重合，可能额外附加偏移量，详见构造函数的offset参数
+                         * @param keyWordOffset 当keyWordAlignMethod非零时，额外附加的偏移量，单位pt
+                         * @param pageNo 寻找关键字的PDF起始页码
+                         * @param KWIndex KWIndex 第几个关键字
+                         * @constructor
+                         */
+                        var signerRule = new SignRule_KeyWord(word, 2, 10, -12, 1);
+
+
+                        var commentConfig = new CommentConfig(signer, signerRule);
+                        //                   1:时间在上、2：时间在下、3：时间在右
+                        var timeTag = new TimeTag(1, "yyMMdd hh:mm;ss");
+                        //                signatureConfig.timeTag = timeTag;
+                        commentConfig.isTSS = false; //是否开始时间戳服务
+                        // commentConfig.commitment = "本人已阅读保险条款、产品说明书和投保提示书，了解本产品的特点和保单利益的不确定性。";
+                        commentConfig.commitment = "本";
+                        //              commentConfig.commitmentTextSize = 20+"px";
+                        commentConfig.mass_word_height = 25;
+                        commentConfig.mass_word_width = 25;
+                        commentConfig.mass_words_in_single_line = 8;
+                        commentConfig.penColor = "#000000";
+                        commentConfig.nessesary = false;
+                        commentConfig.isdistinguish = false;
+                        commentConfig.ocrCapture = ocrCapture;
+                        var res = apiInstance.addCommentObj(context_id, commentConfig);
+                        if (res) {
+                            //alert("addCommentObj "+context_id+" success");
+                            return res;
+                        } else {
+                            //alert("addCommentObj "+context_id+" error");
+                            return res;
+                        }
+                    }
+
+
+                    //demo总入口
+                    function testAnySign(channel) {
+                        var res;
+
+                        //识别回调接口
+                        var identify_callback = function(errCode) {
+                            if (errCode == SUCCESS) {
+                                return;
+                            }
+                            if (errCode == DATA_CANNOT_PARSED) {
+                                alert("输入数据项无法解析！");
+                            } else if (errCode == SERVICE_SYSTEM_EXCEPTION) {
+                                alert("服务系统异常错误！");
+                            } else if (errCode == RECOGNITION_RESULT_EMPTY) {
+                                alert("识别结果为空！");
+                            } else if (errCode == CONNECTION_SERVICE_TIMEOUT) {
+                                alert("连接识别服务超时！");
+                            } else if (errCode == CONNECTION_RECOGNITION_EXCEPTION) {
+                                alert("连接识别服务异常！");
+                            } else if (errCode == RECOGNITION_FALSE) {
+                                alert("书写错误！");
+                            } else {
+                                alert(errCode);
+                            }
+                        }
+
+                        var callback = function(context_id, context_type, val) {
+
+                            document.getElementById("policy").style.display = "block";
+                            if (context_type == CALLBACK_TYPE_START_RECORDING || context_type == CALLBACK_TYPE_STOP_RECORDING) {
+                                return;
+                            }
+
+                            if (context_type == CALLBACK_TYPE_SIGNATURE) {
+                                testGenData();
+                                //签名回显
+                                //代理人签名回显
+                                //判断代理人签名
+                                localStorage.img11 = '1';
+                                //禁止代理人重复签名
+                                flag_1 = false; //代理人签名回调
+                                $('#img11').attr('src', "data:image/png;base64," + val);
+                                pizhuData.psrc.push($('.signing_statements img').attr('src')); //批注签名图片bas64
+                                pizhuData.psign.push($('#result').val()); //批注签名加密串
+                                pizhuData.dsrc.push($('#img11').attr('src')); //代理人签名图片bas64
+                                // pizhuData.dsign.push($('#result22').val());//搭理人签名加密串
+                                localStorage.pizhuData = JSON.stringify(pizhuData);
+                            } else if (context_type == CALLBACK_TYPE_COMMENTSIGN) {
+                                //批注签名回显
+                                $('.signing_statements img').show();
+                                $('.signing_statements img').attr('src', "data:image/png;base64," + val);
+                                if ($('.policy .clickwritea img').is(':visible')) {
+                                    $("#clickwrite").text('已签署');
+                                    pizhuData.psrc.push($('.signing_statements img').attr(
+                                        'src')); //批注签名图片bas64
+                                    pizhuData.psign.push($('#result').val()); //批注签名加密串
+                                    pizhuData.dsrc.push($('#img11').attr('src')); //代理人签名图片bas64
+                                    // pizhuData.dsign.push($('#result22').val());//搭理人签名加密串
+                                    localStorage.pizhuData = JSON.stringify(pizhuData);
+                                }
+                                flag = false;
+                                // var aImg=document.getElementById("xss_21");
+                                // for(var i=0;i<aImg.length;i++){
+                                //     aImg[i].style.height="250";
+                                //     aImg[i].style.width="250";
+                                // }
+
+                            } else if (context_type == CALLBACK_TYPE_ON_PICTURE_TAKEN) {
+                                document.getElementById("preview").src = "data:image/png;base64," + val;
+                            } else if (context_type == CALLBACK_TYPE_ON_MEDIA_DATA) {
+                                var audio = document.createElement("audio");
+                                if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
+                                    audio.src = "data:image/gif;base64," + val;
+                                    audio.play();
+                                }
+                            }
+
+                            // setAlertTitle();
+                            // alert("收到浏览器回调：" + "context_id：" + context_id + " context_type：" + context_type + " value：" + val);
+                        }; //测试回调，将回调数据显示
+
+                        ////////////////////////////////////////////////
+
+                        //设置签名算法，默认为RSA，可以设置成SM2
+                        EncAlgType.EncAlg = "RSA";
+
+                        apiInstance = new AnySignApi();
+                        //                var channel = "10010";//渠道号，由信手书提供，请咨询项目经理
+                        //初始化签名接口
+                        res = apiInstance.initAnySignApi(callback, channel);
+
+                        if (!res) {
+                            alert("init error");
+                        } else {
+
+                        }
+                        ////////////////////////////////////////////////
+
+                        //开启识别
+                        ocrCapture = new OCRCapture();
+                        ocrCapture.text = "a";
+                        ocrCapture.IPAdress = "http://192.168.126.32:11203/HWR/RecvServlet";
+                        ocrCapture.appID = "123";
+                        ocrCapture.count = 5;
+                        ocrCapture.language = Language.CHS;
+                        ocrCapture.resolution = 80;
+                        ocrCapture.serviceID = "999999";
+                        //              apiInstance.startOCR(ocrCapture);
+
+                        setIdentifyCallBack(identify_callback);
+
+                        ///////////////////////////////////////////////
+
+                        //注册单字签字对象20
+                        // res = testAddSignatureObj(27);
+                        res = testAddSignatureObj(27, dlrname, dlrcode, word1);
+                        if (!res) {
+                            alert("testAddSignatureObj error");
+                            return;
+                        } else {
+
+                        }
+
+                        // res = testAddCommentObj(30);
+                        res = testAddCommentObj(30, dlrname, dlrcode, word);
+                        if (!res) {
+                            alert("testAddCommentObj error");
+                            return;
+                        } else {
+
+                        }
+
+
+
+                        ////////////////////////////////////////////////
+
+                        //注册一个单位签章
+
+                        // var signer = new Signer("小明","110xxxxxx");
+                        // *
+                        //  * 使用服务器规则配置签名
+                        //  * @param tid 服务器端生成的配置规则
+                        //  * @constructor
+
+                        // var signerRule = new SignRule_Tid("888888");
+                        // var cachet_config = new CachetConfig(signer, signerRule, false);
+
+                        //              res = apiInstance.addCachetObj(cachet_config);
+                        //              ////////////////////////////////////////////////
+                        //
+                        //              if(!res){
+                        //                  alert("addCachetObj error");
+                        //              }else{
+                        //
+                        //              }
+                        ////////////////////////////////////////////////
+
+                        //将配置提交
+                        res = apiInstance.commitConfig();
+
+                        if (res) {
+                            // alert("Init ALL 提交配置成功");
+                        } else {
+                            alert("Init ALL 提交配置失败");
+                        }
+
+                        ////////////////////////////////////////////////
+
+                    }
+
+                    function testIsReadyToUpload() {
+                        alert("testIsReadyToUpload :" + apiInstance.isReadyToUpload());
+                    }
+
+                    //生成签名加密数据
+                    function testGenData() {
+                        var res = document.getElementById('result');
+
+                        try {
+                            res.value = apiInstance.getUploadDataGram();
+                            //alert("value"+res.value);
+                        } catch (err) {
+                            alert(err);
+                        }
+                    }
+
+                    //弹出签名框签名
+                    function testPopupDialog(context_id) {
+                        if (!apiInstance) {
+                            alert("信手书接口没有初始化");
+                            return;
+                        }
+                        switch (apiInstance.showSignatureDialog(context_id)) {
+                            case RESULT_OK:
+                                // document.getElementById("other").style.display = "none";
+                                break;
+                            case EC_API_NOT_INITED:
+                                alert("信手书接口没有初始化");
+                                break;
+                            case EC_WRONG_CONTEXT_ID:
+                                alert("没有配置相应context_id的签字对象");
+                                break;
+                        }
+                    }
+
+                    function setIdentifyCallBack(callback) {
+                        if (!apiInstance) {
+                            alert("信手书接口没有初始化");
+                            return;
+                        }
+                        apiInstance.setIdentifyCallBack(callback);
+                    }
+
+                    //弹出批注签名框
+                    function testCommentDialog(context_id) {
+                        if (!apiInstance) {
+                            alert("信手书接口没有初始化");
+                            return;
+                        }
+                        switch (apiInstance.showCommentDialog(context_id)) {
+                            case RESULT_OK:
+                                document.getElementById("policy").style.display = "none";
+                                break;
+                            case EC_API_NOT_INITED:
+                                alert("信手书接口没有初始化");
+                                break;
+                            case EC_WRONG_CONTEXT_ID:
+                                alert("没有配置相应context_id的签字对象");
+                                break;
+                            case EC_COMMENT_ALREADY_SHOW:
+                                alert("批注签名框已弹出，请勿重复操作！");
+                        }
+
+                    }
+
+                    //获取签名api版本信息
+                    function testGetVersion() {
+                        alert(apiInstance.getVersion());
+                    }
+
+                    //获取设备操作系统信息
+                    function testGetOsInfo() {
+                        alert(apiInstance.getOSInfo());
+                        alert(navigator.userAgent);
+                        alert(window.__wxjs_is_wkwebview);
+                    }
+
+                    //jane
+                    function testAddEvidence(result) {
+                        alert(apiInstance.addEvidence(20, result, DataFormat.IMAGE_JPEG, BioType.PHOTO_SIGNER_IDENTITY_CARD_BACK, 0));
+                    }
+
+                    function testSaveBusiness() {
+                        var encKey = "334324afa";
+                        var encData = apiInstance.saveBusiness(encKey);
+                        var res = document.getElementById('result');
+                        res.value = encData;
+                    }
+
+                    function testRestoreBusiness() {
+                        var callback = function(context_id, context_type, val) {
+                            if (context_type == CALLBACK_TYPE_START_RECORDING || context_type == CALLBACK_TYPE_STOP_RECORDING) {
+                                return;
+                            }
+
+                            if (context_type == CALLBACK_TYPE_SIGNATURE) {
+                                //签名回显
+                                document.getElementById("xss_20").src = "data:image/png;base64," + val;
+                            } else if (context_type == CALLBACK_TYPE_ON_PICTURE_TAKEN) {
+                                document.getElementById("preview").src = "data:image/png;base64," + val;
+                            } else if (context_type == CALLBACK_TYPE_ON_MEDIA_DATA) {
+                                var audio = document.createElement("audio");
+                                if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg")) {
+                                    audio.src = "data:image/gif;base64," + val;
+                                    audio.play();
+                                }
+                            }
+
+                            // setAlertTitle();
+                            // alert("收到浏览器回调：" + "context_id：" + context_id + " context_type：" + context_type + " value：" + val);
+                        }; //测试回调，将回调数据显示
+
+
+                        var apiInstance = new AnySignApi();
+                        //                var channel = "10010";//渠道号，由信手书提供，请咨询项目经理
+                        //初始化签名接口
+                        res = apiInstance.initAnySignApi(callback, "1243");
+
+                        if (!res) {
+                            //alert("init error");
+                        } else {
+                            //alert("init success");
+                        }
+
+                        var encData = document.getElementById('result').value;
+                        var desKey = "334324afa";
+                        var res = apiInstance.restoreBusiness(encData, desKey);
+
+
+                        if (res) {
+                            alert("恢复数据成功");
+                        } else {
+                            alert("恢复数据失败");
+                        }
+                    }
+                    //批注签名事件
+                    $('body').on('click', '.clickwritea', function() {
+                        // var id = $(this).attr('data-num');
+                        //                      $("#clickwrite").text('已签署');
+                        if (flag) {
+                            testCommentDialog(30);
+                            //                          flag = false;
+                        } else {
+                            // alert("不能再点了")
+                        }
+                        return false;
+                    });
+                    //单子签名
+                    $('body').on('click', '.img11', function() {
+                        // var id = $(this).attr('data-num');
+                        if (flag_1) {
+                            testPopupDialog(27);
+                            flag_1 = false;
+                        } else {
+                            // alert("不能再点了")
+                        }
+                        return false;
+                        //                      testPopupDialog(27);
+                        // obj = $(this);
+                    });
+                    //跳转
+                    $('.insure_sign').click(function() {
+                        if (policyId) {
+                            localStorage.sign_id = policyId;
+                            //window.location = 'bidtips.html';
+                            $(this).attr('href', 'bidtips.html')
+                        } else {
+                            alert('没有保单号')
+                        }
+                    });
+                    //图片src
+                    var tSrc = $('.myimg').attr('src'),
+                        bSrc1 = $('.myimg2').attr('src'),
+                        bSrc2 = $('.myimg3').attr('src'),
+                        bSrc3 = $('.myimg4').attr('src'),
+                        dSrc = $('.myimg5').attr('src');
+                    //提交数据
+                    var data = {
+                        fux: [],
+                        policy: [],
+                        agentres: [], // 业务员信息
+                        policyCode: [], //保单信息
+                        bres: [], //被保人信息
+                        cres: [], //投保人信息
+                        pres: [], //支付信息
+                        jres: [], //保险计划信息
+                        gres: [], //告知表信息
+                        sres: [], //受益人信息
+                        signList: [], //预览页面的签名
+                        promptList: [], //投标提示书签名
+                        ires: [], //图片信息
+                        pizhu: [], //批注签名
+                        dlr: [] //代理人签名
+                    };
+                    tInfo(policyId, data);
+                    console.log(data, 'data')
+                    //判断页面是否已经签名
+                    var newstate = window.localStorage.newstate;
+                    if (newstate == '1') {
+                        $('.insure_sign2').text('已签名');
+                        $('.insure_sign2').attr('href', 'javascript:;');
+                    }
+                    //提交保单
+                    //                  var imgSrcFirst = $('#img11')[0].src;
+                    //                  console.log(imgSrcFirst)
+                    //                  var imgSrcSecond = ''
+                    //                  $('#dialog #btnContainerInner #btnOK').click(function() {
+                    //                      imgSrcSecond = $('#img11')[0].src;
+                    //                      console.log(imgSrcSecond)
+                    //                  })
+                    $('.policy_submit a:eq(1)').click(function() {
+                        //                      var imgSrcSecond = $('#img11')[0].src;
+                        if (!signWay) {
+                            if ($('.signing_statements img').is(':hidden') && $('.signing_statements').is(':visible')) {
+                                alert('请部署签名');
+                                return false;
+                            }
+                            //判断代理人是否签名
+                            if (localStorage.img11 && localStorage.img11 != '1') {
+                                alert('请代理人签名');
+                                return false;
+                            }
+
+                            if ($('#signok').is(':hidden')) {
+                                alert('请签名投保提示书');
+                                return false;
+                            }
+                            if ($('.insure_sign2').text() == '点击签名') {
+                                alert('请签名');
+                                return false;
+                            }
+                        }
+                        if ($('.insure_sign2').text() == '已签名') {
+                            var signData = JSON.parse(localStorage.signData); //投标提示书页面签名数据
+                            data.promptList.push(signData);
+                            data.signList.push(JSON.parse(localStorage.newsign)); //投保人页面签名数据
+                            data.pizhu.push(JSON.parse(localStorage.pizhuData));
+                            if (localStorage.showCrossSelling && localStorage.showCrossSelling == 1) {
+                                data.agentres[0].grpAgencyName = JSON.parse(localStorage.crossData).agency; //代理机构
+                                data.agentres[0].grpAgentSalesCode = JSON.parse(localStorage.crossData).salesman_coding; //代理编码
+                                data.agentres[0].grpAgentSalesName = JSON.parse(localStorage.crossData).salesman_name; //代理人员名字
+                                if (localStorage.crossData && JSON.parse(localStorage.crossData).sales_type == 01) {
+                                    data.agentres[0].remarks = '15';
+                                } else {
+                                    data.agentres[0].remarks = JSON.parse(localStorage.crossData).Salecode;
+                                    data.agentres[0].bussType = JSON.parse(localStorage.crossData).sales_type;
+                                }
+                            }
+                            //判断是不是交叉销售投的单子
+                            if (JSON.parse(crossSelling).umtuser.companyid != 03) {
+                                data.agentres[0].crossSellingType = '1';
+                            } else {
+                                data.agentres[0].crossSellingType = '0';
+                            }
+                            try {
+                                if (JSON.parse(crossSelling).umtuser.companyid == 01) {
+                                    data.agentres[0].crossSellingName = '财带健';
+                                }
+                                if (JSON.parse(crossSelling).umtuser.companyid == 02) {
+                                    data.agentres[0].crossSellingName = '寿带健';
+                                }
+                            } catch (e) {
+                                // statements
+                                //alert(e);
+                            }
+                            data.productType = localStorage.type
+                            localStorage.policydata = JSON.stringify(data);
+                            window.localStorage.custNum = '';
+                            window.localStorage.custNum2 = '';
+                        } else {
+                            data.productType = localStorage.type
+                            if (localStorage.showCrossSelling && localStorage.showCrossSelling == 1) {
+                                data.agentres[0].grpAgencyName = JSON.parse(localStorage.crossData).agency; //代理机构
+                                data.agentres[0].grpAgentSalesCode = JSON.parse(localStorage.crossData).salesman_coding; //代理编码
+                                data.agentres[0].grpAgentSalesName = JSON.parse(localStorage.crossData).salesman_name; //代理人员名字
+                                if (localStorage.crossData && JSON.parse(localStorage.crossData).sales_type == 01) {
+                                    data.agentres[0].remarks = '15';
+                                } else {
+                                    data.agentres[0].remarks = JSON.parse(localStorage.crossData).Salecode;
+                                    data.agentres[0].bussType = JSON.parse(localStorage.crossData).sales_type;
+                                }
+                            }
+                            //判断是不是交叉销售投的单子
+                            if (JSON.parse(crossSelling).umtuser.companyid != 03) {
+                                data.agentres[0].crossSellingType = '1';
+                            } else {
+                                data.agentres[0].crossSellingType = '0';
+                            }
+                            try {
+                                if (JSON.parse(crossSelling).umtuser.companyid == 01) {
+                                    data.agentres[0].crossSellingName = '产代健';
+                                }
+                                if (JSON.parse(crossSelling).umtuser.companyid == 02) {
+                                    data.agentres[0].crossSellingName = '寿代健';
+                                }
+                            } catch (e) {
+                                // statements
+                                //alert(e);
+                            }
+                            localStorage.policydata = JSON.stringify(data);
+                        }
+                        var getData = localStorage.policydata;
+                        var indexdata = {
+                            index: 'policylist',
+                            keySale: getData,
+                            header: {
+                                "token": localStorage.token,
+                                "usercode": localStorage.usercode
+                            },
+                            body: {
+                                "companyid": localStorage.companyid
+
+                            }
+                        };
+                        var doubleRecording = {
+                            "prtNo": localStorage.policyCode
+                        }
+                        var DoubtfulText = ''
+                        var Doubtful = ''
+                        var DoubtfulJson = {
+                            "mobileCheck": ''
+                        }
+                        //kk.ready(function( args ){
+                        $('.loading').show();
+                        var productData = JSON.parse(localStorage.productData)
+                        var applicant = productData.ApplicantData
+                        productData = productData.productData.productData
+                        Object.keys(productData).map(prod => {
+                            if (typeof(productData[prod]) != 'number') {
+                                Doubtful = productData[prod].name + ',' + (productData[prod].gender == 'M' ? '0' : '1') + ',' + productData[prod].Identification + ',' + productData[prod].birthday + ',' + productData[prod].Certificates + ',' + (productData[prod].MobilePhone != '' ? productData[prod].MobilePhone : 'null') + ',' + (productData[prod].Telephone != '' ? productData[prod].Telephone : 'null')
+                                console.log(Doubtful,'Doubtful')
+                                DoubtfulText = Doubtful + (DoubtfulText != '' ? '||' : '') + DoubtfulText
+                            }
+
+                        })
+                        Doubtful = applicant ? (applicant.name + ',' + (applicant.gender == 'M' ? '0' : '1') + ',' + applicant.Identification + ',' + applicant.birthday + ',' + applicant.Certificates + ',' + (applicant.MobilePhone != '' ? applicant.MobilePhone : 'null') + ',' + (applicant.Telephone != '' ? applicant.Telephone : 'null')):''
+
+
+                        DoubtfulText = Doubtful + (Doubtful != '' ? '||' : '') + DoubtfulText
+                        console.log(applicant, 'applicant')
+                        console.log(DoubtfulText, 'DoubtfulText')
+                        DoubtfulJson.mobileCheck = DoubtfulText
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://jkej.picchealth.com:7090/mobileCheck',
+                            data: JSON.stringify(DoubtfulJson),
+                            success: function(Json) { //成功回调
+                                Json = JSON.parse(Json)
+                                console.log(Json,'Json')
+                                if(Json.status!=0){
+                                    alert(Json.msg)
+                                }else{
+                                    if (localStorage.doubleRecording == true) {
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: 'http://10.252.61.10:7081/doubleRecording',
+                                            // url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+                                            data: JSON.stringify(doubleRecording),
+                                            success: function(res) { //成功回调
+                                                res = JSON.parse(res)
+                                                if (res.taskstatus != 1) {
+                                                    $('.loading').hide()
+                                                    alert(res.msg)
+                                                } else {
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        // url: 'http://10.136.5.29:7082/life2/servlet/preview',
+                                                        url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                                                        // url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+                                                        data: JSON.stringify(indexdata),
+                                                        success: function(data) { //成功回调
+                                                            $('.loading').hide();
+                                                            db.exeSql('UPDATE policy SET status = ? WHERE uuid = ?', [JSON.parse(data).Status, policyId], function(r) {
+                                                                $('#submit1').show();
+                                                            });
+                                                            $('.index_text').html(JSON.parse(data).Detail);
+                                                            window.localStorage.newstate = '2';
+                                                            window.localStorage.signData = '';
+                                                            $('.insure_sign2').attr('href', 'autograph.html');
+                                                        },
+                                                        error: function(code, msg, textStatus) { //失败回调
+                                                            $('.loading').hide();
+                                                            alert('处理中，请在保单中心刷新此保单状态！');
+                                                            localStorage.errormsg = 1;
+                                                            if (textStatus == 'timeout') {
+                                                                alert("请求超时")
+                                                                window.location = "policycenter.html";
+                                                            }
+                                                            window.location = "policycenter.html";
+                                                            window.localStorage.newstate = '2';
+                                                            window.localStorage.signData = '';
+                                                            $('.insure_sign2').attr('href', 'autograph.html');
+                                                            return false;
+                                                        }
+                                                    });
+                                                }
+                                            },
+                                            error: function(code, msg, textStatus) { //失败回调
+
+                                            }
+                                        });
+                                    } else {
+                                        $.ajax({
+                                            type: 'POST',
+                                            // url: 'http://10.136.5.29:7082/life2/servlet/preview',
+                                            url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                                            // url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+                                            data: JSON.stringify(indexdata),
+                                            success: function(data) { //成功回调
+                                                $('.loading').hide();
+                                                db.exeSql('UPDATE policy SET status = ? WHERE uuid = ?', [JSON.parse(data).Status, policyId], function(r) {
+                                                    $('#submit1').show();
+                                                });
+                                                $('.index_text').html(JSON.parse(data).Detail);
+                                                window.localStorage.newstate = '2';
+                                                window.localStorage.signData = '';
+                                                $('.insure_sign2').attr('href', 'autograph.html');
+                                            },
+                                            error: function(code, msg, textStatus) { //失败回调
+                                                $('.loading').hide();
+                                                alert('处理中，请在保单中心刷新此保单状态！');
+                                                localStorage.errormsg = 1;
+                                                if (textStatus == 'timeout') {
+                                                    alert("请求超时")
+                                                    window.location = "policycenter.html";
+                                                }
+                                                window.location = "policycenter.html";
+                                                window.localStorage.newstate = '2';
+                                                window.localStorage.signData = '';
+                                                $('.insure_sign2').attr('href', 'autograph.html');
+                                                return false;
+                                            }
+                                        });
+                                    }
+                                }
+                            },
+                            error: function(code, msg, textStatus) { //失败回调
+
+                            }
+                        });
+                        
+
+
+                        //           });
+                    });
+                    //上一步
+                    $('.policy_submit a:eq(0)').click(function() {
+                        localStorage.signData = '';
+                        location.href = 'photocollection_2.html';
+                    });
+                    //关闭弹层
+                    $('.submit .confirm').click(function() {
+                        $('.submit').hide();
+                        window.location = "policycenter.html";
+                    });
+                    $('.loading').hide()
+                }, 3000);
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>

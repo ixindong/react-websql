@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>保单回执</title>
+    <link rel="stylesheet" href="css/webapp_reset.css">
+    <link rel="stylesheet" href="css/mobiscroll_date.css">
+    <link rel="stylesheet" href=css/style.css>
+    <style>
+        body{
+            background: #fff;
+            font-size:1em;
+            text-align: center;
+        }
+        h2{
+            margin-top:0.5em;
+            margin-bottom:0.5em;
+        }
+        .text{
+            text-align: left;
+        }
+        .text p{
+            text-indent: 2em;
+            line-height:22px;
+        }
+        .text p.insure{
+            text-indent: 0;
+
+        }
+        .text p.insure1{
+            line-height:3em;
+        }
+        .sign{
+            width:22%;
+            margin-left:2%;
+        }
+        .time{
+            font-size:1em;
+            height:30px;
+            line-height:3em;
+            background: none;
+            border: 0;
+        }
+        .receipt{
+            display:block;
+            width:25%;
+            line-height:30px;
+            text-align: center;
+            background:#e51c23;
+            margin-top:20px;
+            color:#fff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<section>
+    <h2>保险单送达回执</h2>
+    <div class="text text2">
+        <p>本人已收到贵公司发送的家庭保险单电子保险合同文件(保险合同号<span class="insurance"></span>),包括保险单、保险条款、投保资料影印件、理赔服务和客户服务相关资料等,知悉并认可本保险单的全部内容.</p>
+        <p>同时,本人再次向贵公司真郑重声明:投保书上有关被保险人和投保人情况均属真实,如有虚假,本人愿承担相应的法律责任.</p>
+        <p>提示:自您签收保险单之日起有15天的犹豫期.如您在犹豫期内撤销本合同,本公司将无息退您所交的全部保险费(但需扣除10元工本费).</p>
+        <p class="insure insure1">投保人签名:<img data-num="20" class="sign" src="data:image/gif;base64,R0lGODlhhwBIAJECAL6+vtHR0f///wAAACH5BAEAAAIALAAAAACHAEgAAAL/jI+py+0Po5y02ouz3rz7Dx7CSJbmiabqyrbuC6NLTNf2jddKzvf+r9oBh8TiS2hMKo3IpfOJa0KnVJa0is0Krtruk+sNMxPi8hJsTufQ6jaN7Y634PK6jGzPu+j6PL9f9wcYJzjYVmiYhphYtngCAMkDUDOJEklzCeRokolTCdNZEuoyyrPJaRnz+dL5uSrwahnbcyr6WJoyuwLJywvb28sCPKw7hyc5THmbOxLryqqCu3ecU3xLTBz9TLIqza3rbYzgYw1t3jw5Wo4bLi7S81qeSor6+yhszylvRQ2KDYyJnixYqr6J2sdvnLJdC+dp40YqnkFa/c4xu/YvY7FQ7O1yIZymMCBDkST1fUQ3xNG6kfVsacv4KxizjjFU4nvYcqI+f8I00jSh0ucuZ/d2FnXZwle0GzaH4kQKkSXBgz3zXdRR8Ym6o0tRepXlytrJEovAQTV6dqrTZlFZiWWaVWorqstysk0aday3sSQQSdSplm7afUTTonX4Jq7HnK1mZcsG1ifAlzBtCNra9QZfzZvdGWCUqBZoLKJHUyltGgrq1E5Ws1bi+vWYkLIJKa4tJjZuTbd3d9HtmyLt4I16E68C/Djc4cp/G2/+5Tn0M9KnJ0lu/Uj17ERmcEceIrz48eTLmz+PPr368gUAADs=" alt=""></p>
+        <p class="insure insure1">合同签收日期: <input type="text" class="time" placeholder="请选择日期"></p>
+    </div>
+    <div class="text">
+        <p class="insure">客户服务热线:95591或4006695518</p>
+        <p class="insure">公司网址:http://www.picchealth.com</p>
+        <p class="insure">重要提醒:为确保您的保单权益,请及时拨打本公司服务电话,登录网站或到柜台进行查询,核实保单信息.</p>
+    </div>
+    <input type="hidden" id="sign_data">
+</section>
+
+<!--签名弹层-->
+<center>
+    <div id="dialog"  style="font-size: 30pt;">
+        <!--<p class="close"><a href="#" onclick="closeBg();">关闭</a></p> -->
+        <!-- 显示签名区域-->
+        <div id="anysign_title" style="color:#333333;" width="100%" height="10%">请投保人<span style="font-size:20pt;"> 李 元 </span>签名</div>
+        <div id="container"  onmousedown = "return false;">
+            <canvas id="anysignCanvas" width="100%" height="70%">
+            </canvas>
+        </div>
+        <div id="btnContainerOuter" width="100%">
+            <div id="btnContainerInner" style="text-align: center;  font-size:5pt;" width="100%">
+                <input id="btnOK" type="button" class="button orange" value="确 定" onclick="sign_confirm();"/>
+                <input id="btnClear" type="button" class="button orange" value="清 屏" onclick="javascript:clear_canvas();">
+                <input id="btnCancel" type="button" class="button orange" value="取 消" onclick="cancelSign();">
+            </div>
+        </div>
+    </div>
+    <a href="javascript:;" class="receipt">签收回执</a>
+</center>
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="sign/anysignWebInterface.js"></script>
+<script src="js/mobiscroll_date.js"></script>
+<script src="js/mobiscroll.js"></script>
+<script src="js/websql.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="js/style.js"></script>
+<script>
+    $(function(){
+        var code = window.localStorage.policyCode_1;
+        $('.insurance').text(code)
+        //日期初始化
+        var currYear = (new Date()).getFullYear();
+        var opt={};
+        opt.date = {preset : 'date'};
+        opt.datetime = {preset : 'datetime'};
+        opt.time = {preset : 'time'};
+        opt.default = {
+            theme: 'android-ics light', //皮肤样式
+            display: 'modal', //显示方式
+            mode: 'scroller', //日期选择模式
+            dateFormat: 'yyyy-mm-dd',
+            lang: 'zh',
+            showNow: true,
+            nowText: "今天",
+            startYear: currYear - 50, //开始年份
+            endYear: currYear + 10, //结束年份
+        };
+       $('.time').mobiscroll($.extend(opt['date'], opt['default']));
+        $('.receipt').click(function(){
+		if($('.time').val()==''){
+			alert('请选择时间')
+			return false;
+		}else{
+			receiptData.receiptTime=$('.time').val();
+		}
+		console.log(receiptData)
+		//请求后台回执核销
+		$.ajax({
+                    cache: true,
+                    type: "POST",
+                    url: "jsp/receipt.jsp",
+                    data:receiptData,// 你的formid
+                    async: false,
+                    error: function(request) {
+                        alert("Connection error");
+                    },
+                    success: function(data) {
+                       // alert(data)
+                       window.localStorage.policyCode_1 = code;
+                       window.localStorage.policyUUID = policyNum;
+                       window.location = 'receipt.html';
+                    }
+                });  
+	})
+        /*-------------------------------------------签名功能-----------------------------------------------------*/
+        document.onreadystatechange = setAlertTitle;
+        var apiInstance = new AnySignApi();
+
+        function setAlertTitle(){
+            document.title = "返回结果";
+        }
+
+        //demo总入口
+        testAnySign(10010);
+        var obj;
+        function testAnySign(channel){
+            var res;
+            var callback = function(context_id,context_type,val) {
+
+                if(context_type == CALLBACK_TYPE_START_RECORDING || context_type == CALLBACK_TYPE_STOP_RECORDING){
+                    return;
+                }
+
+                if(context_type == CALLBACK_TYPE_SIGNATURE){
+                    //签名回显
+                    obj.attr('src','data:image/gif;base64,' + val);
+                }
+                else if(context_type == CALLBACK_TYPE_ON_PICTURE_TAKEN){
+                    document.getElementById("preview").src = "data:image/gif;base64," + val;
+                }else if(context_type == CALLBACK_TYPE_ON_MEDIA_DATA){
+                    var audio = document.createElement("audio");
+                    if (audio != null && audio.canPlayType && audio.canPlayType("audio/mpeg"))
+                    {
+                        audio.src = "data:image/gif;base64," + val;
+                        audio.play();
+                    }
+                }
+                setAlertTitle();
+                alert("收到浏览器回调：" + "context_id：" + context_id + " context_type：" + context_type + " value：" + val);
+            };//测试回调，将回调数据显示
+
+            //初始化签名接口
+            res = apiInstance.initAnySignApi(callback,channel);
+
+            if(!res){
+                alert("init error");
+            }else{
+
+            }
+
+            //根据被保人数量添加签字对象
+            res = testAddSignatureObj(20);
+
+            if(!res){
+                alert("testAddSignatureObj error");
+            }else{
+
+            }
+
+            //注册一个单位签章
+            var cachet_config = new CachetConfig(new Signer("小明","110xxxxxx"), new SignRule_Tid("11900"), true);
+            res = apiInstance.addCachetObj(cachet_config);
+            if(!res){
+                alert("addCachetObj error");
+            }else{
+
+            }
+
+            //将配置提交
+            res = apiInstance.commitConfig();
+
+            if(res){
+                alert("Init ALL 初始化成功");
+            }else{
+                alert("Init ALL 初始化失败");
+            }
+        }
+
+        //配置模板数据
+        testSetTemplateData();
+        function testSetTemplateData(){
+            // var formData = "{\"bjcaxssrequest\":{\"submitinfo\":[{\"username\":\"测星雨\",\"identitycardnbr\":\"320902198901191012\"},{\"username\":\"测星雨123\",\"identitycardnbr\": \"320902198901191012\"}]}}";
+            var formData = "<html><head></head><body><div id=\"colArea\" class=\"pageFormContent\" style=\"width:95%;background:#f9fbf9;display:block;\"><div class=\"unit\"><label class=\"fontLabel\">keyword：</label></div><div class=\"unit\"><label class=\"fontLabel\">列名2：</label></div><div class=\"unit\"><label class=\"fontLabel\">列名3：</label></div></div></body></html>";
+            var businessId = "719314ea7b88304004c8ff498";//工单号，业务流水号集成信手书业务的唯一标识
+
+            var template_serial = "23";//用于生成PDF的模板ID
+            var channel = "10010";//渠道号，由信手书提供，请咨询项目经理
+
+            var res;
+
+            //配置JSON格式签名原文
+            res = apiInstance.setTemplate(TemplateType.HTML,formData,businessId,template_serial);
+
+            if(res){
+                alert("setTemplateData success");
+                return res;
+            }
+            else{
+                alert("setTemplateData error");
+                return res;
+            }
+        }
+
+        //添加签名框
+        function testAddSignatureObj(id){
+            var context_id = id;
+            var signatureConfig = new SignatureConfig(new Signer("张三","130420198005202612"),new SignRule_KeyWord("甲方签字", "0", 10, 1));
+            //              var signatureConfig = new SignatureConfig(new Signer("李明", "11011111111"), new SignRule_XYZ(20.0, 750.1, 80.2, 650.3, 1, "pt"));
+            signatureConfig.isTSS = true;
+            /**
+             * 关键字定位方式，寻找PDF中的关键字，根据关键字位置放置签名图片
+             * @param keyword 关键字
+             * @param keyWordAlignMethod 签字图片和关键字位置关系：等于0时，签字图片和关键字矩形重心重合
+             *                            等于1时，签字图片位于关键字正下方，中心线对齐；等于2时，签字图片位于关键字正右方，中心线对齐；
+             *                            等于3时，签字图片左上角和关键字右下角重合，可能额外附加偏移量，详见构造函数的offset参数
+             * @param keyWordOffset 当keyWordAlignMethod非零时，额外附加的偏移量，单位pt
+             * @param pageNo 寻找关键字的PDF起始页码
+             * @constructor
+             */
+
+            signatureConfig.signatureImgRatio = 3.0;
+            var res = apiInstance.addSignatureObj(context_id,signatureConfig);
+            if(res){
+                alert("addSignatureObj "+context_id+" success");
+                return res;
+            }
+            else{
+                alert("addSignatureObj "+context_id+" error");
+                return res;
+            }
+        }
+
+        function testIsReadyToUpload() {
+            alert("testIsReadyToUpload :" + apiInstance.isReadyToUpload());
+        }
+
+        //生成签名加密数据
+        function testGenData() {
+
+            var res = document.getElementById('sign_data');
+
+            try{
+                res.value = apiInstance.getUploadDataGram();
+                alert("value"+res.value);
+            }
+            catch(err){
+                alert(err);
+            }
+        }
+
+        //弹出签名框签名
+        function testPopupDialog(id){
+            switch (apiInstance.showSignatureDialog(id))
+            {
+                case RESULT_OK:
+                    break;
+                case EC_API_NOT_INITED:
+                    alert("信手书接口没有初始化");
+                    break;
+                case EC_WRONG_CONTEXT_ID:
+                    alert("没有配置相应context_id的签字对象");
+                    break;
+            }
+        }
+
+        //签名事件
+        $('.sign').click(function(){
+            var id = $(this).attr('data-num');
+            testPopupDialog(id);
+            obj = $(this);
+        });
+    })
+</script>
+</body>
+</html>

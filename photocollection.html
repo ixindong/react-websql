@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+  <title>照片采集</title>
+  <link rel="stylesheet" href="css/webapp_reset.css">
+  <link rel="stylesheet" href=css/style.css>
+  <style>
+    .collection_main_title{
+      color: #333;
+      font-size: 14px;
+      line-height: 15px;
+      margin-bottom: 10px;
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="collection_header"><span>照片采集</span><a href="index.html" class="return">返回</a></header>
+  <section class="collection_main">
+    <div>
+      <span class="collection_main_title">请提供以下照片：投保人身份证明（正背面）、被保险人身份证明（正背面）、银行卡，及其他投保资料，若为纸质保单还请提供电子投保申请确认书、投保提示书（正背面）</span>
+      <p class="photocollection2 clearfix">
+        <a href="javascript:;" class="photograph" onclick="take()">拍摄照片</a>
+        <!-- <a href="javascript" class="fr">从相册选择<input type="file" multep></a>    -->
+      </p>
+      <ul class="preview clearfix">
+        
+
+      </ul>
+      <p class="beneficiary_btn clearfix"><a href="payment.html">上一步</a><a href="javascript:;" class="next" id="next">下一步</a>
+      </p>
+    </div>
+  </section>
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/style.js"></script>
+  <script src="js/websql.js"></script>
+  <script src="js/kk-1.1.52.min.js"></script>
+  <script>
+    function wave2(name) {
+      var html = '<li><p class="img"><img width="120" height="120" src="' + name + '"></p><i>X</i></li>';
+      $('.preview').append($(html));
+    }
+
+    function take() {
+      //调用原生的方法，android为约定的别名；back()为原生的方法
+      var result = window.android.take();
+      //将返回结果显示在id为p的控件上
+    }
+
+    var appphp = [];
+
+    function wave3(bas) {
+      var html = '<li><p class="img"><img width="120" height="120" src="data:image/png;base64,' + bas + '"></p><i>X</i></li>';
+      $('.preview').append($(html));
+    }
+
+    $(function() {
+      /***************************** 页面初始化 *****************************/
+      //创建数据库类
+      var db = WebSql().openDB();
+      //判断是否是新增保单还是编辑保单
+      var policyId = localStorage.proposalId,
+        IMG_NUM = 0;
+      loadImg(policyId);
+      /***************************** 公用方法部分 *****************************/
+      //加载图片
+      function loadImg(id) {
+        db.query('SELECT * FROM imagetif WHERE policyUUID = ? ORDER BY id', [policyId], function(res) {
+          if (res.length) {
+            for (var i in res) {
+              html = '<li imgId="' + res[i].imageUUId + '"><p class="img"><img width="120" height="120" src="' + res[i].imgSrc + '"></p><i>X</i></li>';
+              $('.preview').append(html);
+            }
+          }
+        });
+      }
+
+      /***************************** 页面事件部分 *****************************/
+      var IMAGE_NUM = 0;
+      //        $('.photograph').click(function () {
+      //            take();
+      //
+      ////            kk.media.getPicture({
+      ////                sourceType: 'camera',
+      ////                destinationType: 'data',
+      ////                encodingType: 'jpeg',
+      ////                targetWidth: 800,
+      ////                targetHeight: 1000,
+      ////                quality: 100//图片压缩
+      ////
+      ////            }, function (res) {
+      ////                //res.imageFileOSPath, 可以直接设置为<img>标签的src来使用
+      ////                //res.imageURI,可以作为kk.media.save2album()的filepath，将相片保存到相册
+      ////                var html = '<li><p class="img"><img width="120" height="120" src="' + res.imageData + '"></p><i>X</i></li>';
+      ////                $('.preview').append($(html));
+      ////            }, function (code, msg) {
+      ////                console.log('错误信息:' + msg + ', 错误代码:' + code);
+      ////            });
+      //        })
+
+      //删除图片
+      $('.collection_main .preview').on('click', 'li i', function() {
+        var $li = $(this).parent(),
+          imgId = $li.attr('imgId');
+        if (imgId) {
+          db.exeSql('DELETE FROM imagetif WHERE policyUUID = ? AND imageUUId = ?', [policyId, imgId], function(res) {
+            res && $li.remove();
+          });
+        } else {
+          $li.remove();
+        }
+        //清空input缓存
+        $('.photocollection2 a input').val('');
+      });
+
+      //下一步
+      $('.beneficiary_btn .next').click(function() {
+        window.localStorage.custNum = '';
+        window.localStorage.custNum2 = '';
+        window.localStorage.newstate = '2';
+        localStorage.paperPolicy_zz = '';
+        localStorage.paperPolicy_dz = '';
+        localStorage.pizhuData = '';
+        localStorage.dlrData = '';
+        var $list = $('.preview li');
+        if (!$list.length) {
+          alert('请点击拍照');
+          return;
+        }
+        location.href = 'policypreview.html'
+        localStorage.status = '';
+        $list.each(function(index) {
+          var imgSrc = $(this).find('img').attr('src'),
+            imgNo = index + 1;
+          muuid = $(this).attr('imgId');
+          if (muuid) {
+            db.exeSql('UPDATE imagetif SET id = ? WHERE policyUUID = ? AND imageUUId = ?', [imgNo, policyId, muuid], function(res) {
+              if (index === $list.length - 1) location.href = 'policypreview.html';
+              window.localStorage.custNum = '';
+              window.localStorage.custNum2 = '';
+              window.localStorage.newstate = '2';
+              localStorage.paperPolicy_zz = '';
+              localStorage.paperPolicy_dz = '';
+              localStorage.fumansrc = '';
+            });
+          } else {
+            muuid = db.getUUID('PS', imgNo);
+            db.exeSql('INSERT INTO imagetif (imageUUId, policyUUID, id, imgSrc) VALUES(?, ?, ?, ?)', [muuid, policyId, imgNo, imgSrc], function(res) {
+              if (res && index === $list.length - 1) location.href = 'policypreview.html';
+              window.localStorage.custNum = '';
+              window.localStorage.custNum2 = '';
+              window.localStorage.newstate = '2';
+              localStorage.paperPolicy_zz = '';
+              localStorage.paperPolicy_dz = '';
+              localStorage.fumansrc = '';
+
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

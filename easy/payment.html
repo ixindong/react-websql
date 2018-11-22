@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>缴费信息</title>
+    <link rel="stylesheet" href="css/webapp_reset.css">
+    <link rel="stylesheet" href=css/style.css>
+    <style>
+    .email {
+        height: 25px;
+        line-height: 25px;
+        background: none;
+        font-size: 1em;
+        text-indent: .5em;
+        border: 1px solid #ddd;
+    }
+    /*加载样式*/
+
+    .loading {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .5);
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .loading_box {
+        height: 60px;
+        width: 90%;
+        margin: 0 auto;
+        background: rgba(255, 255, 2555, .9);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        line-height: 60px;
+        border-radius: 5px;
+    }
+
+    .loading_box>span {
+        margin-left: 20px;
+    }
+
+    .spinner {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        top: 20px;
+        margin: 0 0 10px 10px;
+    }
+
+    .container1>div,
+    .container2>div,
+    .container3>div {
+        width: 6px;
+        height: 6px;
+        background-color: #333;
+        border-radius: 100%;
+        position: absolute;
+        -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+        animation: bouncedelay 1.2s infinite ease-in-out;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+
+    .spinner .spinner-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .container2 {
+        -webkit-transform: rotateZ(45deg);
+        transform: rotateZ(45deg);
+    }
+
+    .container3 {
+        -webkit-transform: rotateZ(90deg);
+        transform: rotateZ(90deg);
+    }
+
+    .circle1 {
+        top: 0;
+        left: 0;
+    }
+
+    .circle2 {
+        top: 0;
+        right: 0;
+    }
+
+    .circle3 {
+        right: 0;
+        bottom: 0;
+    }
+
+    .circle4 {
+        left: 0;
+        bottom: 0;
+    }
+
+    .container2 .circle1 {
+        -webkit-animation-delay: -1.1s;
+        animation-delay: -1.1s;
+    }
+
+    .container3 .circle1 {
+        -webkit-animation-delay: -1.0s;
+        animation-delay: -1.0s;
+    }
+
+    .container1 .circle2 {
+        -webkit-animation-delay: -0.9s;
+        animation-delay: -0.9s;
+    }
+
+    .container2 .circle2 {
+        -webkit-animation-delay: -0.8s;
+        animation-delay: -0.8s;
+    }
+
+    .container3 .circle2 {
+        -webkit-animation-delay: -0.7s;
+        animation-delay: -0.7s;
+    }
+
+    .container1 .circle3 {
+        -webkit-animation-delay: -0.6s;
+        animation-delay: -0.6s;
+    }
+
+    .container2 .circle3 {
+        -webkit-animation-delay: -0.5s;
+        animation-delay: -0.5s;
+    }
+
+    .container3 .circle3 {
+        -webkit-animation-delay: -0.4s;
+        animation-delay: -0.4s;
+    }
+
+    .container1 .circle4 {
+        -webkit-animation-delay: -0.3s;
+        animation-delay: -0.3s;
+    }
+
+    .container2 .circle4 {
+        -webkit-animation-delay: -0.2s;
+        animation-delay: -0.2s;
+    }
+
+    .container3 .circle4 {
+        -webkit-animation-delay: -0.1s;
+        animation-delay: -0.1s;
+    }
+
+    @-webkit-keyframes bouncedelay {
+        0%,
+        80%,
+        100% {
+            -webkit-transform: scale(0.0)
+        }
+        40% {
+            -webkit-transform: scale(1.0)
+        }
+    }
+
+    @keyframes bouncedelay {
+        0%,
+        80%,
+        100% {
+            transform: scale(0.0);
+            -webkit-transform: scale(0.0);
+        }
+        40% {
+            transform: scale(1.0);
+            -webkit-transform: scale(1.0);
+        }
+    }
+
+    .bankQuota {
+        width: 90%;
+        border: 1px solid black;
+        margin: auto;
+        background: #FFFFFF;
+        margin-top: 10%;
+        padding-bottom: 20px;
+    }
+
+    .bankfirst {
+        background: red;
+    }
+
+    .bankform {
+        color: red;
+        text-align: center;
+        padding-top: 10px;
+    }
+
+    .bankQuota ul li {
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .bankQuota ul li:nth-child(odd) {
+        background: #ccc;
+    }
+
+    .bankQuota ul li span:nth-child(1) {
+        display: block;
+        float: left;
+        width: 25%;
+        text-align: center;
+    }
+
+    .bankQuota ul li span:nth-child(2) {
+        display: block;
+        height: 30px;
+        float: left;
+        width: 45%;
+        text-align: center;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .bankQuota ul li span:nth-child(3) {
+        display: block;
+        float: left;
+        width: 30%;
+        text-align: center;
+    }
+
+    .sentBankCard {
+        color: #808080;
+        height: 20px;
+        line-height: 20px;
+        text-indent: 15px;
+        padding: 10px 0 10px 0;
+    }
+
+    .bankMask {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .6);
+        position: fixed;
+        top: 0;
+        left: 0;
+        display: none;
+    }
+
+    .bankClose {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+    }
+
+    .bankClose img {
+        width: 15px;
+    }
+    </style>
+</head>
+
+<body>
+    <header><span>缴费信息</span><a href="../index.html" class="return">返回</a></header>
+    <section>
+        <div class="paymentInfo"></div>
+        <p class="beneficiary_btn clearfix"><a href="warrant.html">上一步</a><a href="javascript:;">下一步</a></p>
+    </section>
+    <form id="payment" action="">
+        <input type="hidden" name="uuid">
+        <input type="hidden" name="salesman">
+        <input type="hidden" name="paymap">
+        <input type="hidden" name="bankmap">
+        <input type="hidden" name="">
+    </form>
+    <!--                                模板                                   -->
+    <div class="tempalte-life">
+        <div id="tpl_payment">
+            <div class="payment" payId="{{payId}}">
+                <ul>
+                    <li class="clearfix">
+                        <p class="fl">投保单号：</p>
+                        <div class="fl">
+                            <input type="text" class="policyAuto" value="{{policyCode}}" disabled>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <p class="fl">首期缴费方式：</p>
+                        <div class="fl">
+                            <select class="paytype">
+                                <option value="0">转账支付</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <p class="fl">银行账号：</p>
+                        <div class="fl">
+                            <input type="number" value="{{bankaccount}}" class="bankaccount" />
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <p class="fl">开户名：</p>
+                        <div class="fl">
+                            <input type="text" value="{{accountname}}" class="accountname" disabled>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <p class="fl" style="position:  relative;top: 9px;">开户银行：</p>
+                        <span class="bankNorm" style="height: 20px; width: 40px;background: #ccc;">银行限额表</span>
+                        <div class="fl">
+                            <select class="bank_name">
+                                <option value="-1">请选择</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="clearfix">
+                        <p class="fl">续期缴费方式：</p>
+                        <div class="fl">
+                            <select class="roll_pay">
+                                <option value="0">转账支付</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="clearfix sign_con">
+                        <p class="fl">投保方式：</p>
+                        <div class="autograph_con fl">
+                            <input type="radio" name="autograph" value="20" id="autograph1" class="autograph_d" checked/>
+                            <label class="sign_list" for="autograph1">电子签名</label>
+                            <!-- <input type="radio" name="autograph" value="21" id="autograph2" class="autograph_z"/><label
+                            class="sign_list" for="autograph2">纸质签名</label> -->
+                        </div>
+                    </li>
+                    <li class="clearfix sign_con">
+                        <p class="fl">保单打印方式：</p>
+                        <div class="policy_con fl">
+                            <input type="radio" name="policy" value="24" id="policy1" class="policy_d" checked/>
+                            <label class="sign_list" for="policy1">电子保单</label>
+                            <!-- <input type="radio" name="policy" value="23" id="policy2" class="policy_z"/><label
+                            class="sign_list" for="policy2">纸质保单</label> -->
+                        </div>
+                    </li>
+                    <!--<li class="clearfix fenhong_type" style="display:none;">-->
+                    <!--<p class="fl">分红领取方式：</p>-->
+                    <!--<div class="policy_con policy_con_kl fl">-->
+                    <!--<input type="radio" name="fenhong" value="1" id="fenhong1" class="policy_d"/><label-->
+                    <!--class="sign_list" for="fenhong1">现金领取</label>-->
+                    <!--<input type="radio" name="fenhong" value="2" id="fenhong2" class="policy_z" checked/><label-->
+                    <!--class="sign_list" for="fenhong2">累积生息</label>-->
+                    <!--</div>-->
+                    <!--</li>-->
+                    <li>
+                        <div class="remind">
+                            <p>转账授权声明、您是否需要续期缴费提醒：</p>
+                            <p class="renew_con">
+                                <input type="radio" name="yes" value="1001" id="renew1" class="renew_y" />
+                                <label for="renew1" class="mr">是</label>
+                                <input type="radio" name="yes" value="1002" id="renew2" class="renew_n" checked/>
+                                <label for="renew2">否</label>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--填写邮箱弹层-->
+    <div class="insure_built insure_built_lb" id="proposal_mask">
+        <div class="mask">
+            <div class="mask_con">
+                <p class="mask_con_title">提示</p>
+                <div class="mask_con_main">
+                    <p>请输入邮箱:
+                        <input type="text" class="email">
+                    </p>
+                </div>
+                <div class="mask_con_btn">
+                    <p class="clearfix"><a href="javascript:;" class="fl btn_sub">确定</a><a href="javascript:;" class="fl btn_off">取消</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--银行限额列表弹层-->
+    <div class="bankMask">
+        <div class="bankQuota" style="position: relative;">
+            <span class="bankClose"><img src="images/icon_close.png"/></span>
+            <h1 class="bankform">银行限额表</h1>
+            <p class="sentBankCard">只支持借记卡，不支持信用卡和存折</p>
+            <ul style="height: 200px;overflow: auto;">
+                <li style="background: red;">
+                    <span>收款银行</span>
+                    <span>单笔限额</span>
+                    <span>备注</span>
+                </li>
+                <li class="bankfirst" style="background: #e51c23;">
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--加载动画-->
+    <div class="loading clearfix" style="display: block">
+        <div class="loading_box">
+            <div class="fl">
+                <div class="spinner">
+                    <div class="spinner-container container1">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container2">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                    <div class="spinner-container container3">
+                        <div class="circle1"></div>
+                        <div class="circle2"></div>
+                        <div class="circle3"></div>
+                        <div class="circle4"></div>
+                    </div>
+                </div>
+            </div>
+            <span class="fl">加载中,请稍后</span>
+        </div>
+    </div>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/style.js"></script>
+    <script src="js/websql.js"></script>
+    <script src="js/kk-1.1.52.min.js"></script>
+    <script>
+    $(function() {
+        /*************************************************  页面初始化  ************************************************/
+        //判断是否是新增保单还是编辑保单
+        var policyId = localStorage.proposalId;
+        //创建数据库类
+        var db = WebSql().openDB();
+        // 解决上页返回不显示问题
+
+
+        /*if(localStorage.yinList){
+            var yinList = localStorage.yinList
+        var yList = JSON.parse(yinList);
+        for(var i=0,len=yList.length;i<len;i++){
+            bankHTML += '<option value="'+data[i][0]+'">'+data[i][1]+'</option>';
+        }
+         $('#tpl_payment .payment .bank_name').append($(bankHTML))
+        }*/
+
+        /*************************************************  页面初始化  ************************************************/
+        // 如果是福满有分红方式
+        // var has = localStorage.has;
+        // var yes = localStorage.yes;
+        // if(has == 1) {
+        //     $('.fenhong_type').show();
+        //     if(yes == 1) {
+        //         $('.payment .policy_con_kl').find('#fenhong2').attr('checked', 'checked');
+        //     }
+        // }else {
+        //     $('.fenhong_type').hide();
+        // }
+        // if ($('section .fenhong_type').is(':visible')) {
+        //     localStorage.fumanfenhong = $('.fenhong_type input:checked').val();
+        // }
+        // var DividendsType = $('.policy_con_kl input:checked').val();
+        // if (policyId) {
+        //     db.exeSql('UPDATE product SET  dividends = ? WHERE policyUUID = ?', [DividendsType, policyId], function (res) {});
+        // } else {
+        //     db.exeSql('UPDATE product SET  dividends = ? WHERE policyUUID = ?', [ DividendsType, policyId], function (res) {});
+        // }
+        // 点击银行限额表弹层出现
+        var abc = {
+            keyValue: 'ddd'
+        }
+        var indexdata3 = {
+            index: 'bankLimit',
+            keySale: abc,
+            header: {
+                "token": localStorage.token,
+                "usercode": localStorage.usercode
+            },
+            body: {
+                "companyid": localStorage.companyid
+            }
+        };
+        (function(indexdata3) {
+            $.ajax({
+                type: 'POST',
+                // url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+                url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                data: JSON.stringify(indexdata3),
+                success: function(res) { //成功回调
+                    console.log(res)
+                    var data = JSON.parse(res);
+                    var data1 = data.bankLimit
+                    console.log(data1)
+                    var bankLimitHtml = '';
+                    for (var i = 0; i < data1.length; i++) {
+                        bankLimitHtml += '<li>' +
+                            '<span>' + data1[i].bankName + '</span>' +
+                            '<span>' + data1[i].bankLimit + '</span>' +
+                            '<span class="dataRemark" style="overflow-x: auto;white-space: nowrap;text-indent:3px;">' + (data1[i].remark ? data1[i].remark : '<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>') + '</span>' +
+                            '</li>'
+                    }
+                    $('.bankfirst').html(bankLimitHtml);
+                },
+                error: function(code, msg) { //失败回调
+                    //alert('代理请求失败,错误代码2：' + code + ' ,错误信息: ' + msg)
+                }
+            });
+        })(indexdata3)
+        var payData = {
+            policyId: policyId //保单号
+        };
+        var banid = localStorage.branchId;
+        yList();
+        var getpayYear = localStorage.payYear;
+        var productData = JSON.parse(localStorage.productData)
+        var xuqi = false
+        Object.keys(productData.productData.productData).map(prod => {
+            if (typeof(productData.productData.productData[prod]) != 'number') {
+                productData.productData.productData[prod].productList.map(res => {
+                    if (res.pay_code == 'term_1' || res.pay_code == 'single') {
+                        xuqi = true
+                    }
+                })
+            }
+
+
+        })
+        // var getpayYear = '1';
+        //alert(getpayYear)
+        if (xuqi == true) {
+            $('.payment .remind .renew_con').find('#renew2').prop('checked', true);
+            $('.payment .remind .renew_con').find('#renew1').prop('disabled', 'disabled');
+        } else {
+            $('.payment .remind .renew_con').find('#renew2').removeAttr('checked');
+            $('.payment .remind .renew_con').find('#renew1').attr('checked', 'checked');
+        }
+        (function() {
+
+        })()
+
+        //(function(){
+        function yList(callback) {
+            var indexdata = {
+                index: 'bankquery',
+                keySale: banid,
+                header: {
+                    "token": localStorage.token,
+                    "usercode": localStorage.usercode
+                },
+                body: {
+                    "companyid": localStorage.companyid
+
+                }
+            };
+
+            //            kk.ready(function( args ){
+            $.ajax({
+                // url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+                type: 'POST',
+                url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                data: JSON.stringify(indexdata),
+                dataType: 'json', //返回数据格式
+                success: function(data) { //成功回调
+                    var bankHTML = '';
+                    console.log('银行列表##' + data)
+                    localStorage.yinList = JSON.stringify(data)
+                    for (var i = 0, len = data.length; i < len; i++) {
+                        bankHTML += '<option value="' + data[i][0] + '">' + data[i][1] + '</option>';
+                    }
+                    $(bankHTML).appendTo($('#tpl_payment .payment .bank_name'));
+                    loadPay(policyId, function() {
+                        $('section .bankNorm').click(function() {
+                            //请求后台银行限额表的数据
+                            $('.bankMask').show();
+
+                        })
+                        $('.bankClose').click(function() {
+                            $('.bankMask').hide();
+
+                        })
+                    });
+                    //          callback&&callback()
+                    setTimeout(function() {
+                        $('.loading').hide();
+                    }, 1000)
+
+                },
+                error: function(code, msg) { //失败回调
+                    //alert('代理请求失败,错误代码1：' + code + ' ,错误信息: ' + msg)
+                }
+            });
+            //           });
+        }
+
+        //})()
+
+        //根据保单流水查询支付
+        function loadPay(id, callback) {
+            db.query('SELECT a.*,b.code FROM policypay a,policy b WHERE a.policyUUID = b.uuid AND b.uuid = ?', [id], function(res) {
+                if (res.length) {
+                    payMent(res[0]);
+                    callback && callback()
+                } else {
+                    var indexdata2 = {
+                        index: 'policyquery',
+                        keySale: policyId,
+                        header: {
+                            "token": localStorage.token,
+                            "usercode": localStorage.usercode
+                        },
+                        body: {
+                            "companyid": localStorage.companyid
+                        }
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        // url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+                        url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                        data: JSON.stringify(indexdata2),
+                        success: function(data) { //成功回调
+                            var data1 = JSON.parse(data).contNo;
+                            db.query('SELECT c.name FROM customer c JOIN policy a ON c.customerId = a.applicantUUID WHERE uuid = ?', [id], function(cust) {
+                                console.log('##' + cust.length)
+                                payMent(null, localStorage.touName, data1);
+                                $('.policyAuto').val(data1)
+                                callback && callback()
+                            });
+                        },
+                        error: function(code, msg) { //失败回调
+                            // alert('代理请求失败,错误代码2：' + code + ' ,错误信息: ' + msg)
+                        }
+                    });
+
+                }
+            });
+        }
+
+        //创建缴费DOM
+        function payMent(obj) {
+            console.log(obj, 'obj')
+            var tpl = _getHtml($('#tpl_payment')),
+                accountName = arguments[1],
+                code = arguments[2],
+                _html = tpl.replace(/\{\{payId\}\}/g, obj ? obj.policyPayUUID : '')
+                .replace(/\{\{policyCode\}\}/g, obj ? obj.code : code)
+                .replace(/\{\{bankaccount\}\}/g, obj ? obj.bankAccountCode : '')
+                .replace(/\{\{accountname\}\}/g, obj ? obj.bankAccountName : accountName);
+
+            var $html = $(_html).appendTo($('section .paymentInfo'));
+            //首期缴费方式
+            obj && $html.find('.paytype').val(obj.payTypeCode);
+            //开户银行
+            obj && $html.find('.bank_name').val(obj.bankCode);
+            //续期缴费添值
+            obj && $html.find('.roll_pay').val(obj.rollPayTypeCode);
+            //投保方式添值
+            obj && $html.find(obj.applytype === '20' ? '.autograph_d' : '.autograph_z').prop('checked', true);
+            //打印方式添值
+            obj && $html.find(obj.printtype === '24' ? '.policy_d' : '.policy_z').prop('checked', true);
+            //续费提醒
+            obj && $html.find(obj.remind === '1001' ? '.renew_y' : '.renew_n').prop('checked', true);
+        }
+
+        /*************************************************  页面事件部分  **********************************************/
+        //下一步 photocollection_2.html
+        $('.beneficiary_btn a:eq(1)').click(function() {
+
+            localStorage.aclick = '';
+            var oInput = $('.sign_con .autograph_d:checked'); //电子保单
+            var oInput2 = $('.sign_con .autograph_z:checked'); //纸质保单
+            if (oInput2.next().text() === '纸质签名') {
+                localStorage.paperPolicy = 'yes';
+            } else {
+                localStorage.paperPolicy = '';
+            }
+            if (policyId) {
+                //投保人
+                db.query('SELECT * FROM policy p JOIN customer c ON p.uuid = c.policyUUID  WHERE p.uuid=?', [policyId], function(res) {
+                    for (var i in res) {
+                        var custId = res[i].customerId;
+                        now = (new Date).Format('yyyy-MM-dd');
+                        if (!res[i].email && oInput.next().text() === '电子签名') {
+                            $('#proposal_mask').show();
+                            $('.btn_sub').click(function() {
+                                var val = $('#proposal_mask').find('.email').val();
+                                if (!val == '') {
+                                    if (!/^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/.test(val)) {
+                                        alert('请输入正确的邮箱');
+                                        return false;
+                                    } else {
+                                        db.exeSql('UPDATE customer SET  email = ?, lastModifiedDate = ? WHERE policyUUID = ? AND customerId = ?', [val, now, policyId, custId], function(res) {
+                                            bok = false;
+                                            $('#proposal_mask').hide();
+                                        });
+                                    }
+                                }
+                            })
+                        } else {
+                            var oList = $('.paymentInfo .payment ul');
+                            //投保单号
+                            var policyCode = oList.find('.policyAuto').val();
+                            //首期缴费方式
+                            var payType = oList.find('.paytype').val();
+                            //银行账号
+                            var bankAccount = oList.find('.bankaccount').val();
+                            if (!bankAccount) {
+                                alert('请填写银行账号');
+                                return false;
+                            }
+                            //开户名
+                            var accountName = oList.find('.accountname').val();
+                            //开户银行
+                            var bank = oList.find('.bank_name')[0],
+                                bankCode = bank.value;
+                            if (bankCode === '-1') {
+                                alert('请选择开户银行');
+                                return false;
+                            }
+                            var bankName = bank.options[bank.selectedIndex].text;
+                            //续期缴费方式
+                            var rollPay = oList.find('.roll_pay').val();
+                            //投保方式
+                            var autograph = oList.find('.autograph_con :checked').val();
+                            //保单打印方式
+                            var policy = oList.find('.policy_con :checked').val();
+                            //提醒
+                            var renew = oList.find('.renew_con :checked').val();
+                            //支付信息表流水
+                            var payUUID = oList.parent().attr('payId');
+                            //update 支付信息表 (支付流水,首期缴费方式,银行账号,开户名,开户银行,续期缴费方式,投保方式,保单打印方式,续期缴费提醒,保单流水)
+                            if (payUUID) {
+                                db.exeSql(
+                                    'UPDATE policypay SET bankName = ?, bankCode = ?, bankAccountName = ?, bankAccountCode = ?, value = ?, payTypeCode = ?, rollPayTypeCode = ?, remind = ?, applytype = ?, printtype = ? WHERE policyUUID = ? AND policyPayUUID = ?', [
+                                        bankName, bankCode, accountName, bankAccount, '1000.00', payType, rollPay, renew, autograph, policy, policyId, payUUID
+                                    ],
+                                    function(res) {
+                                        if (res) {
+                                            location.href = 'photocollection_2.html';
+                                        }
+                                    });
+                            } else {
+                                payUUID = db.getUUID('PP');
+                                //insert 支付信息表 (支付流水,首期缴费方式,银行账号,开户名,开户银行,续期缴费方式,投保方式,保单打印方式,续期缴费提醒,保单流水)
+                                db.exeSql(
+                                    'INSERT INTO policypay (policyPayUUID, policyUUID, bankName, bankCode, bankAccountName, bankAccountCode, value, payTypeCode, rollPayTypeCode, remind, applytype, printtype) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+                                        payUUID, policyId, bankName, bankCode, accountName, bankAccount, '1000.00', payType, rollPay, renew, autograph, policy
+                                    ],
+                                    function(res) {
+                                        if (res) {
+                                            db.exeSql('UPDATE policy SET PayUUID = ?,code = ? WHERE uuid = ?', [payUUID, policyCode, policyId], function(pres) {
+                                                if (pres) {
+                                                    location.href = 'photocollection_2.html';
+                                                }
+                                            });
+                                        }
+                                    });
+                            }
+                        }
+                    }
+                });
+            }
+        });
+        $('.btn_off').click(function() {
+            $('#proposal_mask').hide();
+        });
+        //支付方式选择
+        $('.paymentInfo').on('click', '.sign_list', function() {
+            var text = $(this).text();
+            if (text === '纸质签名') {
+                $(this).closest('li').next('li').find('.policy_z').prop('checked', true);
+                $('#policy1').attr('disabled', 'disabled');
+                $('#policy1').next().attr('for', '');
+                window.localStorage.newstate = ' ';
+            }
+            if (text === '电子签名') {
+                $('#policy1').removeAttr('disabled');
+                $('#policy1').next().attr('for', 'policy1');
+            }
+        });
+        $('.paymentInfo').on('click', '.sign_con input', function() {
+            var text = $(this).next().text();
+            if (text === '纸质签名') {
+                $(this).closest('li').next('li').find('.policy_z').prop('checked', true);
+                $('#policy1').attr('disabled', 'disabled');
+                $('#policy1').next().attr('for', '');
+                window.localStorage.newstate = ' ';
+            }
+            if (text === '电子签名') {
+                $('#policy1').removeAttr('disabled');
+                $('#policy1').next().attr('for', 'policy1');
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>

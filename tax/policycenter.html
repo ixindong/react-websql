@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>保单中心</title>
+    <link rel="stylesheet" href="css/webapp_reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobiscroll_date.css">
+    <style>
+        .policy_table_box{
+            height:85%;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body>
+<header><span>保单中心</span><a href="../index.html" class="return">返回</a></header>
+<section id="policycenter">
+    <ul class="policycenter">
+        <li class="clearfix">
+            <p class="fl">投保单号：</p>
+            <div class="fl"><input type="text" onkeyup="this.value=this.value.replace(/[, ]/g,'')" class="oddnum searchCode"  @keyup="restoration"/></div>
+        </li>
+        <li class="clearfix">
+            <p class="fl">投保人姓名：</p>
+            <div class="fl"><input type="text" onkeyup="this.value=this.value.replace(/[, ]/g,'')" class="oddnum searchName"  @keyup="restoration"/></div>
+        </li>
+
+        <li class="clearfix menubtn">
+            <p class="fr">
+                <a href="javascript:;" @click="search">搜索</a>
+                <a href="javascript:;" @click="reset">重置</a>
+                <a href="../newProductlist.html.html">新建</a>
+            </p>
+        </li>
+    </ul>
+    <div class='policy_table_box'>
+        <table class="addclient_preview_table policy_table mb15">
+            <tr>
+                <th width="23%"><p>投保单号</p></th>
+                <th width="19%"><p>投保人</p></th>
+                <th width="35%"><p>主险</p></th>
+                <th><p>时间</p></th>
+            </tr>
+            <tr class="table_list" v-for="(item,index) in policycen" :policyid="item.uuid" :productlist="item.productList" v-if="item.abbrName=='福满人生两全保险（分红型）'||item.productList" v-if="item.abbrName=='百万安行'||item.abbrName=='健康天使个人重大疾病保险'||item.abbrName=='康乐尊享'||item.abbrName=='康利人生两全保险（分红型）'||item.abbrName=='康乐人生个人长期重疾保障计划(A 款)'||item.abbrName=='关爱专家终身重疾个人疾病保险'">
+                <td @click="oP" style="overflow-x: auto;white-space: nowrap;"><p><a href="javascript:;" v-text="item.code" ></a></p></td>
+                <td><p v-text="item.name"></p></td>
+                <td class="insure_name"><p v-text="item.abbrName"></p></td>
+                <td><p v-text="item.lastModifiedTime||item.policyDate"></p></td>
+            </tr>
+        </table>
+    </div>
+    <!--<div class="pages mb15">-->
+    <!--<div class="clearfix">-->
+    <!--<span class="fl">共16条</span>-->
+    <!--<div class="fl pages_btn clearfix">-->
+    <!--<a href="javascript:;" class="prev fl">上一页</a>-->
+    <!--<ul class="fl clearfix">-->
+    <!--<li><a href="javascript:;">1</a></li>-->
+    <!--<li><a href="javascript:;">2</a></li>-->
+    <!--</ul>-->
+    <!--<a href="javascript:;" class="next fl">下一页</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+</section>
+<!-- 返回顶部 -->
+<a href="javascript:;" class="return_btn"></a>
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/style.js"></script>
+<script src="js/mobiscroll_date.js"></script>
+<script src="js/mobiscroll.js"></script>
+<script src="js/websql.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="js/style.js"></script>
+<script>
+    $(function(){
+        /*************************************************  页面初始化  ************************************************/
+            //创建数据库类
+        var db = WebSql().openDB();
+        //判断是否是新增保单还是编辑保单
+        var policyId = localStorage.proposalId;
+        var policyCode = localStorage.policyCode;
+        //获取数据
+        var dataPolicy = [],policy = null;
+        loadMsg();
+        function loadMsg(){
+            //保单及产品信息
+            var sql = 'SELECT p.uuid,p.code,p.productList,p.lastModifiedTime,p.policyDate,c.name,d.abbrName FROM policy p '
+                +     'LEFT JOIN customer c ON p.uuid = c.policyUUID AND p.applicantUUID = c.customerId '
+                +     'LEFT JOIN product d ON p.uuid = d.policyUUID '
+                +     'WHERE p.agentcode = ?'
+                +     'ORDER BY policyDate AND lastModifiedTime DESC';
+            db.query(sql, [localStorage.logcode], function(res){
+                // console.log(res)
+                // res.forEach(function(v) {
+                //     console.log(v.abbrName)
+                //     if(v.abbrName != '百万安行' || v.abbrName != '健康天使个人重大疾病保险' || v.abbrName != '康乐尊享' || v.abbrName != '康利人生两全保险（分红型）') {
+                //
+                //     }
+                // })
+                console.log(res,'res')
+                if(res.length){
+                    dataPolicy = uniqueArr(res);
+                    policy = new Vue({
+                        el:'#policycenter',
+                        data:{
+                            policycen:dataPolicy,
+                            searchName:'',
+                            searchCode:''
+                        },
+                        methods:{
+                            //重置输入框
+                            reset:function(){
+                                $('.oddnum').val('');
+                                this.policycen=dataPolicy;
+                            },
+                            oP:function(e){
+                                var _this = $(e.target);
+                                var policyNum = _this.closest('tr').attr('policyid');
+                                var productlist = _this.closest('tr').attr('productlist');
+                                var insureName = _this.closest('tr').find('.insure_name').text();
+                                // if(insureName != '百万安行' || insureName != '健康天使个人重大疾病保险' || insureName != '康乐尊享' || insureName != '康利人生两全保险（分红型）') {
+                                //     $('.policy_table_box')
+                                // }
+                                localStorage.policyNum = policyNum;
+                                localStorage.insureName = insureName;
+//                            localStorage.productList = productlist;
+                                window.location.href ='policydetails.html';
+                            },
+                            //搜索
+                            /*  search:function(){
+                                  var arr = this.policycen;
+                                  var name = this.searchName;
+                                  var code = this.searchCode;
+                                  if(code.length == 0 && name.length == 0){
+                                      alert('投保单号或用户名至少要有一个不能为空');
+                                  }else if(code == ' ' && name == ' '){
+                                      alert('投保单号或用户名至少要有一个不能为空');
+                                  }else if(code == null && name == null){
+                                      alert('投保单号或用户名至少要有一个不能为空');
+                                  }else{
+                                      if(this.policycen.name == name || this.policycen.code == code){
+                                      this.policycen = this.policycen.filter(function(v){
+                                          return v.name == name||v.code==code
+                                      });
+                                      }else{
+                                       alert('用户信息不存在');
+                                       }
+                                  }
+                              },*/
+
+                            //搜索
+                            search:function(){
+                                var name = $('.searchName').val();
+                                var code = $('.searchCode').val();
+                                var reg = '^[ ]+$';
+                                var re = new RegExp(reg);
+                                var arrName = [];
+                                var arrCode = [];
+//                            if(name==''||re.test(name)){
+//                                alert('请输入关键字');
+//                                return false;
+//                            }
+                                this.policycen.forEach(function(v){
+                                    arrName.push(v.name);
+                                    arrCode.push(v.code);
+                                });
+                                if(arrName.indexOf(name)!=-1||arrCode.indexOf(code)!=-1){
+                                    this.policycen = this.policycen.filter(function(v){
+                                        return v.name == name||v.code == code
+                                    });
+                                }else{
+                                    alert('没有此信息')
+                                }
+                            },
+                            restoration:function(event){
+                                var _this = $(event.target).val();
+                                if(_this==''){
+                                    this.policycen=dataPolicy;
+                                }
+                            }
+                        }
+                    });
+                }else{
+                    $('.table_list').hide();
+                    alert('暂无数据');
+                }
+            });
+        }
+        //数组去重(相同的属性)
+        function uniqueArr(arr, parm){
+            var n = {},r=[];//n为hash表，r为临时数组
+            for(var i =0,len=arr.length;i<len;i++){
+                //如果hash表中没有当前code项
+                if(!n[arr[i].uuid]){
+                    n[arr[i].uuid] = true;////存入hash表
+                    r.push(arr[i]);
+                }
+            }
+            return r;
+        }
+
+        /*************************************************  页面事件部分  **********************************************/
+            //日期初始化
+        var currYear = (new Date()).getFullYear();
+        var opt={};
+        opt.date = {preset : 'date'};
+        opt.datetime = {preset : 'datetime'};
+        opt.time = {preset : 'time'};
+        opt.default = {
+            theme: 'android-ics light', //皮肤样式
+            display: 'modal', //显示方式
+            mode: 'scroller', //日期选择模式
+            dateFormat: 'yyyy-mm-dd',
+            lang: 'zh',
+            showNow: true,
+            nowText: "今天",
+            startYear: currYear - 50, //开始年份
+            endYear: currYear + 10 //结束年份
+        };
+        $("#time1").mobiscroll($.extend(opt['date'], opt['default']));
+        $("#time2").mobiscroll($.extend(opt['date'], opt['default']));
+
+    });
+</script>
+</body>
+</html>

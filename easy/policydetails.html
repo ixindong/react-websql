@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>保单详情</title>
+    <link rel="stylesheet" href="css/webapp_reset.css">
+    <link rel="stylesheet" href=css/style.css>
+    <style>
+    .details_layer .mask_con {
+        height: 94%;
+        overflow: hidden;
+    }
+
+    .policy_status a {
+        cursor: default;
+        display: block;
+    }
+
+    .btn_con,
+    .policy_status {
+        width: 64% !important;
+    }
+
+    .btn_con>p {
+        margin-bottom: 10px;
+    }
+
+    .loading {
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .5);
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .loading_box {
+        height: 60px;
+        width: 90%;
+        margin: 0 auto;
+        background: rgba(255, 255, 2555, .9);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translateY(-50%) translateX(-50%);
+        line-height: 60px;
+        border-radius: 5px;
+    }
+
+    .loading_box>span {
+        margin-left: 20px;
+    }
+
+    .spinner {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        top: 20px;
+        margin: 0 0 10px 10px;
+    }
+
+    .container1>div,
+    .container2>div,
+    .container3>div {
+        width: 6px;
+        height: 6px;
+        background-color: #333;
+        border-radius: 100%;
+        position: absolute;
+        -webkit-animation: bouncedelay 1.2s infinite ease-in-out;
+        animation: bouncedelay 1.2s infinite ease-in-out;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+    }
+
+    .spinner .spinner-container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .container2 {
+        -webkit-transform: rotateZ(45deg);
+        transform: rotateZ(45deg);
+    }
+
+    .container3 {
+        -webkit-transform: rotateZ(90deg);
+        transform: rotateZ(90deg);
+    }
+
+    .circle1 {
+        top: 0;
+        left: 0;
+    }
+
+    .circle2 {
+        top: 0;
+        right: 0;
+    }
+
+    .circle3 {
+        right: 0;
+        bottom: 0;
+    }
+
+    .circle4 {
+        left: 0;
+        bottom: 0;
+    }
+
+    .container2 .circle1 {
+        -webkit-animation-delay: -1.1s;
+        animation-delay: -1.1s;
+    }
+
+    .container3 .circle1 {
+        -webkit-animation-delay: -1.0s;
+        animation-delay: -1.0s;
+    }
+
+    .container1 .circle2 {
+        -webkit-animation-delay: -0.9s;
+        animation-delay: -0.9s;
+    }
+
+    .container2 .circle2 {
+        -webkit-animation-delay: -0.8s;
+        animation-delay: -0.8s;
+    }
+
+    .container3 .circle2 {
+        -webkit-animation-delay: -0.7s;
+        animation-delay: -0.7s;
+    }
+
+    .container1 .circle3 {
+        -webkit-animation-delay: -0.6s;
+        animation-delay: -0.6s;
+    }
+
+    .container2 .circle3 {
+        -webkit-animation-delay: -0.5s;
+        animation-delay: -0.5s;
+    }
+
+    .container3 .circle3 {
+        -webkit-animation-delay: -0.4s;
+        animation-delay: -0.4s;
+    }
+
+    .container1 .circle4 {
+        -webkit-animation-delay: -0.3s;
+        animation-delay: -0.3s;
+    }
+
+    .container2 .circle4 {
+        -webkit-animation-delay: -0.2s;
+        animation-delay: -0.2s;
+    }
+
+    .container3 .circle4 {
+        -webkit-animation-delay: -0.1s;
+        animation-delay: -0.1s;
+    }
+
+    @-webkit-keyframes bouncedelay {
+        0%,
+        80%,
+        100% {
+            -webkit-transform: scale(0.0)
+        }
+        40% {
+            -webkit-transform: scale(1.0)
+        }
+    }
+
+    @keyframes bouncedelay {
+        0%,
+        80%,
+        100% {
+            transform: scale(0.0);
+            -webkit-transform: scale(0.0);
+        }
+        40% {
+            transform: scale(1.0);
+            -webkit-transform: scale(1.0);
+        }
+    }
+
+    .main_msg_info li:last-child {
+        border-left: 1px solid #333;
+    }
+
+    .loading_box i.close {
+        width: 20px;
+        height: 20px;
+        background: rgba(0, 0, 0, .6);
+        color: #fff;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 15px;
+        font-style: normal;
+        border-radius: 50%;
+    }
+
+    .zr_con {
+        display: none;
+    }
+
+    .details_layer_info {
+        height: 100%;
+    }
+
+    .con_main_confirm {
+        background: #fff;
+    }
+
+    .baiwan_title {
+        display: none;
+    }
+
+    .kangle table {
+        width: 100%;
+    }
+
+    .kangle table tr,
+    .kangle table td,
+    .kangle table th {
+        border: 1px solid #000;
+    }
+
+    .zr_con1 {
+        display: none;
+    }
+
+    .fuxName {
+        display: none;
+    }
+    </style>
+</head>
+
+<body>
+    <header><span>保单详情</span><a href="javascript:;" class="return">返回</a></header>
+    <section id="policydetails">
+        <div class="details">
+            <ul class="details_list">
+                <li class="clearfix">
+                    <span>投保单号：</span>
+                    <span class="policy_code1">{{policyInfo.code||'暂无信息'}}</span>
+                </li>
+                <li class="clearfix">
+                    <span>投保人：</span>
+                    <span id="tname">{{tbInfo||'暂无信息'}}</span>
+                </li>
+                <li class="clearfix">
+                    <span>被投保人：</span>
+                    <span class="beiname" v-for="item in policycen.cust">{{item.name ||'暂无信息'}}&nbsp;&nbsp;</span>
+                </li>
+                <li class="clearfix">
+                    <span>主险：</span>
+                    <span>{{policycen.insureName ||'暂无信息'}}</span>
+                </li>
+                <li class="clearfix">
+                    <span>保费：</span>
+                    <span class="baofei">{{policyAll}}</span>
+                </li>
+                <li class="clearfix">
+                    <span>保额：</span>
+                    <span>{{productlist.amount[0]}}元</span>
+                </li>
+                <li class="clearfix insu_type">
+                    <span class="type_span">投保方式：</span>
+                    <span v-if="insuranceMode.mode[0]==='20'">电子签名</span><span v-else>纸质签名</span>
+                </li>
+                <li class="clearfix">
+                    <span id="dytype">保单打印方式：</span>
+                    <span v-if="insuranceMode.print[0]==='24'">电子保单</span><span v-else>纸质保单</span>
+                </li>
+                <li class="clearfix">
+                    <span>修改时间：</span>
+                    <span>{{policyInfo.time||'暂无信息'}}</span>
+                </li>
+                <li class="clearfix lh28">
+                    <span>状态：</span>
+                    <p class="clearfix policy_status">
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '1000'" class="state_style1">未填完</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '1010'" class="state_style1" @click="newData">已填完</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '2000'" class="state_style1" @click="newData">已投保</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3001'" class="state_style1" @click="newData">核保中</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3002'" class="state_style1" @click="newData">待签单</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3005'" class="state_style1" @click="newData">待付款</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3010'" class="state_style1" @click="newData">支付中</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3020'" class="state_style1" @click="newData">已付款</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3050'" class="state_style1" @click="newData">处理中</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3200'" class="state_style1">已签收</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3100'" class="state_style1">已发送</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3300'" class="state_style1" @click="newData">发送中</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4000'" class="state_style1" @click="newData">已承保</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4001'" class="state_style1" @click="newData">拒保</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4002'" class="state_style1" @click="newData">逾期</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4003'" class="state_style1" @click="newData">查询失败</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4004'" class="state_style1">已签单</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4005'" class="state_style1" @click="newData">保单终止</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4006'" class="state_style1" @click="newData">保单申请</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4010'" class="state_style1">投保失败</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4020'" class="state_style1" @click="newData">已撤销</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4030'" class="state_style1" @click="newData">支付失败</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4050'" class="state_style1" @click="newData">新单复核</a>
+                        <a href="javascript:;" v-if="parseInt(policyInfo.status) == '4052'" class="state_style1" @click="newData">保单中止</a>
+                    </p>
+                </li>
+                <li class="clearfix lh28">
+                    <span class="fl">操作：</span>
+                    <div class="fl btn_con">
+                        <p class="clearfix operation">
+                            <a href="javascript:;" class="state_style1 nopreview_1" @click="preview">预览</a>
+                            <a href="javascript:;" class="state_style1" v-if="parseInt(policyInfo.status) == '1000'|| parseInt(policyInfo.status) == '4010' " @click="compile">编辑</a>
+                            <a href="javascript:;" class="state_style2" v-else>编辑</a>
+                            <a href="javascript:;" class="state_style1" v-if="parseInt(policyInfo.status) == '1000'|| parseInt(policyInfo.status) == '4010'|| parseInt(policyInfo.status) == '3100' || parseInt(policyInfo.status) == '4020'|| parseInt(policyInfo.status) == '4001'|| parseInt(policyInfo.status) == '4002' || parseInt(policyInfo.status) == '4003' || parseInt(policyInfo.status) == '4005' || parseInt(policyInfo.status) == '4052'" @click="deletePolicy">删除</a>
+                            <a href="javascript:;" class="state_style2" v-else>删除</a>
+                        </p>
+                        <p class="clearfix operation">
+                            <a href="javascript:;" class="state_style1 send_btn" @click="send">发送</a>
+                            <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3200'" class="state_style2 signup_1">签收</a>
+                            <a href="javascript:;" v-if="parseInt(policyInfo.status) != '3200'" class="state_style1 signup_1" @click="receipt">签收</a>
+                            <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3200'" class="state_style2 nosend_" v-show="show">补发</a>
+                            <a href="javascript:;" v-if="parseInt(policyInfo.status) == '3200'" class="state_style1 nosend_1" @click="send">补发</a>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <p class="details_menu clearfix" style='text-align:center'>
+        </p>
+            <!--加载动画-->
+            <div class="loading clearfix" v-if="show">
+                <div class="loading_box" id="login">
+                    <div class="fl">
+                        <div class="spinner">
+                            <div class="spinner-container container1">
+                                <div class="circle1"></div>
+                                <div class="circle2"></div>
+                                <div class="circle3"></div>
+                                <div class="circle4"></div>
+                            </div>
+                            <div class="spinner-container container2">
+                                <div class="circle1"></div>
+                                <div class="circle2"></div>
+                                <div class="circle3"></div>
+                                <div class="circle4"></div>
+                            </div>
+                            <div class="spinner-container container3">
+                                <div class="circle1"></div>
+                                <div class="circle2"></div>
+                                <div class="circle3"></div>
+                                <div class="circle4"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="fl">
+            加载中,请稍后
+            <i class="close">X</i>
+        </span>
+                </div>
+            </div>
+    </section>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/style.js"></script>
+    <script src="js/websql.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/style.js"></script>
+    <script src="js/kk-1.1.52.min.js"></script>
+    <script src="js/data.js"></script>
+    <script>
+    $(function() {
+        function calculate(num, time) {
+            var arr = [];
+            while (time--) {
+                arr.push(num);
+            }
+            return arr.join(' ');
+        }
+
+        var aaaaaa = '';
+        var data = 0;
+        var data2 = 0;
+        var bok_aa = true;
+
+        //var localStorage.money_aa = ''
+        /*************************************************  页面初始化  ************************************************/
+        function getAge(birth) {
+            var arr = birth.split('-'),
+                year1 = arr[0],
+                mon1 = arr[1],
+                day1 = arr[2],
+                now = new Date(),
+                year2 = now.getFullYear(),
+                mon2 = now.getMonth() + 1,
+                day2 = now.getDate(),
+                ageDiff = year2 - year1,
+                returnAge;
+            if (!ageDiff) return 0; //同年 则为0岁
+            if (ageDiff < 0) return -1; //表示出生日期输入错误 晚于今天
+            if (mon2 == mon1) {
+                return (day2 - day1 < 0 ? ageDiff - 1 : ageDiff);
+            } else {
+                return (mon2 - mon1 < 0 ? ageDiff - 1 : ageDiff);
+            }
+        }
+
+        //创建数据库类
+        var db = WebSql().openDB();
+        //获保单号
+        var policyNum = localStorage.policyNum;
+        //获取主险名字
+        var insureName = localStorage.insureName;
+        //附险
+        var productList = localStorage.productList;
+        //获取数据
+        var dataPolicy = {
+            policy: [], //保单信息
+            tbperson: [], //投保人
+            cust: [], //被保人信息
+            product: [], //产品信息
+            pay: [], //支付信息
+            insureName: insureName, //主险名称
+            plan: [], //计划信息
+            policymoner: [], //总保费
+            agent: [], //业务员表
+            fux: [] //附加险表
+        };
+
+        loadMsg(policyNum);
+
+        function loadMsg(id) {
+            $('.agenname').text(localStorage.salename);
+            $('.agenphone').text(localStorage.agenphone);
+            //保单信息
+            db.query('SELECT * FROM policy WHERE uuid = ?', [id], function(res) {
+                var arr = [];
+                for (var i in res) {
+
+                    dataPolicy.policy.push(res[i]);
+                }
+                if (res.length) {
+                    //被保人
+                    db.query('SELECT * FROM customer c JOIN plan p ON c.customerId = p.insuredId WHERE p.policyUUID = ? ORDER BY id', [id], function(custInfo) {
+                        for (var i in custInfo) {
+                            dataPolicy.cust.push(custInfo[i]);
+                        }
+                    });
+                    //投保人信息
+                    db.query('SELECT * FROM policy p JOIN customer c ON p.uuid = c.policyUUID And p.applicantUUID = c.customerId  WHERE p.uuid=?', [id], function(bres) {
+                        for (var i in bres) {
+                            dataPolicy.tbperson.push(bres[i]);
+                        }
+                    });
+                    //产品信息
+                    db.query('SELECT * FROM product WHERE policyUUID = ?', [id], function(res) {
+                        for (var i in res) {
+                            dataPolicy.product.push(res[i])
+                        }
+                    });
+                    //支付信息
+                    db.query('SELECT * FROM policypay WHERE policyUUID = ?', [id], function(res) {
+                        for (var i in res) {
+                            dataPolicy.pay.push(res[i]);
+                        }
+                    });
+                    //计划信息
+                    db.query('SELECT * FROM plan p JOIN product pr ON p.planUUID = pr.planUUID WHERE p.policyUUID = ?', [id], function(res) {
+                        for (var i in res) {
+                            dataPolicy.plan.push(res[i]);
+                        }
+                    });
+                    //总保费
+                    db.query('SELECT * FROM premium WHERE policyUUID = ?', [id], function(res) {
+                        for (var i in res) {
+                            dataPolicy.policymoner.push(res[i])
+                        }
+                    });
+                    //业务员表
+                    db.query('SELECT a.* FROM agentinfo a JOIN policy p ON a.groupAgentCode = p.agentcode  WHERE p.uuid=?', [id], function(ares) {
+                        for (var i in ares) {
+                            dataPolicy.agent.push(ares[i])
+                        }
+                    });
+                    //附加险addInsurance
+                    db.query('SELECT * FROM addInsurance WHERE policyUUID = ?', [id], function(res) {
+                        for (var i in res) {
+                            dataPolicy.fux.push(res[i]);
+                        }
+                    });
+                }
+            });
+        }
+
+        var policy = new Vue({
+            el: '#policydetails',
+            data: {
+                policycen: dataPolicy,
+                show: false,
+            },
+            filters: {
+                formateTotal: function(plans, custId, fux) {
+                    var money = 0,
+                        money_1 = 0,
+                        money_2 = 0;
+                    plans.forEach(function(item) {
+                        if (item.insuredId == custId) {
+                            money_1 += +item.premium;
+                            $(fux).each(function(i, v) {
+                                if (v.addUUID == item.productUUID) {
+                                    money_2 += +v.premium;
+                                }
+                            });
+                            money += money_1 + money_2;
+                        }
+                    });
+                    return money;
+                }
+            },
+            computed: {
+                //保单id
+                policyNo: function() {
+                    var msg = this.policycen.product;
+                    var arr1 = []
+                    msg.forEach(function(v) {
+                        arr1.push(v.planNo)
+                    })
+                    return arr1;
+                },
+                //康乐尊享年龄计算
+                //康乐保单年度末
+                kage: function() {
+                    var cust = this.policycen.cust;
+                    var pro = this.policycen.product;
+                    var age = [];
+                    var arr = [];
+                    var arr2 = [];
+                    var arr3 = [];
+                    var all = {};
+                    cust.forEach(function(c, cv) {
+                        var policyId = c.policyUUID;
+                        pro.forEach(function(i, v) {
+                            if (policyId == i.policyUUID) {
+                                if (c.id == i.planNo && i.abbrName == '康乐尊享') {
+                                    age.push(getAge(c.birthday) + 1);
+                                }
+                            }
+                        });
+                    });
+                    for (var i = age[0]; i <= 106; i++) {
+                        arr.push(i)
+                    }
+                    for (var j = age[1]; j <= 106; j++) {
+                        arr2.push(j)
+                    }
+                    for (var k = age[2]; k <= 106; k++) {
+                        arr3.push(k)
+                    }
+                    all.a = arr;
+                    all.b = arr2;
+                    all.c = arr3;
+                    return all
+                },
+                //康乐保单年度
+                kages: function() {
+                    var cust = this.policycen.cust;
+                    var pro = this.policycen.product;
+                    var age = [];
+                    var arr = [];
+                    var arr2 = [];
+                    var arr3 = [];
+                    var all = {};
+                    cust.forEach(function(c, cv) {
+                        var policyId = c.policyUUID;
+                        pro.forEach(function(i, v) {
+                            if (policyId == i.policyUUID) {
+                                if (c.id == i.planNo && i.abbrName == '康乐尊享') {
+                                    age.push(getAge(c.birthday));
+                                }
+                            }
+                        });
+                    });
+                    return age
+                },
+                //康乐年交保费
+                yearmoney: function() {
+                    var cust = this.policycen.cust;
+                    var pro = this.policycen.product;
+                    var year = [];
+                    cust.forEach(function(c, cv) {
+                        var policyId = c.policyUUID;
+                        pro.forEach(function(i, v) {
+                            if (policyId == i.policyUUID) {
+                                if (c.id == i.planNo && i.abbrName == '康乐尊享') {
+                                    year.push(i.payValue);
+                                }
+                            }
+                        });
+                    });
+                    return year
+                },
+                //总保费
+                policyAll: function() {
+                    var sum_data = 0;
+                    var msg = this.policycen.product;
+                    var msg2 = this.policycen.fux;
+                    // var data = '';
+                    msg.forEach(function(v) {
+                        data = data + Number(v.premium);
+                    });
+                    msg2.forEach(function(v2) {
+                        data2 = data2 + Number(v2.premium);
+                    });
+                    sum_data = data + data2;
+                    var name_id = this.policycen.insureName;
+                    if (data2 == 0 && name_id != '康乐尊享') {
+                        sum_data = 0;
+                        data = 0;
+                    }
+                    if (data2 == 0 && name_id == '守护天使少儿特定疾病保险'||data2 == 0 && name_id == '福满人生两全保险（分红型）') {
+                        msg.forEach(function(v) {
+                            sum_data = data + Number(v.premium);
+                        });
+                        return sum_data;
+                    }
+                    if (bok_aa) {
+                        return sum_data;
+                    } else {
+                        $('.baofei').text(localStorage.money_aa)
+                    }
+                },
+                //附加险id
+                fuId: function() {
+                    var data = this.policycen.fux,
+                        fuUUID = [];
+                    data.forEach(function(v) {
+                        fuUUID.push(v);
+                    });
+                    return fuUUID;
+                },
+                //投保方式
+                insuranceMode: function() {
+                    var msg = this.policycen.pay,
+                        data = {
+                            mode: [],
+                            print: []
+                        };
+                    msg.forEach(function(v) {
+                        data.mode.push(v.applytype);
+                        data.print.push(v.printtype);
+                    })
+                    return data
+                },
+                tbInfo: function() {
+                    var msg = this.policycen.tbperson,
+                        name;
+                    msg.forEach(function(v) {
+                        name = v.name;
+                    });
+                    return name
+                },
+                policyInfo: function() {
+                    var msg = this.policycen.policy,
+                        insurance = {};
+                    msg.forEach(function(v) {
+                        insurance.code = v.code;
+                        insurance.time = v.policyDate;
+                        insurance.status = v.status;
+                    });
+                    return insurance;
+                },
+                sexCode: function() {
+                    var sex = this.policycen.cust,
+                        sexCode;
+                    sex.forEach(function(v) {
+                        sexCode = v.genderCode;
+                    });
+                    return sex
+                },
+                age: function() {
+                    //birthday
+                    function getAge(birth) {
+                        var arr = birth.split('-'),
+                            year1 = arr[0],
+                            mon1 = arr[1],
+                            day1 = arr[2],
+                            now = new Date(),
+                            year2 = now.getFullYear(),
+                            mon2 = now.getMonth() + 1,
+                            day2 = now.getDate(),
+                            ageDiff = year2 - year1,
+                            returnAge;
+                        if (!ageDiff) return 0; //同年 则为0岁
+                        if (ageDiff < 0) return -1; //表示出生日期输入错误 晚于今天
+                        if (mon2 == mon1) {
+                            return (day2 - day1 < 0 ? ageDiff - 1 : ageDiff);
+                        } else {
+                            return (mon2 - mon1 < 0 ? ageDiff - 1 : ageDiff);
+                        }
+                    }
+
+                    //birthday
+                    var ages = this.policycen.cust;
+                    var ageNum = [];
+                    ages.forEach(function(v) {
+                        ageNum.push(getAge(v.birthday));
+                    });
+                    return ageNum;
+                },
+                productlist: function() {
+                    var data = this.policycen.product,
+                        con = {
+                            name: [],
+                            abbrName: [],
+                            grade: [], //暂无数据
+                            time: [], //暂无数据
+                            premium: [], //暂无数据
+                            amount: [],
+                            payPeriod: [],
+                            insurePeriod: []
+                        };
+                    data.forEach(function(v) {
+                        con.name.push(v.name);
+                        con.abbrName.push(v.abbrName);
+                        con.premium.push(v.premium);
+                        con.amount.push(v.amount);
+                        con.payPeriod.push(v.payPeriod);
+                        con.insurePeriod.push(v.insurePeriod);
+                    });
+                    return con
+                },
+                //总保费
+                totalPrice: function() {
+                    return this.policycen.plan;
+                }
+            },
+            methods: {
+                //删除保单
+                deletePolicy: function() {
+                    var id = policyNum;
+                    if (this.policyInfo.status == '1000' || this.policyInfo.status == '4010') {
+                        db.exeSql('DELETE FROM policy WHERE uuid = ?', [id], function(res) {
+                            if (res) {
+                                db.exeSql('DELETE FROM plan WHERE policyUUID = ?', [id], function(res) {
+                                    if (res) {
+                                        db.exeSql('DELETE FROM product WHERE policyUUID = ?', [id], function(res) {
+                                            if (res) {
+                                                db.exeSql('DELETE FROM customer WHERE policyUUID = ?', [id], function(res) {
+                                                    if (res) {
+                                                        db.exeSql('DELETE FROM questAnswer WHERE policyUUID = ?', [id], function(res) {
+                                                            if (res) {
+                                                                db.exeSql('DELETE FROM benefit WHERE policyUUID = ?', [id], function(res) {
+                                                                    if (res) {
+                                                                        db.exeSql('DELETE FROM policypay WHERE policyUUID = ?', [id], function(res) {
+                                                                            if (res) {
+                                                                                db.exeSql('DELETE FROM imagetif WHERE policyUUID = ?', [id], function(res) {
+                                                                                    if (res) {
+                                                                                        window.location = 'policycenter.html';
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        var gnl = confirm("是否删除");
+                        if (gnl == true) {
+                            db.exeSql('DELETE FROM policy WHERE uuid = ?', [id], function(res) {
+                                if (res) {
+                                    db.exeSql('DELETE FROM plan WHERE policyUUID = ?', [id], function(res) {
+                                        if (res) {
+                                            db.exeSql('DELETE FROM product WHERE policyUUID = ?', [id], function(res) {
+                                                if (res) {
+                                                    db.exeSql('DELETE FROM customer WHERE policyUUID = ?', [id], function(res) {
+                                                        if (res) {
+                                                            db.exeSql('DELETE FROM questAnswer WHERE policyUUID = ?', [id], function(res) {
+                                                                if (res) {
+                                                                    db.exeSql('DELETE FROM benefit WHERE policyUUID = ?', [id], function(res) {
+                                                                        if (res) {
+                                                                            db.exeSql('DELETE FROM policypay WHERE policyUUID = ?', [id], function(res) {
+                                                                                if (res) {
+                                                                                    db.exeSql('DELETE FROM imagetif WHERE policyUUID = ?', [id], function(res) {
+                                                                                        if (res) {
+                                                                                            window.location = 'policycenter.html';
+                                                                                        }
+                                                                                    });
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        } else {
+                            return false;
+                        }
+                    }
+                },
+                //编辑保单
+                compile: function() {
+                    //insuranceplan.html
+                    localStorage.policyId = policyNum;
+                    localStorage.productType = productList;
+                    localStorage.editDetails = '0';
+                    localStorage.proposalId = policyNum
+                    $.ajax({
+                        type: 'post',
+                        url: 'http://jkejt.picchealth.com:7087/ProposalServlet',
+                        data: JSON.stringify({
+                            "proposalID": policyNum
+                        }),
+                        success: function (data) {
+                            console.log(data,'data')
+                        }
+                    })
+                    window.location = '../newInsuranceplan.html';
+                },
+                //预览保单
+                preview: function() {
+                    var _this = this;
+                    this.show = true;
+                    localStorage.money_aa = $('.baofei').text();
+                    bok_aa = false;
+                    var sign_word = $('.insu_type span').not('.type_span').text();
+                    if (sign_word == '电子签名') {
+                        localStorage.paperPolicy = 'no'
+                        //传递给预览页面判断是电子签名就显示已签;
+                        localStorage.paperPolicy_dz = 'yes'
+                        localStorage.policyId = policyNum;
+                        window.location = 'policypreview.html';
+                    }
+                    if (sign_word == '纸质签名') {
+                        localStorage.paperPolicy = 'yes'
+                        localStorage.paperPolicy_zz = 'yes'
+                        localStorage.policyId = policyNum;
+                        window.location = 'policypreview.html';
+                    }
+                },
+                //发送
+                send: function() {
+                    var _this = this;
+                    this.show = true;
+                    localStorage.money_aa = $('.baofei').text();
+                    bok_aa = false;
+                    var all = {
+                        policyAll: $('.policy_code1').text(),
+                        policy: policyNum
+                    }
+                    var indexdata2 = {
+                        index: 'sendemail',
+                        keySale: all,
+                        header: {
+                            "token": localStorage.token,
+                            "usercode": localStorage.usercode
+                        },
+                        body: {
+                            "companyid": localStorage.companyid
+                        }
+                    };
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+//                         url:'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                        data: JSON.stringify(indexdata2), //请求的参数,JSON Object
+                        dataType: 'json', //返回数据格式
+                        success: function(data1) { //成功回调
+							
+                            $('.loading').hide();
+                            if (data1.code == '3200') {
+                                var msg = _this.policycen.policy;
+                                msg.forEach(function(v) {
+                                    v.status = data1.code
+                                })
+                                db.exeSql('UPDATE policy SET status = ? WHERE uuid = ?', [data, policyNum], function(res) {
+                                    if (res) {
+                                        _this.show = false;
+                                        // location.href = 'policydetails.html';
+                                        $('.send_btn').hide();
+                                    }
+                                });
+                            } else {
+                                _this.show = false;
+                                alert('保单影像上传中，请稍后点击！');
+                            }
+                        },
+                        error: function(code, msg) { //失败回调
+                            $('.loading').hide();
+                            alert("刷新投保状态失败，请稍候重新点击！");
+                            _this.show = false;
+                        }
+                    });
+                    //                    });
+                },
+                //刷新状态
+                newData: function() {
+                    var _this = this;
+                    this.show = true;
+                    localStorage.money_aa = $('.baofei').text();
+                    bok_aa = false;
+                    var alldata = {
+                        policyAll: $('.policy_code1').text(),
+                        policy: policyNum
+                    }
+                    var indexdata3 = {
+                        index: 'newData',
+                        keySale: alldata,
+                        header: {
+                            "token": localStorage.token,
+                            "usercode": localStorage.usercode
+                        },
+                        body: {
+                            "companyid": localStorage.companyid
+
+                        }
+                    };
+
+                    $('.loading').show();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+//                         url:'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                        data: JSON.stringify(indexdata3), //请求的参数,JSON Object
+                        success: function(data) { //成功回调
+                            $('.loading').hide();
+                            var data = JSON.parse(data);
+                            var newDatadata = data.code;
+                            var msg = _this.policycen.policy;
+                            msg.forEach(function(v) {
+                                v.status = newDatadata;
+                            })
+                            db.exeSql('UPDATE policy SET status = ? WHERE uuid = ?', [newDatadata, policyNum], function(res) {
+                                //  alert('更新'+res)
+                                //  alert('查看'+data2)
+                                if (res) {
+                                    $('.beiname').html('');
+                                    loadMsg(policyNum);
+                                    localStorage.errormsg = '';
+                                    _this.show = false;
+                                }
+                            });
+                        },
+                        error: function(code) { //失败回调
+                            alert(JSON.stringify(code))
+                            alert("刷新投保状态失败，请稍候重新点击！");
+                            $('.loading').hide();
+                            _this.show = false;
+                        }
+                    });
+                    //                    });
+                },
+                //签收
+                sign: function() {
+                    var _this = this;
+                    this.show = true;
+                    localStorage.money_aa = $('.baofei').text();
+                    bok_aa = false;
+                    var mydata = {
+                        policyCode: $('.policy_code1').text(),
+                        policyTime: '',
+                        branchId: '',
+                        groupAgentCode: '',
+                        name: '',
+                        tname: $('#tname').text()
+                    };
+                    var msg = _this.policycen.policy;
+                    var agent = _this.policycen.agent;
+
+                    msg.forEach(function(v) {
+                        mydata.policyTime = v.policyDate;
+                    });
+                    agent.forEach(function(v) {
+                        mydata.branchId = v.branchId;
+                        mydata.groupAgentCode = v.groupAgentCode;
+                        mydata.name = v.name;
+                    });
+                    var sing = JSON.stringify(mydata);
+                    var indexdata4 = {
+                        index: 'singUp',
+                        keySale: sing,
+                        header: {
+                            "token": localStorage.token,
+                            "usercode": localStorage.usercode
+                        },
+                        body: {
+                            "companyid": localStorage.companyid
+
+                        }
+                    };
+                    //                    kk.ready(function(args) {
+                    $('.loading').show();
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://app.yxgl-picc.cn:5200/base/distribution.do',
+//                         url:'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                        data: JSON.stringify(indexdata4), //请求的参数,JSON Object
+                        dataType: 'json', //返回数据格式
+                        success: function(data2) { //成功回调
+							
+                            $('.loading').hide();
+                            var data = data2
+                            var singUpdata = data.code;
+                            if (singUpdata == '3100') {
+								
+                                var msg = _this.policycen.policy;
+                                msg.forEach(function(v) {
+                                    v.status = singUpdata
+                                })
+                                db.exeSql('UPDATE policy SET status = ? WHERE uuid = ?', [singUpdata, policyNum], function(res) {
+                                    if (res) {
+                                        $('.beiname').html('');
+                                        loadMsg(policyNum);
+                                        $('.signup_1').hide();
+                                        $('.nosend_1').hide();
+                                        _this.show = false;
+                                    }
+                                });
+                            } else {
+                                _this.show = false;
+                            }
+                        },
+                        error: function(code, msg) { //失败回调
+                            $('.loading').hide();
+                            alert("签收失败，请稍候重新点击！");
+                            _this.show = false;
+                        }
+                    });
+                    //                    });
+                }
+            },
+            beforeUpdate: function() {
+
+                //判断险种显示
+                var cust = this.policycen.cust;
+                var pro = this.policycen.product;
+                var fuX = this.policycen.fux;
+                cust.forEach(function(c, cv) {
+                    var policyId = c.policyUUID;
+                    pro.forEach(function(i, v) {
+                        if (policyId == i.policyUUID) {
+                            // if (c.id == i.planNo && i.abbrName == '康乐尊享') {
+                            //     $('.kangle').eq(cv).show();
+                            // };
+                            if (c.id == i.planNo && i.abbrName == '百万安行') {
+                                $('.baiwan_title').eq(cv).show();
+                            };
+                            //_zr
+                            $('.zr_con1').each(function() {
+                                if ($(this).attr('data-code') == i.abbrName) {
+                                    $(this).show();
+                                }
+                            });
+                        }
+                        fuX.forEach(function(fi, v) {
+                            if (fi.addUUID == i.productUUID && fi.abbrName == '健康一生个人护理保险（万能型，A款）') {
+                                $('.fuxName').show()
+                            }
+                        })
+                    });
+
+                });
+                var _this = this;
+                var arr = this.policycen.policy;
+                var errormsg = localStorage.errormsg;
+                //关闭mask
+                $('.loading_box i.close').click(function() {
+                    $('.loading').hide();
+                    window.location = '';
+                })
+                if ($('#dytype').next().text() == '纸质保单') {
+                    $('.send_btn').hide();
+                } else {
+                    $('.send_btn').show()
+                }
+                arr.forEach(function(v) {
+                    var oStatus = v.status;
+                    if (errormsg == 1) {
+                        v.status = 3050;
+                        db.exeSql('UPDATE policy SET status = ? WHERE uuid = ?', [3050, policyNum], function(res) {});
+                        //loadMsg(policyNum);
+                    } else {
+                        db.exeSql('UPDATE policy SET status = ? WHERE uuid = ?', [v.status, policyNum], function(res) {});
+                    }
+
+                    if (parseInt(v.status) == '3100') {
+                        $('.signup_1').hide();
+                        $('.nosend_1').hide();
+                        $('.send_btn').hide();
+                    }
+                    if (parseInt(v.status) == '3200') {
+                        $('.send_btn').hide();
+                    }
+                    if (parseInt(v.status) == '3050') {
+                        $('.send_btn').hide();
+
+                    }
+                    //if(parseInt(v.status)=='3050'||parseInt(v.status)=='4010'||parseInt(v.status)=='3005'){
+                    // 纸质保单
+                    if (parseInt(v.status) == '4004') {
+                        if ($('#dytype').next().text() == '纸质保单') {
+                            $('.send_btn').hide();
+                        } else {
+                            $('.send_btn').show();
+                        }
+                    } else {
+                        $('.send_btn').hide();
+                    }
+                    if (parseInt(v.status) == '4010') {
+                        $('.nopreview_1').hide();
+
+                    }
+                    if (parseInt(v.status) == '1000') {
+                        $('.nopreview_1').hide();
+                    }
+                    if (!v.status) {
+                        var msg = _this.policycen.policy;
+                        msg.forEach(function(v) {
+
+                            v.status = 1000
+                        })
+                        db.exeSql('UPDATE policy SET status = ? WHERE uuid = ?', [1000, policyNum], function(res) {});
+                    }
+                })
+            }
+        });
+        /*********************parseInt(v.status)=='3005'****************************  页面事件部分  **********************************************/
+        //保险责任
+        $('.details_menu a:eq(0)').click(function() {
+            $('#details_layer').show();
+        });
+        $('.con_main_confirm a').click(function() {
+            $('#details_layer').hide();
+        });
+        //保存建议书
+        $('.details_menu a:eq(2)').click(function() {
+            $('#details_layer3').show();
+            $('#details_layer3').hide();
+        });
+        //显示建议书
+        $('.details_menu a:eq(1)').click(function() {
+            $('#details_layer2').show();
+        });
+        $('.con_main_confirm a').click(function() {
+            $('#details_layer2').hide();
+            $('#proposal_mask2').hide();
+        });
+
+        //返回
+        $('.return').click(function() {
+            localStorage.policyCode = 'no';
+            window.location.href = 'policycenter.html';
+        })
+        setTimeout(function() {
+            $('.kyear').each(function(i, v) {
+                var ahtml = $(this).html();
+                if (i == 0) {
+                    $(this).html(ahtml)
+                } else if (i > 0) {
+                    $(this).text(0)
+                }
+            });
+        }, 1000)
+
+    });
+    </script>
+</body>
+
+</html>

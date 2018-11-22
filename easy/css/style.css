@@ -1,0 +1,1872 @@
+/* ============================ 公共头部 ============================ */
+/*html{font-size: 5vw;}*/
+header{
+    height:38px;
+    background-color:#e51c23;
+    font-size:1.8em;
+    color: #fff;
+    text-align: center;
+    line-height:38px;
+    position: relative;
+    margin-bottom:15px;
+}
+/*header .laststep{*/
+    /*width: 16px;*/
+    /*height: 16px;*/
+    /*display: inline-block;*/
+    /*border: 2px solid #fff;*/
+    /*border-right:0;*/
+    /*border-bottom:0;*/
+    /*transform:rotate(-45deg);*/
+    /*position: absolute;*/
+    /*top:50%;*/
+    /*left:15px;*/
+    /*margin-top:-8px;*/
+/*}*/
+body{
+    background-color: #eff0f2;
+}
+section{
+    padding: 0 15px;
+}
+canvas{
+    vertical-align:middle;
+}
+/*=====================选择收益人=====================*/
+.beneficiary_list{
+    width: 100%;
+    margin-bottom:30px;
+    overflow: hidden;
+}
+.beneficiary_list>li{
+    padding: 18px 0 0 0;
+    background-color: #fff;
+    border-radius: 5px;
+    font-size:1.3em;
+    padding-left:15px;
+    padding-right:15px;
+    padding-bottom:18px;
+    box-sizing: border-box;
+    color: #323232;
+}
+.beneficiary_list>li:nth-child(1){
+    margin-bottom:10px;
+}
+.beneficiary_list li input{
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+}
+.beneficiary_btn a{
+    width: 49%;
+    float: left;
+    height: 45px;
+    border-radius: 5px;
+    text-align: center;
+    line-height:45px;
+    font-size:1.8em;
+    color: #fff;
+}
+.beneficiary_btn a:nth-child(1){
+    background-color: #e51c23;
+    margin-right:5px;
+}
+.beneficiary_btn a:nth-child(2){
+    background-color: #e51c23;
+}
+.beneficiary_list_appoint,
+.beneficiary_list_appoint>div{
+    width: 100%;
+}
+.beneficiary_list_appoint>div>p{
+    width:34%;
+}
+.beneficiary_list_appoint>div .sublist{
+    border-top:1px solid #ddd;
+    width: 100%;
+    margin-top:18px;
+    padding-top:15px;
+    display: none;
+    text-align: center;
+}
+.beneficiary_list_appoint>p{
+    height: 28px;
+    line-height:28px;
+}
+.sublist>p>a{
+    width: 31%;
+    height:28px;
+    line-height:28px;
+    border-radius: 5px;
+    display: inline-block;
+    text-align: center;
+}
+.sublist>p>a{
+    background-color: #e51c23;
+    color: #fff;
+}
+.sublist>p>a:nth-child(1){
+    float: left;
+    margin-left:9%;
+}
+.sublist>p>a:nth-child(2){
+    float: right;
+    margin-right:9%;
+}
+.addclient_new{
+    margin-top:20px;
+}
+.addclient_new>p,
+.clientlist>li:nth-child(1) p{
+    line-height:35px;
+    text-align: center;
+}
+.mb10{
+    margin-bottom:10px;
+}
+.mt10{
+    margin-top:10px;
+}
+.mb15{
+    margin-bottom:15px;
+}
+.addclient_new_num p{
+    float: left;
+    width:33.3%;
+    text-align: center;
+}
+input[type='checkbox']{
+    display: none;
+}
+.addclient_new_num p a,
+.addclient_new_num p label,
+.checkbox label,
+.info_list p.pay label,
+.product_table tr td label{
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    background: url("../images/icon_checkbox_2.png") 0 -20px no-repeat;
+    background-size: 100%;
+    vertical-align: middle;
+    position: relative;
+    top:-1px;
+    margin-right:5px;
+}
+.product_table label{
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    background: url("../images/icon_checkbox_2.png") 0 -20px no-repeat;
+    background-size: 100%;
+    vertical-align: middle;
+    position: relative;
+    top:-1px;
+    margin-right:5px;
+}
+.addclient_new_num p a.active_1{
+    width: 15px;
+    height: 15px;
+    background: url("../images/icon_checkbox_2.png") no-repeat;
+    background-size: 100%;
+}
+.addclient_new_num p a.active_2{
+    width: 15px;
+    height: 15px;
+    background: url("../images/icon_checkbox_2.png") 0 -40px no-repeat;
+    background-size: 100%;
+}
+input[type='checkbox']:checked+label{
+    width: 15px;
+    height: 15px;
+    background: url("../images/icon_checkbox_2.png") no-repeat;
+    background-size: 100%;
+}
+.addclient_new_from{
+    width: 100%;
+}
+.new_from_con{
+    width:100%;
+    color: #323232;
+}
+.from_con_msg{
+    width:106px;
+    text-align: right;
+    line-height:26px;
+}
+.from_con_input{
+    width:calc(97% - 106px);
+    height:26px;
+    border: 1px solid #d8d8d8;
+    padding-left:5px;
+    color: #323232;
+    font-size:1em;
+    box-sizing: border-box;
+}
+.new_from_con ul li{
+    margin-bottom:10px;
+}
+.from_con_select{
+    box-sizing: border-box;
+    text-indent: 0;
+    height:28px;
+    background: none;
+    border-radius:0;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    -moz-appearance: none;
+    -webkit-appearance:none;
+    appearance:none;
+    background: url("../images/icon_arrow.png") no-repeat right 5px center;
+    background-size: 12px;
+}
+.from_con_btn{
+    width:112%;
+    margin-left:-6%;
+    border-top:1px solid #ddd;
+}
+.from_con_btn a{
+    float: left;
+    width: 50%;
+    text-align: center;
+    height: 50px;
+    line-height:50px;
+    font-size:1.4em;
+    color: #1d90c9;
+}
+.from_con_btn a:last-child{
+    color: #999;
+}
+.from_con_btn a:nth-child(1){
+    width:49%;
+    border-right:1px solid #ddd;
+}
+.addclient_preview_table{
+    width: 100%;
+}
+.addclient_preview_table a{
+    text-align: center;
+}
+.addclient_preview_table a img{
+    width:15px;
+}
+.addclient_preview_table tr th,.addclient_preview_table tr td{
+    border: 1px solid #ddd;
+}
+.addclient_preview_table tr th{
+    height: 44px;
+    background: #f5f5f5;
+}
+.addclient_preview_table tr td{
+    height:44px;
+}
+.addclient_preview_table tr td:last-child{
+    text-align: center;
+}
+.addclient_preview_table p{
+    text-align: left;
+    padding-left: 5%;
+    /*overflow: hidden;*/
+    /*text-overflow:ellipsis;*/
+    /*white-space: nowrap;*/
+}
+.wrapper{
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x:hidden ;
+    -webkit-overflow-scrolling: touch;
+}
+.wrapper .addclient_preview_table tr th{
+    background: #fff;
+    border: 0;
+}
+.wrapper .addclient_preview_table tr th,
+.wrapper .addclient_preview_table tr td{
+    border: 0;
+    border-bottom:1px solid #ddd;
+}
+.wrapper .addclient_preview_table tr:last-child,
+.wrapper .addclient_preview_table tr:last-child td
+{
+    border:0;
+}
+.wrapper .addclient_preview_table tr td a{
+    display: inline-block;
+    text-align: center;
+    line-height: 29px;
+    border-radius: 5px;
+    color: #fff;
+}
+.addclient,.clientlist,.addclient .addclient_preview_table{
+    display: none;
+}
+.show{
+    display: block;
+}
+#preview_table2 tr th:last-child,
+#preview_table2 tr td:last-child{
+    text-align: center;
+}
+#preview_table2 tr td:last-child input{
+    display: inline-block;
+}
+.addclient_prsseview{
+    display: none;
+    margin-top:15px;
+}
+/*===================== 主界面 =====================*/
+.homepage li{
+    float: left;
+    width: 48%;
+    height:175px;
+    background: #fff;
+    border-radius: 5px;
+    margin-bottom:10px;
+    text-align: center;
+    display:-moz-box;
+    display:-webkit-box;
+    display:box;
+    -moz-box-align:center;
+    -webkit-box-align:center;
+    -o-box-align:center;
+    box-align:center;
+    -moz-box-pack:center;
+    -webkit-box-pack:center;
+    -o-box-pack:center;
+    box-pack:center;
+    font-size:1.4em;
+}
+.homepage li:nth-child(2n+1){
+    margin-right:3%;
+}
+.homepage li a{
+    display: block;
+    color: #ea5354;
+}
+.homepage li a img{
+    width:60%;
+    margin-bottom:15px;
+}
+.homepage li:nth-child(2) a{
+     color: #e8a253;
+ }
+.homepage li:nth-child(3) a{
+      color: #509880;
+  }
+.homepage li:nth-child(4) a{
+    color: #1f90c8;
+}
+.homepage li a span{
+    display:block;
+}
+.index_prompt{
+    height: 44px;
+    line-height:44px;
+    background: #e51c23;
+    text-align: center;
+    font-size:1.5em;
+    color: #fff;
+}
+.index_text{
+    width:90%;
+    margin: 0 auto;
+    text-align: center;
+    padding-top:20px;
+    box-sizing: border-box;
+    font-size:1.5em;
+}
+.index_text input{
+    display: block;
+    border: 1px solid #ddd;
+    height: 26px;
+    width: 90%;
+    margin:0  auto;
+    margin-top:10px;
+    font-size:1em;
+    text-indent: 10px;
+    color: #333;
+}
+/*===================== 照片采集 =====================*/
+header .return{
+    font-size:1em;
+    position: absolute;
+    right:2%;
+    top:4%;
+    color: #fff;
+}
+.photocollection{
+    margin-top:53px;
+    margin-bottom:54px;
+}
+.photocollection li,
+.photocollection2 a{
+    margin:0 auto;
+    width:29%;
+    text-align: center;
+    font-size:1.4em;
+    color: #333; 
+}
+.photocollection li a.paizhao,
+.photocollection li div{
+    width: 100%;
+    height:99px;
+    display: block;
+    position: relative;
+    border: 1px solid #dedede;
+    background: #fff;
+    border-radius: 50%;
+    text-align: center;
+    display:-moz-box;
+    display:-webkit-box;
+    display:box;
+    -moz-box-align:center;
+    -webkit-box-align:center;
+    -o-box-align:center;
+    box-align:center;
+    -moz-box-pack:center;
+    -webkit-box-pack:center;
+    -o-box-pack:center;
+    box-pack:center;
+    font-size:1.4em;
+    margin-bottom:10px;
+}
+.photocollection li:nth-child(1){
+    margin-left:10%;
+}
+.photocollection li:nth-child(2),
+.photocollection2 a:nth-child(2){
+    margin-right:10%;
+}
+.photocollection li img{
+    width:50%;
+}
+.photocollection li input,
+.photocollection2 a input{
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    opacity:0;
+}
+.prev a,
+.product_next a{
+    display: block;
+    width: 100%;
+    height: 45px;
+    line-height:45px;
+    border-radius: 5px;
+    background: #e51c23;
+    text-align: center;
+    color: #fff;
+    font-size:1.4em;
+}
+/*===================== 照片采集2 =====================*/
+.photocollection2{
+    margin-bottom:15px;
+    width:100%;
+}
+.photocollection2 a{
+    display:block;
+    margin:0 auto;
+    position: relative;
+    height: 29px;
+    line-height:29px;
+    color: #fff;
+    border-radius: 5px;
+    background: #e51c23;
+}
+.preview{
+    min-height:100px;
+}
+.preview li{
+    width: 31%;
+    float: left;
+    text-align: center;
+    margin-right:3%;
+    margin-bottom:15px;
+    position:relative;
+}
+.preview li:nth-child(3n){
+    margin-right:0;
+}
+.preview li p.img{
+    width: 100%;
+    margin-bottom:10px;
+}
+.preview li p.img img{
+    width: 100%;
+}
+.preview li i{
+    position: absolute;
+    display: block;
+    top:-6px;
+    right:-6px;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:rgba(0,0,0,.6);
+    font-size:1.2em;
+    text-align:center;
+    line-height:16px;
+    color:#fff;
+    font-style:normal;
+}
+.collection_main{
+    padding:0;
+}
+.collection_main>div{
+    padding:15px;
+    background: #fff;
+}
+.collection_header{
+    margin-bottom:0;
+}
+.collection_back a{
+    display: block;
+    background-color: #e8a253;
+    border-radius: 5px;
+    margin: 0 auto;
+    margin-top:30px;
+    width: 92%;
+    height:45px;
+    line-height:45px;
+    text-align: center;
+    color: #fff;
+    font-size:1.8em;
+}
+/*===================== 产品列表 =====================*/
+.addclient_preview_table tr:not(.table_header){
+    background: #fff;
+}
+.product_table{
+    font-size:1.4em;
+}
+.product_next a{
+    margin-top:30px;
+}
+.insure_built_lb .mask_con_main{
+    height: 97px;
+    line-height: 97px;
+    text-align: center;
+    font-size: 1.5em;
+}
+/*===================== 投保计划 =====================*/
+.insure_title{
+    font-size:1.4em;
+    color: #333;
+    line-height: 29px;
+}
+.insure_title p:nth-child(1){
+    margin-right:3%;
+}
+.insure_title p:nth-child(2){
+    width: 70%;
+}
+.insure_title p:nth-child(2) a{
+    width: 33%;
+    height: 29px;
+    color: #fff;
+    line-height:29px;
+    text-align: center;
+    float: left;
+    border-radius: 5px;
+}
+.insure_title p:nth-child(2) a:nth-child(1){
+    background: #e51c23;
+    margin-right:2%;
+}
+.insure_title p:nth-child(2) a:nth-child(2){
+    background: #e51c23;
+}
+.insure_addpeople{
+    width:100%;
+    background: #fff;
+    position: relative;
+    display: none;
+    border-radius: 5px;
+}
+.insure_addpeople .close,
+.insure_plan .close{
+    width:20px;
+    height: 20px;
+    background: url("../images/icon_close.png") no-repeat;
+    background-size: 20px;
+    -webkit-filter: contrast(0%);
+    filter: contrast(0%);
+    position: absolute;
+    right:10px;
+    top:10px;
+}
+.insure_addpeople .insure_con .people_name i{
+    width:14px;
+    height: 14px;
+    display: inline-block;
+    border: 1px solid #333;
+    border-radius: 50%;
+    font-style: normal;
+    text-align: center;
+    line-height:14px;
+}
+.insure_con{
+    padding-left:15px;
+    padding-right:15px;
+    font-size:1.4em;
+    color: #333;
+    padding-top:30px;
+    padding-bottom:1px;
+}
+.insure_con_addr{
+    margin-bottom:15px;
+}
+.insure_con>ul{
+    position: relative;
+    margin-bottom: 40px;
+}
+.insure_addpeople .insure_con>ul i.close{
+    position: absolute;
+    top: -22px;
+    right: -4px;
+}
+.insure_con>ul>li{
+    margin-bottom:15px;
+}
+.insure_con>ul>li>p{
+    width: 47%;
+    line-height:26px;
+    text-align: right;
+}
+.insure_con>ul>li>div{
+    line-height:26px;
+    width: 46%;
+    position: relative;
+}
+.insure_con>ul>li>div input[type=text],
+.insure_con>ul>li>div select{
+    width: 100%;
+    background: none;
+    border: 1px solid #ddd;
+    height: 26px;
+    line-height:26px;
+    font-size:1em;
+    color: #333;
+    outline:medium;
+    text-indent: 2%;
+}
+.insure_con>ul>li>div input[type=radio]{
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+.insure_con>ul>li>div .man{
+    margin-right:15px;
+}
+.insure_con>ul>li>div.time input,
+.datatime input.name{
+    background: url("../images/icon_time.png") no-repeat right 5px center ;
+    background-size: 12px;
+}
+.datatime input.name{
+    background-size: 12px;
+}
+.insure_con>ul>li>div select{
+    border-radius: 0;
+    box-sizing: content-box;
+    padding: 0;
+    background: url("../images/icon_arrow.png") no-repeat 95% center ;
+}
+.mb15{
+    margin-bottom:15px;
+}
+.insure_con>ul>li>div input[type=text].disable{
+    background: #ddd;
+}
+.insure_con>ul>li>div span.lei{
+    position: absolute;
+    top:44px;
+    right: -23px;
+}
+.insure_con_addr a,
+.plan_con a{
+    width: 34%;
+    height:29px;
+    line-height:29px;
+    display: block;
+    background: #e51c23;
+    border-radius: 5px;
+    text-align: center;
+    margin: 0 auto;
+    color: #fff;
+}
+.insure_plan{
+    margin-top:15px;
+    background: #fff;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.insure_plan_con{
+    position: relative;
+    overflow: hidden;
+    padding-left:15px;
+    padding-right:15px;
+    padding-top:30px;
+    font-size:1.4em;
+}
+.insure_plan_con p.num{
+    width: 30px;
+    height: 25px;
+    position: absolute;
+    top:0;
+    left:0;
+    background: url("../images/icon_arrow2.png") no-repeat;
+    background-size: 100%;
+    font-style: normal;
+    color: #fff;
+}
+.insure_plan_con p.num span{
+    position: relative;
+    top:1px;
+    left:5px;
+    font-size:1em;
+}
+.plan_con_list{
+    font-size:0.8em;
+}
+.plan_con_list i.zhu{
+    font-style: normal;
+    color: #ea5354;
+    margin-right:4%;
+}
+.plan_con_list li{
+    width: 100%;
+    margin-bottom:10px;
+}
+.con_list_p{
+    width: 48%;
+    border-bottom:1px solid #ddd;
+    position: relative;
+    padding-bottom:5px;
+    text-indent: 5px;
+    cursor: pointer;
+    margin-right:5%;
+}
+.con_list_p:after{
+    position: absolute;
+    bottom: -4px;
+    right:-1px;
+    content: '';
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid #ddd;
+    transform:rotate(45deg);
+}
+.con_list_sub>span{
+    width:22%;
+    text-align: right;
+}
+.con_list_sub input[type=number]{
+    font-size: 1em;
+    color: #333;
+}
+.con_list_sub>input,
+.con_list_year,.con_list_term,
+.regular_premium_money{
+    width:31%;
+    height: 23px;
+    border: 1px solid #ccc;
+    text-indent: 5%;
+}
+.regular_premium_money{
+    margin-left:4px;
+}
+.con_list_year,
+.con_list_term,
+.bonus{
+	width:31%;
+    height: 23px;
+    border: 1px solid #ccc;
+    text-indent: 5%;
+	background: url(../images/icon_arrow3.png) no-repeat right bottom;
+	background-size:12px;
+	box-sizing: content-box;
+	font-size: 1em;
+}
+.con_list_sub>i{
+    font-size:.8em;
+    font-style: normal;
+    color: #ea5354;
+}
+.con_list_sub>i.right{
+    width:11px;
+    height:8px;
+    display: inline-block;
+    background: url("../images/icon_right.png") no-repeat;
+    background-size: 100%;
+}
+.con_list_sub>em{
+    font-style: normal;
+}
+.plan_con_attach{
+    padding:15px;
+    margin-bottom:15px;
+    padding-bottom:1px;
+    background: #f5f5f5;
+    font-size:0.7em;
+}
+.plan_con_attach .color{
+    color: #509880;
+}
+.plan_con_attach li{
+    border-bottom:1px solid #ddd;
+    margin-bottom:15px;
+}
+.plan_con_attach li:last-child{
+    border-bottom:none;
+}
+
+.plan_con_attach li p{
+    margin-bottom:10px;
+}
+.plan_con a{
+    margin-bottom:15px;
+}
+/*===================== 投标提示书 =====================*/
+.tipbook{
+    background: #fff;
+    border-radius: 5px;
+    padding-left:10px;
+    padding-right:15px;
+    padding-top:11px;
+}
+.tipbook h2{
+    text-align: center;
+    font-size:1.2em;
+    font-weight: 700;
+}
+dl{
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+}
+dl dt,
+dl dd{
+    margin: 0;
+}
+.tipbook dl{
+    font-size:1.2em;
+    color: #333;
+}
+.tipbook dl dt{
+    margin-bottom:20px;
+}
+.tipbook dl dd{
+    line-height:14px;
+    text-indent: 1em;
+    margin-bottom:20px;
+}
+.tipbook dl dd.index{
+    text-indent: 0;
+}
+.tipbook dl dt .text{
+    width: 26%;
+    border: 0;
+    border-bottom:1px solid #333;
+    outline:medium;
+    font-size:1.2em;
+    text-indent: 3%
+}
+.tipbook dl dd.sign .name,
+.tipbook dl dd.sign .time{
+    width: 22%;
+    display: inline-block;
+    text-align: center;
+    color: #2182b2;
+    border-bottom:1px solid transparent;
+    padding-bottom:5px;
+    position: relative;
+}
+.tipbook dl dd.sign .name img{
+    height: 40px;
+    left: -10px;
+    position: absolute;
+    top: -20px;
+    width: auto;
+}
+.tipbook dl dd.sign .name img + b{
+    opacity:0
+}
+.tipbook dl dd.sign .name img[src=""],
+.tipbook dl dd.sign .name img[src="#"],
+.policy_main_msg_name .name img[src=""],
+.policy_main_msg_name .name img[src="#"]{
+
+}
+
+.tipbook dl dd.sign .name img[src=""] + b,.tipbook dl dd.sign .name img[src="#"] + b{
+    opacity:1;
+    font-weight:400;
+}
+.tipbook dl dd.sign .name{
+    margin-right:15%;
+}
+.tipbook dl dd .id,
+.tipbook dl dd .num{
+    border-bottom:1px solid #333;
+    padding-bottom:5px;
+    color: #333;
+}
+.tipbook dl dd .num{
+    display: inline-block;
+    width: 37%;
+}
+.pb15{
+    padding-bottom:15px;
+}
+.insure_built_bid{
+    display: none;
+}
+.insure_built_bid .mask_con_btn a:nth-child(1),
+.insure_built_bid .mask_con_btn a:nth-child(2),
+.insure_built_bid .mask_con_btn a:nth-child(3){
+    width: 33.3%;
+    float: left;
+    text-align: center;
+    border: 0;
+    color: #1f90c8;
+}
+.insure_built_bid .mask_con_main{
+    height: 135px;
+    border-radius: 5px 5px 0 0;
+}
+/*===================== 被保人信息补全 =====================*/
+.insuredinfo{
+    font-size:1.3em;
+    color: #333;
+}
+.insuredinfo select{
+    text-indent: 4%;
+}
+.insuredinfo>p{
+    margin-bottom:10px;
+}
+.insuredinfo_close select{
+    width:58%;
+    border-radius: 0;
+    border: 1px solid #ddd;
+    box-sizing: content-box;
+    height: 26px;
+    line-height:26px;
+    font-size:1em;
+    color: #333;
+    background: url("../images/icon_arrow.png") no-repeat right 5px center;
+    background-size: 12px;
+    margin-bottom:10px;
+}
+.insuredinfo_con{
+    padding-top:15px;
+    margin-bottom: 15px;
+    padding-bottom: 1px;
+    background: #fff;
+}
+.insuredinfo_con_list{
+    width: 92%;
+    margin: 0 auto;
+}
+.insuredinfo_con_list li{
+    width: 100%;
+    margin-bottom:10px;
+}
+.insuredinfo_con_list li>p{
+    width: 98px;
+    float: left;
+    line-height:26px;
+    text-align: right;
+}
+.insuredinfo_con_list li>div{
+    width: calc(96% - 111px);
+    float: left;
+}
+.insuredinfo_con_list li>div .name{
+    width: 92%;
+    height:26px;
+    line-height:26px;
+    border: 1px solid #ddd;
+    font-size:1em;
+    color: #333;
+    text-indent: 3%;
+}
+.insuredinfo_con_list li>div i{
+    line-height:26px;
+    color: #ea5354;
+    position: relative;
+    top:2px;
+    left:2px;
+}
+.insuredinfo_con_list li>div.sex{
+    line-height:26px;
+}
+.nationality select,
+.marriage select{
+    width: 45%;
+    float: left;
+    border-radius: 0;
+    border: 0;
+    background: none;
+    height: 26px;
+    line-height:26px;
+    border-bottom:1px solid #ddd;
+    font-size:1em;
+    /*position: relative;*/
+    background: url("../images/icon_arrow3.png") no-repeat right bottom;
+    background-size: 12px;
+    color: #333;
+    box-sizing: border-box;
+}
+.nationality select:nth-child(1),
+.marriage select{
+    margin-right:3%;
+}
+.marriage input[type=text]{
+    width:44%;
+    height: 26px;
+    border: 1px solid #f5f5f5;
+    text-indent: 4%;
+    font-size:1em;
+    color: #333;
+    background: #f5f5f5;
+}
+.occupation select{
+    width: 92%;
+    height: 26px;
+    box-sizing: content-box;
+    border-radius: 0;
+    border: 0;
+    background: none;
+    border-bottom:1px solid #ddd;
+    background: url("../images/icon_arrow3.png") no-repeat #fff right bottom;
+    background-size: 12px;
+    font-size:1em;
+    color: #333;
+    box-sizing: border-box;
+}
+.return_btn{
+    position: fixed;
+    right: 15px;
+    bottom: 30px;
+    width: 39px;
+    height: 39px;
+    background: url(../images/img_circular5.png) #fff no-repeat;
+    border-radius: 50%;
+    background-size: 100%;
+    display: none;
+    opacity: 0.7;
+}
+/*===================== 被保人告知 =====================*/
+.inform .title,
+.remarks{
+    font-size: 1.3em;
+    color: #333;
+}
+.info_con{
+    background: #fff;
+    margin-top: 15px;
+}
+.inform .info_list{
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 15px;
+}
+.inform .info_list li{
+    line-height: 20px;
+    
+}
+.info_list_mask{
+    width:100%;
+    height: 100%;
+    padding: 0 5%;
+    box-sizing: border-box;
+    background: #fff;
+    text-align: left;
+    line-height:38px;
+    
+    display: none;
+}
+.info_list_mask input{
+    width: 17%;
+    display: inline-block;
+    border: 0;
+    border-bottom:1px solid #ddd;
+    text-indent: 5px;
+}
+.info_list_mask2 input{
+    width: 75%;
+}
+.inform .fill{
+    padding-left: 10%;
+}
+.inform .fill input{
+    width: 20%;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 1em;
+    color: #333;
+    text-align: center;
+}
+.info_list input[type=radio],
+.remarks input[type=radio]{
+    vertical-align: middle;
+    position: relative;
+    top:-2px;
+}
+.remarks_info textarea{
+    font-size: 1em;
+    color: #333;
+    width: 100%;
+    height: 132px;
+    display: block;
+    background: #fff;
+    resize: none;
+    border: 0;
+    box-sizing: border-box;
+    text-indent: 2%;
+    padding-top: 5px;
+}
+/*===================== 客户声明及授权书 =====================*/
+.warrant_word{
+    background: #fff;
+    border-radius: 5px;
+    font-size: 1.4em;
+    color: #333;
+    box-sizing: border-box;
+    padding: 10px;
+    line-height: 18px;
+}
+/*===================== 缴费信息 =====================*/
+.payment{
+    border-radius: 5px;
+    background: #fff;
+    font-size: 1.4em;
+    color: #333;
+    padding-top: 15px;
+}
+.payment ul li{
+    margin-bottom: 10px;
+}
+.payment ul li>p{
+    width: 35%;
+    text-align: right;
+    line-height: 26px;
+}
+.payment ul li>div{
+    width: 63%;
+    line-height: 26px;
+}
+.payment ul li>div input[type=text],
+.payment ul li>div select,
+.payment ul li>div input[type=number]{
+    width: 100%;
+    border: 1px solid #ddd;
+    height: 26px;
+    font-size: 1em;
+    color: #333;
+    text-indent: 3%;
+    box-sizing: content-box;
+}
+.payment ul li>div select{
+    background: url(../images/icon_arrow.png) no-repeat right 5px center;
+    background-size: 12px;
+}
+.payment ul li>div input[type=radio]{
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+}
+.payment ul li>div.remind{
+    width:100%;
+}
+.payment ul li>div.remind p:nth-child(1){
+    margin-left: 2%;
+}
+.payment ul li>div.remind p:nth-child(2){
+    margin-left: 35%;
+}
+.payment ul li>div.remind p:nth-child(2) label.mr{
+    margin-right: 43px;
+} 
+/*===================== 保单中心 =====================*/
+.policycenter{
+    font-size: 1.4em;
+    color: #333;
+}
+.policycenter li{
+    margin-bottom: 10px;
+}
+.policycenter li>p{
+    width: 30%;
+    line-height: 26px;
+    text-align: right;
+}
+.policycenter li>div{
+    width: 69%;
+}
+.policycenter li>div input{
+    font-size: 1em;
+    color: #333;
+    text-indent: 3%;
+}
+.policycenter li>div .oddnum{
+    width: 100%;
+    height: 26px;
+    background: #fff;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+.policycenter li>div .time{
+    width: 44%;
+    background: url(../images/icon_time.png) no-repeat #fff right 5px center;
+    background-size:12px;
+}
+.policycenter .menubtn p{
+    width: 100%;
+}
+.policycenter .menubtn p a{
+    width: 22%;
+    display: inline-block;
+    height: 29px;
+    line-height: 29px;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    margin-left:1%;
+}
+.policycenter .menubtn p a:nth-child(1){
+    background: #e51c23;
+}
+.policycenter .menubtn p a:nth-child(2){
+    background: #e51c23;
+}
+.policycenter .menubtn p a:nth-child(3){
+    background: #e51c23;
+}
+.policy_table{
+    font-size: 1.2em;
+    color: #333;
+}
+.policy_table p{
+    padding-right: 8px;
+}
+.policy_table p a{
+    color: #333;
+}
+/*===================== 保单详情 =====================*/
+.details{
+    padding: 15px 5px 10px 5px;
+    background: #fff;
+    font-size:1.4em;
+    color: #333;
+    border-radius:5px;
+}
+.details ul li{
+    width: 100%;
+    margin-bottom:15px;
+}
+.details ul li.lh28{
+    line-height:28px;
+}
+.details ul li span,
+.details ul li a,
+.details ul li p{
+    float: left;
+}
+.details ul li p a{
+    margin-right:2%;
+}
+.details ul li p{
+    width: 100%;
+}
+/*保单详情 状态样式*/
+/*已投保 已签单 已发送 已签收*/
+.details ul li .state_style1,
+.details ul li .state_style2,
+.details ul li .state_style3,
+.details ul li .state_style4,
+.details ul li .state_style5{
+    width: 28%;
+    text-align: center;
+    line-height:28px;
+    border: 1px solid #509880;
+    color: #509880;
+    border-radius: 5px;
+}
+/*投保失败 未填完 已填完 查询中... 状态样式如下*/
+.details ul li .state_style2{
+    color: #fff;
+    border: 0;
+    background: #cccccc;
+    border-radius: 5px;
+}
+/*发送 状态样式如下*/
+.details ul li .state_style3{
+    color: #ea5354;
+    border: 1px solid #ea5354;
+}
+/*删除 不可用状态样式如下*/
+.details ul li .state_style4{
+    background: #ccc;
+    border: 0;
+    color: #fff;
+    line-height:30px;
+}
+/*删除 可用状态*/
+.details ul li .state_style5{
+    background: #fff;
+    color: #333;
+}
+.details ul li span:nth-child(1){
+    width: 36%;
+    text-align: right;
+}
+.details_menu a{
+ /*   float: left; */
+    width: 32%;
+    height:45px;
+    text-align: center;
+    line-height:45px;
+    color: #fff;
+    font-size:1.4em;
+    border-radius: 5px;
+    margin-top:15px;
+    display:inline-block;
+}
+.details_menu a:nth-child(1){
+    background: #e51c23;
+    margin-right:2%;
+}
+.details_menu a:nth-child(2){
+    background: #e51c23;
+    margin-right:2%;
+}
+.details_menu a:nth-child(3){
+    background: #ea5354;
+}
+/*===================== 建议书管理 =====================*/
+.policy_table .proposal_xiugai{
+    margin: 0 12%;
+}
+/*===================== 客户管理 =====================*/
+.customer_layer .insuredinfo_con_list{
+    width: 96%;
+    height:92%;
+    overflow-y: auto;
+    padding-top:10px;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling:touch;
+}
+#customer_layer .mask_con_btn p,
+#customer_layer .mask_con_btn p a{
+    width: 100%;
+    height: 100%;
+    line-height:100%;
+}
+#customer_layer2 .mask_con_btn p,
+#customer_layer2 .mask_con_btn p a,
+#customer_layer3 .mask_con_btn p a,
+#customer_layer3 .mask_con_btn p{
+    height: 100%;
+    line-height:100%;
+}
+#customer_layer .mask_con_btn p a,
+#customer_layer2 .mask_con_btn p a,
+#customer_layer3 .mask_con_btn p a,
+#customer_layer3 .mask_con_btn p a{
+    border: 0;
+    display:-moz-box;
+    display:-webkit-box;
+    display:box;
+    -moz-box-align:center;
+    -webkit-box-align:center;
+    -o-box-align:center;
+    box-align:center;
+    -moz-box-pack:center;
+    -webkit-box-pack:center;
+    -o-box-pack:center;
+    box-pack:center;
+}
+#customer_layer2 .mask_con_btn p a:nth-child(1),
+#customer_layer3 .mask_con_btn p a:nth-child(1){
+    border-right: 1px solid #ddd;
+}
+/*===================== 翻页 =====================*/
+.pages{
+    width: 100%;
+    font-size: 1.2em;
+    color: #333;
+    text-align: center;
+}
+.pages>div{
+    display: inline-block;
+    line-height: 21px;
+}
+.pages>div>span{
+    position: relative;
+    top:1px;
+}
+.pages>div a{
+    color: #333;
+}
+.pages ul li{
+    float: left;
+}
+.pages_btn{
+    margin-left: 4px;
+    border:1px solid #ddd;
+    background: #f5f5f5; 
+}
+.pages_btn .prev{
+    padding:0 10px;
+    border-right: 1px solid #ddd;
+}
+.pages_btn .next{
+    padding: 0 10px;
+}
+.pages_btn ul li{
+    border-right: 1px solid #ddd;
+    text-align: center;
+    min-width: 2em;
+    padding: 0 2px;
+}
+.pages_btn ul li a{
+    width: 6%;
+    height: 21px;
+}
+.pages_btn ul li a:hover{
+    color: #eb6969;
+}
+.policycenter .space{
+    line-height: 26px;
+    text-align: center;
+    width: 12%;
+}
+/*===================== 保单预览 =====================*/
+.policy{
+    // width: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+.policy_main{
+    /*width: 1223px;*/
+    margin: 0 auto;
+    border: 1px solid #333;
+    margin-bottom:20px;
+}
+.policy_main_notice{
+    border-bottom:1px solid #333;
+    padding-top:5px;
+}
+.policy_main_list{
+    padding-top:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid #333;
+}
+.policy_main .policy_main_list li{
+    text-indent: 1em;
+    line-height:15px;
+    border: 0;
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.policy_main ul input,
+.policy_main_notice input{
+    display: inline-block;
+}
+.policy_main ul i,
+.policy_main ul em,
+.policy_main_notice em{
+    font-style: normal;
+}
+.policy_main ul i{
+    width:55px;
+    display: inline-block;
+    border-bottom:1px solid #333;
+}
+.policy_main_msg li{
+    text-align: center;
+}
+.policy_main ul{
+    width: 100%;
+    border-bottom: 1px solid #333;
+    overflow: hidden;
+}
+.policy_main ul li{
+    float: left;
+    box-sizing:border-box;
+    border-right:1px solid #333;
+    -moz-box-sizing:border-box; /* Firefox */
+    -webkit-box-sizing:border-box; /* Safari */
+    font-size: 16px;
+    line-height: 24px;
+    /*height:13px;*/
+}
+.policy_main ul li:last-child{
+    border-right:0;
+    text-align: left;
+    padding-left: 20px;
+    /*border-left:1px solid #333;*/
+}
+.main_msg_table{
+    display: block;
+    padding:0;
+    margin: 0;
+}
+.main_msg_table tr td{
+    border-right: 1px solid #333;
+    box-sizing: border-box;
+}
+.main_msg_table tr td:last-child{
+    border: 0;
+}
+.statement{
+    border-bottom:1px solid #333;
+}
+.statement p{
+    text-indent: 1em;
+    line-height:15px;
+}
+.remark li{
+    width:100%;
+    border-bottom:1px solid #333333;
+}
+.signing_statement{
+    height:50px;
+    line-height:50px;
+    text-indent: 1em;
+    font-size:1.2em;
+    border-bottom:1px solid #333;
+}
+.policy_submit{
+    /*width:1220px;*/
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom:15px;
+}
+.policy_submit a{
+    display: inline-block;
+    width: 45%;
+    height:50px;
+    line-height:50px;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    margin: 0 10px;
+    font-size:1.8em;
+}
+.policy_submit a:nth-child(1){
+    background: #e51c23;
+    float: left;
+}
+.policy_submit a:nth-child(2){
+    background: #e51c23;
+    float: right;
+}
+.policy_main_msg_name ul li{
+    height: 40px;
+    line-height:40px;
+    position: relative;
+}
+.policy_main_msg_name ul li>a{
+
+}
+.policy_main_msg_name ul li>a img{
+    height: 50px;
+    /*left: 10px;*/
+    position: absolute;
+    top: -21px;
+    width: auto;
+}
+/*===================== 弹层 =====================*/
+.insure_built{
+    display: none;
+    width: 100%;
+    height: 100%;
+}
+.mask{
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.7);
+    z-index: 3;
+}
+
+.insure_built .mask_con {
+    position: absolute;
+    top:50%;
+    left: 4%;
+    transform: translateY(-50%);
+    width: 92%;
+    z-index: 3;
+}
+.mask_con_title{
+    width:100%;
+    text-align: center;
+    color: #fff;
+    font-size:1.8em;
+    height: 44px;
+    line-height:44px;
+    background: #e51c23;
+    border-radius: 5px 5px 0 0;
+}
+.mask_con_main{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background: #fff;
+}
+.con_main_table{
+    width: 93%;
+    margin: 0 auto;
+    font-size:1.4em;
+    color: #333;
+}
+.con_main_table tr{
+    height:35px;
+    line-height:35px;
+}
+.con_main_table tr th,
+.con_main_table tr td{
+    text-align: center;
+    border-bottom:1px solid #ddd;
+}
+.con_main_table tr:last-child th,
+.con_main_table tr:last-child td{
+    border-bottom:0;
+}
+.con_main_table tr:last-child{
+    border-bottom:0;
+}
+.con_main_table input[type=checkbox]{
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    top:-1px;
+}
+.mask_con_btn{
+    height:50px;
+    line-height:50px;
+    background: #fff;
+    font-size:1.4em;
+    border-radius: 0 0 5px 5px;
+    border-top:1px solid #ddd;
+    position: relative;
+    z-index:10;
+}
+.mask_con_btn a:nth-child(1){
+    width: 49%;
+    border-right:1px solid #ddd;
+    text-align: center;
+    color: #1f90c8;
+}
+.mask_con_btn a:nth-child(2){
+    width: 50%;
+    text-align: center;
+    color: #999;
+}
+/*.insure_built_xz{*/
+    /*font-size:1.7em;*/
+/*}*/
+.insure_built_xz .mask_con_main>p{
+    margin-left:15%;
+}
+.insure_built_xz .mask_con_main{
+    padding-top:15px;
+    padding-bottom: 15px;
+    box-sizing: border-box;
+    line-height:25px;
+    min-height: 50px;
+    height: auto;
+    font-size:1.4em;
+}
+.insure_built_xz .mask_con_main input[type=checkbox]{
+    display: inline-block;
+}
+/*保单详情 弹层*/
+.details_layer{
+    font-size:1.4em;
+    color: #333;
+}
+.details_layer .mask_con_main{
+    overflow: auto;
+    height: 95%;
+    border-radius: 5px;
+}
+.details_layer_info{
+    height:90%;
+    overflow-y: auto;
+    padding: 12px 10px 0 10px;
+    -webkit-overflow-scrolling:touch
+}
+.details_layer_info dt{
+    margin-bottom:10px;
+}
+.details_layer_info dd{
+    line-height:20px;
+    margin-bottom:15px;
+    text-indent: 1em;
+}
+.con_main_confirm{
+    width: 100%;
+    height: 8%;
+    border-top:1px solid #ddd;
+    position: relative;
+}
+.con_main_confirm  a{
+    width: 28%;
+    height: 29px;
+    text-align: center;
+    line-height:29px;
+    background: #e8a253;
+    border-radius: 5px;
+    color: #fff;
+    position: absolute;
+    left:50%;
+    top:50%;
+    margin-left:-14%;
+    margin-top:-15px;
+}
+.details_layer2 .mask_con_main h3{
+    text-align: center;
+    margin-bottom:20px;
+}
+.details_layer2 .mask_con_main{
+    padding: 15px 10px 0 10px;
+    box-sizing: border-box;
+}
+.details_layer2_title{
+    width: 68%;
+    margin: 0 auto 20px auto;
+}
+.details_layer2_title li{
+    line-height:26px;
+}
+.details_layer2_title li p{
+    width: 60%;
+    text-align: center;
+}
+.details_layer2_title li p.bor{
+    border-bottom:1px solid #333;
+    box-sizing: border-box;
+}
+.details_layer2_prospectus{
+    height: 92%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
+}
+.details_layer2_prospectus .introduce{
+    line-height:18px;
+}
+.details_layer2_prospectus .center{
+    text-align: center;
+}
+.layer2_prospectus_msg{
+    font-size:0.8em;
+    text-align: center;
+}
+.layer2_prospectus_msg tr{
+    height: 34px;
+}
+.layer2_prospectus_msg tr:nth-child(1){
+    background: #e0a187;
+}
+.layer2_prospectus_list li.dot:before{
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #000;
+    border-radius: 50%;
+    vertical-align: middle;
+    position: relative;
+    top:-1px;
+    margin-right:2px;
+}
+.layer2_prospectus_list2{
+    text-align: left;
+}
+.layer2_prospectus_list2 li{
+    overflow: hidden;
+}
+.layer2_prospectus_list2 i,
+.layer2_prospectus_list2 em{
+    font-style: normal;
+    float: left;
+}
+.layer2_prospectus_list2 em{
+    width: 25%;
+}
+.layer2_prospectus_list2 span{
+    width: 20%;
+    float: left;
+}
+.details_layer3{
+    width: 40%;
+    height:125px;
+    background: rgba(0,0,0,.7);
+    position: fixed;
+    top:30%;
+    left:50%;
+    border-radius: 5px;
+    margin-left:-20%;
+}
+.details_layer3{
+    text-align: center;
+    display: none;
+}
+.details_layer3 img{
+    width: 50px;
+    margin-top: 27px;
+    margin-bottom:15px;
+}
+.details_layer3 p{
+    font-size:1.5em;
+    color: #fff;
+}
+/*选择受益人弹层*/
+#beneficiary .mask_con,
+#beneficiary2 .mask_con{
+    margin-top:0;
+    position: absolute;
+}
+#beneficiary .mask_con_main,
+#beneficiary2 .mask_con_main{
+    /*height: 54%;*/
+}
+.tempalte-life{display:none;}
+.client_title p,.client_msg li{
+    border-bottom:1px solid #ddd;
+    padding-bottom:10px;
+}
+.client_title p,.client_msg{
+    width: 100%;
+    font-size:1.2em;
+    color: #333;
+    text-indent: 5px;
+}
+.client_title p span,.client_msg li span{
+    display: inline-block;
+    margin-top:10px;
+}
+.client_title p span:nth-child(1),.client_msg li span:nth-child(1){
+    width:30%;
+}
+.client_title p span:nth-child(2),.client_msg li span:nth-child(2){
+     width:30%;
+ }
+.client_title p span:nth-child(3),.client_msg li span:nth-child(3){
+    width:20%;
+}
+.client_title p span:nth-child(4),.client_msg li span:nth-child(4){
+    width:17%;
+}

@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>客户管理</title>
+    <link rel="stylesheet" href="css/webapp_reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobiscroll_date.css">
+    <style>
+    .insuredinfo {
+        font-size: 1em;
+    }
+
+    .customer_layer .mask_con {
+        height: 94%;
+    }
+
+    #look_mask_con .mask_con_btn a {
+        width: 50%;
+        border: 0;
+    }
+
+    #policy input {
+        border: 1px solid #ddd;
+    }
+
+    .ccc {
+        background: #f5f5f5;
+    }
+    </style>
+</head>
+
+<body>
+    <header><span>客户管理</span><a href="../index.html" class="return">返回</a></header>
+    <section id="policy">
+        <ul class="policycenter">
+            <li class="clearfix">
+                <p class="fl">客户姓名：</p>
+                <div class="fl">
+                    <input type="text" class="oddnum" @click="empty" />
+                </div>
+            </li>
+            <li class="clearfix menubtn">
+                <p class="fr">
+                    <a href="javascript:;" @click="search">搜索</a>
+                    <a href="javascript:;" @click="reset">重置</a>
+                    <a href="javascript:;" @click="newly_build('2')">新建</a>
+                </p>
+            </li>
+        </ul>
+        <table class="addclient_preview_table policy_table mb15">
+            <tr>
+                <th>
+                    <p>姓名</p>
+                </th>
+                <th>
+                    <p>出生日期</p>
+                </th>
+                <th>
+                    <p>性别</p>
+                </th>
+                <th>
+                    <p>操作</p>
+                </th>
+            </tr>
+            <template v-for="(item,index) in data.uesr">
+                <tr :policy-id="item.policyUUID" :custome-id="item.userId" class="customerinfo">
+                    <td>
+                        <p>{{item.name}}</p>
+                    </td>
+                    <td>
+                        <p>{{item.birthday}}</p>
+                    </td>
+                    <td>
+                        <p>{{item.genderCode | sex}}</p>
+                    </td>
+                    <td>
+                        <a href="javascript:;" class="proposal_look" @click="look(item,'0')"><img
+                            src="images/icon_lookup.png" alt=""></a>
+                        <a href="javascript:;" class="proposal_xiugai" @click="look(item,'1')"><img
+                            src="images/icon_modify.png" alt=""></a>
+                        <a href="javascript:;" class="proposal_dalete" @click="delete_look(item,'1')"><img
+                            src="images/icon_delete.png" alt=""></a>
+                    </td>
+                </tr>
+            </template>
+        </table>
+        <!--                                           分页                                           -->
+        <!--<div class="pages mb15">-->
+        <!--<div class="clearfix">-->
+        <!--<span class="fl">共{{data.pages}}条</span>-->
+        <!--<div class="fl pages_btn clearfix">-->
+        <!--<a href="javascript:;" class="prev fl" @click="prev">上一页</a>-->
+        <!--<ul class="fl clearfix">-->
+        <!--<li v-for="(item,index) in data.pages"><a href="javascript:;">{{++index}}</a></li>-->
+        <!--</ul>-->
+        <!--<a href="javascript:;" class="next fl" @click="next">下一页</a>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <deletetpl :infodata="mydata" v-if="showDelete" @close="close" @submit_dalete="submit_dalete"></deletetpl>
+        <newtpl :infodata="mydata" v-if="showNew" @close="close" @submit_new="submit_new(9)"></newtpl>
+        <tpl :infodata="mydata" v-if="showDialog" @close="close" @submit_edit="submit_edit" />
+    </section>
+    <!-- 删除弹层 -->
+    <script type="text/x-template" id="delete_mask">
+        <div class="insure_built insure_built_lb" id="proposal_mask">
+            <div class="mask">
+                <div class="mask_con">
+                    <p class="mask_con_title">提示</p>
+                    <div class="mask_con_main">
+                        是否删除“{{name}}”的信息?
+                    </div>
+                    <div class="mask_con_btn">
+                        <p class="clearfix"><a href="javascript:;" class="fl" @click="$emit('submit_dalete')">确定</a><a href="javascript:;" class="fl" @click="$emit('close')">取消</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- 查看弹层模板 -->
+    <script type="text/x-template" id="look_mask">
+        <div class="insure_built details_layer customer_layer" id="look_mask_con">
+            <div class="mask">
+                <div class="mask_con">
+                    <div class="mask_con_main insuredinfo">
+                        <ul class="insuredinfo_con_list clearfix">
+                            <li class="clearfix">
+                                <p>姓名：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name pname fl" v-model="name" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>性别：</p>
+                                <div class="sex">
+                                    &nbsp;
+                                    <input type="radio" name="sex" value="1" v-model="genderCode" />&nbsp;
+                                    <label>男</label>&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="sex" value="2" v-model="genderCode" />&nbsp;
+                                    <label>女</label>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>国籍：</p>
+                                <div class="clearfix nationality">
+                                    <select class="nationality_list">
+                                        <option value="ML">中国大陆</option>
+                                        <option value="HK">港澳台</option>
+                                        <option value="OS">海外</option>
+                                    </select>
+                                    <select>
+                                        <option value="CHN">中国</option>
+                                    </select>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>出生日期：</p>
+                                <div class="clearfix datatime">
+                                    <input type="text" class="name ptime from_time from_time_me fl" v-model="birthday" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>婚姻状况：</p>
+                                <div class="clearfix marriage">
+                                    <select class="fl marriage_list">
+                                        <option value="0">未婚</option>
+                                        <option value="1">已婚</option>
+                                        <option value="7">其他</option>
+                                    </select>
+                                    <input type="text" class="fl marriage_text" v-model="marriage.des" disabled/>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>证件类型：</p>
+                                <div class="clearfix marriage">
+                                    <select class="fl paper_list">
+                                        <option value="0">身份证</option>
+                                        <option value="1">护照</option>
+                                        <option value="2">军官证</option>
+                                        <option value="3">驾照</option>
+                                        <option value="4">出生证明</option>
+                                        <option value="5">户口簿</option>
+                                        <option value="6">港澳台胞证</option>
+                                        <option value="7">其他</option>
+                                    </select>
+                                    <input type="text" class="fl paper_list2" v-model="card_type.des" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>证件号码：</p>
+                                <div>
+                                    <input type="text" class="name paper_code fl" v-model="cardNum" />
+                                    <i>*</i>
+                                    <br>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>证件起日期：</p>
+                                <div class="datatime clearfix">
+                                    <p class="fl" style="width:92%; margin-right: 10px;">
+                                        <input style="width:100%" type="text" class="name from_time from_time2 from_time_id longterm fl" v-model="cardStartTime" />
+                                        <!-- <i class="fl">*</i> -->
+                                    </p>
+                                   <!--  <p class="fl" style="line-height:26px;">
+                                        <label for="longtime" class="longterm_btn">长期</label>
+                                        <input type="checkbox" id="longtime" name="" class="longterm_che" style="display:inline-block;">
+                                    </p> -->
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>证件有效期：</p>
+                                <div class="datatime clearfix">
+                                    <input type="text" class="name from_time from_time_id longterm2 fl" v-model="cardTime" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>工作单位：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name work_unit  fl" v-model="enterprise" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>职务：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name duty fl" v-model="duty">
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>职业大类：</p>
+                                <div class="clearfix occupation">
+                                    <select class="fl occupation_big">
+                                        <option value="-1">请选择类</option>
+                                    </select>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>职业小类：</p>
+                                <div class="clearfix occupation">
+                                    <select class="fl occupation_small">
+                                        <option value="-1">请选择类</option>
+                                    </select>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>职业代码：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name occupation_code ccc fl" v-model="occupation.code" disabled style="background: #f5f5f5;" />
+                                    <i class="fl">*</i>
+                                    <br>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>类别：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name occupation_level ccc fl" v-model="occupation.level" disabled style="background: #f5f5f5;" />
+                                    <i class="fl">*</i>
+                                    <br>
+                                    <br>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>年收入(万元)：</p>
+                                <div class="clearfix">
+                                    <input type="number" class="name income fl" v-model="yearIncome" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix occupation">
+                                <p>联系地址：</p>
+                                <div class="clearfix " id="address1">
+                                    <p>
+                                        <select name="s_province" class="sheng_list">
+                                            <option value="-1">省（直辖市）</option>
+                                            <option value="110000">北京市</option>
+                                            <option value="120000">天津市</option>
+                                            <option value="130000">河北省</option>
+                                            <option value="140000">山西省</option>
+                                            <option value="150000">内蒙古自治区</option>
+                                            <option value="210000">辽宁省</option>
+                                            <option value="220000">吉林省</option>
+                                            <option value="230000">黑龙江省</option>
+                                            <option value="310000">上海市</option>
+                                            <option value="320000">江苏省</option>
+                                            <option value="330000">浙江省</option>
+                                            <option value="340000">安徽省</option>
+                                            <option value="350000">福建省</option>
+                                            <option value="360000">江西省</option>
+                                            <option value="370000">山东省</option>
+                                            <option value="410000">河南省</option>
+                                            <option value="420000">湖北省</option>
+                                            <option value="430000">湖南省</option>
+                                            <option value="440000">广东省</option>
+                                            <option value="450000">广西壮族自治区</option>
+                                            <option value="460000">海南省</option>
+                                            <option value="500000">重庆市</option>
+                                            <option value="510000">四川省</option>
+                                            <option value="520000">贵州省</option>
+                                            <option value="530000">云南省</option>
+                                            <option value="540000">西藏自治区</option>
+                                            <option value="610000">陕西省</option>
+                                            <option value="620000">甘肃省</option>
+                                            <option value="630000">青海省</option>
+                                            <option value="640000">宁夏回族自治区</option>
+                                            <option value="650000">新疆维吾尔自治区</option>
+                                            <option value="710000">台湾省</option>
+                                            <option value="810000">香港特别行政区</option>
+                                            <option value="820000">澳门特别行政区</option>
+                                        </select><i>*</i>
+                                    </p>
+                                    <p>
+                                        <select name="s_city" class="shi_list">
+                                            <option value="-1">市（县）</option>
+                                        </select><i>*</i>
+                                    </p>
+                                    <p>
+                                        <select name="s_county" class="qu_list">
+                                            <option value="-1">县（区）</option>
+                                        </select><i>*</i>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>乡镇（街道）：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name street fl" v-model="street" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(村社区)                                  -->
+                            <li class="clearfix">
+                                <p>村(社区)：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name community fl" v-model="community" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(邮政编码)                                  -->
+                            <li class="clearfix">
+                                <p>邮政编码：</p>
+                                <div class="clearfix">
+                                    <input type="number" class="name postalcode fl" v-model="postalcode" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(电话)                                  -->
+                            <li class="clearfix">
+                                <p>电话：</p>
+                                <div class="clearfix">
+                                    <input type="number" class="name phone fl" v-model="phone" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(手机)                                  -->
+                            <li class="clearfix">
+                                <p>手机：</p>
+                                <div class="clearfix">
+                                    <input type="number" class="name mobile fl" v-model="mobile" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(电子邮箱)                                  -->
+                            <li class="clearfix">
+                                <p>邮箱：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name email fl" v-model="email" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="mask_con_btn">
+                            <p class="clearfix">
+                                <span v-if="state==='0'">
+                                <a href="javascript:;" style="width: 100%; text-align: center;" class="fl con_btn_yes"
+                                   @click="$emit('close')">确定</a>
+                            </span>
+                                <span v-else>
+                                <a href="javascript:;" class="fl con_btn_yes" @click="$emit('submit_edit')">确定</a>
+                                <a href="javascript:;" class="fl con_btn_no" @click="$emit('close')">取消</a>
+                            </span>
+                                <span v-else="state==='2'">
+                                <a href="javascript:;" class="fl con_btn_yes">确定</a>
+                                <a href="javascript:;" class="fl con_btn_no" @click="$emit('close')">取消</a>
+                            </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!--新建客户模板-->
+    <template id="new_mask">
+        <div class="insure_built details_layer customer_layer" id="new_mask_con">
+            <div class="mask">
+                <div class="mask_con">
+                    <div class="mask_con_main insuredinfo">
+                        <ul class="insuredinfo_con_list clearfix">
+                            <li class="clearfix">
+                                <p>姓名：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name pname fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>性别：</p>
+                                <div class="sex">
+                                    &nbsp;
+                                    <input type="radio" name="sex" value="1" />&nbsp;
+                                    <label>男</label>&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" name="sex" value="2" />&nbsp;
+                                    <label>女</label>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>国籍：</p>
+                                <div class="clearfix nationality">
+                                    <select class="nationality_list">
+                                        <option value="ML">中国大陆</option>
+                                        <option value="HK">港澳台</option>
+                                        <option value="OS">海外</option>
+                                    </select>
+                                    <select>
+                                        <option value="CHN">中国</option>
+                                    </select>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>出生日期：</p>
+                                <div class="clearfix datatime">
+                                    <input type="text" class="name ptime from_time from_time_me  fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>婚姻状况：</p>
+                                <div class="clearfix marriage">
+                                    <select class="fl marriage_list">
+                                        <option value="0">未婚</option>
+                                        <option value="1">已婚</option>
+                                        <option value="7">其他</option>
+                                    </select>
+                                    <input type="text" class="fl marriage_text" disabled/>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>证件类型：</p>
+                                <div class="clearfix marriage">
+                                    <select class="fl paper_list">
+                                        <option value="0">身份证</option>
+                                        <option value="1">护照</option>
+                                        <option value="2">军官证</option>
+                                        <option value="3">驾照</option>
+                                        <option value="4">出生证明</option>
+                                        <option value="5">户口簿</option>
+                                        <option value="6">港澳台胞证</option>
+                                        <option value="7">其他</option>
+                                    </select>
+                                    <input type="text" class="fl paper_list2" disabled/>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>证件号码：</p>
+                                <div>
+                                    <input type="text" class="name paper_code fl" />
+                                    <i>*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>证件起日期：</p>
+                                <div class="datatime clearfix">
+                                    <p class="fl" style="width:92%; margin-right: 10px;">
+                                        <input style="width:100%" type="text" class="name from_time from_time2 from_time_id longterm fl" />
+                                        <!-- <i class="fl">*</i> -->
+                                    </p>
+                                    <!-- <p class="fl" style="line-height:26px;">
+                                        <label for="longtime" class="longterm_btn">长期</label>
+                                        <input type="checkbox" id="longtime" name="" class="longterm_che" style="display:inline-block;">
+                                    </p> -->
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>证件有效期：</p>
+                                <div class="datatime clearfix">
+                                    <input type="text" class="name from_time from_time_id longterm2 fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>工作单位：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name work_unit  fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>职务：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name duty fl">
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>职业大类：</p>
+                                <div class="clearfix occupation">
+                                    <select class="fl occupation_big">
+                                        <option value="-1">请选择类</option>
+                                    </select>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>职业小类：</p>
+                                <div class="clearfix occupation">
+                                    <select class="fl occupation_small">
+                                        <option value="-1">请选择类</option>
+                                    </select>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>职业代码：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name occupation_code ccc fl" disabled/>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>类别：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name occupation_level ccc fl" disabled/>
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>年收入(万元)：</p>
+                                <div class="clearfix">
+                                    <input type="number" class="name income fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <li class="clearfix occupation">
+                                <p>联系地址：</p>
+                                <div class="clearfix " id="address2">
+                                    <p>
+                                        <select name="s_province" class="sheng_list">
+                                            <option value="-1">省（直辖市）</option>
+                                            <option value="110000">北京市</option>
+                                            <option value="120000">天津市</option>
+                                            <option value="130000">河北省</option>
+                                            <option value="140000">山西省</option>
+                                            <option value="150000">内蒙古自治区</option>
+                                            <option value="210000">辽宁省</option>
+                                            <option value="220000">吉林省</option>
+                                            <option value="230000">黑龙江省</option>
+                                            <option value="310000">上海市</option>
+                                            <option value="320000">江苏省</option>
+                                            <option value="330000">浙江省</option>
+                                            <option value="340000">安徽省</option>
+                                            <option value="350000">福建省</option>
+                                            <option value="360000">江西省</option>
+                                            <option value="370000">山东省</option>
+                                            <option value="410000">河南省</option>
+                                            <option value="420000">湖北省</option>
+                                            <option value="430000">湖南省</option>
+                                            <option value="440000">广东省</option>
+                                            <option value="450000">广西壮族自治区</option>
+                                            <option value="460000">海南省</option>
+                                            <option value="500000">重庆市</option>
+                                            <option value="510000">四川省</option>
+                                            <option value="520000">贵州省</option>
+                                            <option value="530000">云南省</option>
+                                            <option value="540000">西藏自治区</option>
+                                            <option value="610000">陕西省</option>
+                                            <option value="620000">甘肃省</option>
+                                            <option value="630000">青海省</option>
+                                            <option value="640000">宁夏回族自治区</option>
+                                            <option value="650000">新疆维吾尔自治区</option>
+                                            <option value="710000">台湾省</option>
+                                            <option value="810000">香港特别行政区</option>
+                                            <option value="820000">澳门特别行政区</option>
+                                        </select><i>*</i>
+                                    </p>
+                                    <p>
+                                        <select name="s_city" class="shi_list">
+                                            <option value="-1">市（县）</option>
+                                        </select><i>*</i>
+                                    </p>
+                                    <p>
+                                        <select name="s_county" class="qu_list">
+                                            <option value="-1">县（区）</option>
+                                        </select><i>*</i>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="clearfix">
+                                <p>乡镇（街道）：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name street fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(村社区)                                  -->
+                            <li class="clearfix">
+                                <p>村(社区)：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name community fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(邮政编码)                                  -->
+                            <li class="clearfix">
+                                <p>邮政编码：</p>
+                                <div class="clearfix">
+                                    <input type="number" class="name postalcode fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(电话)                                  -->
+                            <li class="clearfix">
+                                <p>电话：</p>
+                                <div class="clearfix">
+                                    <input type="text" onkeyup="this.value=this.value.replace(/[^0-9\-\()]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9\-\()]/g,'')" class="name phone fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(手机)                                  -->
+                            <li class="clearfix">
+                                <p>手机：</p>
+                                <div class="clearfix">
+                                    <input type="number" class="name mobile fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                            <!--                                             新加字段(电子邮箱)                                  -->
+                            <li class="clearfix">
+                                <p>邮箱：</p>
+                                <div class="clearfix">
+                                    <input type="text" class="name email fl" />
+                                    <i class="fl">*</i>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="mask_con_btn">
+                            <p class="clearfix">
+                                <a href="javascript:;" class="fl con_btn_yes" @click="$emit('submit_new')">确定</a>
+                                <a href="javascript:;" class="fl con_btn_no" @click="$emit('close')">取消</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/style.js"></script>
+    <script src="js/mobiscroll_date.js"></script>
+    <script src="js/mobiscroll.js"></script>
+    <script src="js/occup_data.js"></script>
+    <script src="js/country.js"></script>
+    <script src="js/websql.js"></script>
+    <script src="js/vue.min.js"></script>
+    <script src="js/city.min.js"></script>
+    <script src="js/id.js"></script>
+    <script>
+    $(function() {
+        var s_Code = ["11", "12", "13", "14", "15", "21", "22", "23", "31", "32", "33", "34", "35", "36", "37", "41", "42", "43", "44", "45", "46", "50", "51", "52", "53", "54", "61", "62", "63", "64", "65", "71", "81", "82", "91"];
+        /*************************************************  页面初始化  ************************************************/
+        //创建数据库类
+        var db = WebSql().openDB();
+        //初始化职业数据
+        var OCCUPSEL = new OCCUP();
+        //判断是否是新增保单还是编辑保单
+        var policyId = localStorage.proposalId;
+        var dataCust = {
+            uesr: [],
+            pages: 0,
+            curpage: 0
+        };
+        //加载被保人信息
+        function loadMsg(callback) {
+            //用户信息表
+            db.exeSql('CREATE TABLE IF NOT EXISTS userInfo (userId TEXT REAL UNIQUE, name TEXT, genderCode TEXT, birthday TEXT, occupCate TEXT, occupation TEXT, lastModifiedDate TEXT, createDate TEXT, citizenship TEXT, smoke TEXT, marriage TEXT, degree TEXT, enterprise TEXT, provinceCode TEXT, street TEXT, cityCode TEXT, cardNum TEXT, cardStartTime TEXT, cardTime TEXT, city TEXT, familyAddress TEXT, area TEXT, duty TEXT, yearIncome TEXT, community TEXT, postalcode TEXT, card_type TEXT, email TEXT, phone TEXT, mobile TEXT, age TEXT,agentCode TEXT)', [], function(res) {});
+            db.query('SELECT * FROM userInfo WHERE agentCode = ? ORDER BY createDate', [localStorage.logcode], function(cres) {
+                var arr = [];
+                
+                for (var i in cres) {
+                    arr.push(cres[i]);
+                }
+                callback && callback(arr);
+            });
+        }
+
+        //分页
+        function pages(curPage, callback) {
+            loadMsg(function(result) {
+                var pageSize = pageSize || 100,
+                    sum = pageSize * curPage;
+                callback({
+                    curPage: curPage,
+                    totalPage: Math.ceil(result.length / pageSize),
+                    list: result.slice(sum, sum + pageSize)
+                });
+            })
+        }
+
+        pages(0, function(data) {
+            dataCust.uesr = data.list;
+            dataCust.pages = data.totalPage;
+        });
+        //查看客户信息模板
+        Vue.component('tpl', {
+            template: '#look_mask',
+            props: ['infodata'],
+            data: function() {
+                return this.infodata
+            },
+            updated: function() {
+                if (this.state === '0') {
+                    $('#look_mask_con').find('input').attr("disabled", true);
+                    $('#look_mask_con').find('select').attr("disabled", true);
+                }
+                //$('#address1 .sheng_list').val(this.provinceCode.code)
+            },
+            mounted: function() {
+                var _this = this;
+                if (this.state === '0') {
+                    $('#look_mask_con').find('input').attr("disabled", true);
+                    $('#look_mask_con').find('select').attr("disabled", true);
+                }
+                //省选择
+                $('#address1').on('change', '.sheng_list', function() {
+                    var parent = $(this).closest('.occupation');
+                    parent.find('.shi_list option:gt(0)').length && parent.find('.shi_list option:gt(0)').remove();
+                    parent.find('.qu_list option:gt(0)').length && parent.find('.qu_list option:gt(0)').remove();
+                    //parent.next('li').find('.street').val('');
+                    var _code = this.value;
+                    if (_code === '-1') return;
+                    var sub = cityData[$(this).val()],
+                        _html = '';
+                    for (var i in sub) {
+                        _html += '<option value="' + sub[i].code + '">' + sub[i].name + '</option>';
+                    }
+                    parent.find('.shi_list').html($(_html));
+                });
+                //市选择
+                $('#address1').on('change', '.shi_list', function() {
+                    var parent = $(this).closest('.occupation');
+                    parent.find('.qu_list option:gt(0)').length && parent.find('.qu_list option:gt(0)').remove();
+                    //parent.next('li').find('.street').val('');
+                    var _code = this.value;
+                    if (_code === '-1') return;
+                    var sub = areData[$(this).val()],
+                        _html = '';
+                    for (var i in sub) {
+                        _html += '<option value="' + sub[i].code + '">' + sub[i].name + '</option>';
+                    }
+                    parent.find('.qu_list').html($(_html));
+                });
+                //区选择
+                $('#address1').on('change', '.qu_list', function() {
+                    $(this).closest('.li').find('.street').val('');
+                });
+                if (this.provinceCode.code) {
+                    $('#address1 .sheng_list').val(this.provinceCode.code).change();
+                    $('#address1 .shi_list').val(this.cityCode.code).change();
+                }
+                //日期初始化
+                var currYear = (new Date()).getFullYear();
+                var opt = {};
+                opt.date = { preset: 'date' };
+                opt.datetime = { preset: 'datetime' };
+                opt.time = { preset: 'time' };
+                opt.default = {
+                    theme: 'android-ics light', //皮肤样式
+                    display: 'modal', //显示方式
+                    mode: 'scroller', //日期选择模式
+                    dateFormat: 'yyyy-mm-dd',
+                    lang: 'zh',
+                    showNow: true,
+                    nowText: "今天",
+                    startYear: currYear - 65, //开始年份
+                    endYear: currYear + 65 //结束年份
+                };
+                $('.ptime').mobiscroll($.extend({}, true, opt['date'], opt['default'], {
+                    onSelect: function() {
+                        _this.birthday = this.value;
+                    }
+                }));
+                $('.longterm2').mobiscroll($.extend({}, true, opt['date'], opt['default'], {
+                    onSelect: function() {
+                        _this.cardTime = this.value;
+                    }
+                }));
+                $('.longterm').mobiscroll($.extend({}, true, opt['date'], opt['default'], {
+                    onSelect: function() {
+                        _this.cardStartTime = this.value;
+                    }
+                }));
+                //职业类别选择变化
+                function occupChange(target, arg) {
+                    OCCUPSEL.init({
+                        opt1: target.find('.occupation_big'),
+                        opt2: target.find('.occupation_small'),
+                        curVal: arg,
+                        containFirst: true
+                    }, function(data) {
+                        var code = data.code,
+                            level = data.level;
+                        if (code === '-1' || code === '') {
+                            target.find('.occupation_code').val('');
+                            target.find('.occupation_level').val('');
+                        } else {
+                            target.find('.occupation_code').val(code);
+                            target.find('.occupation_level').val(level);
+                            _this.occupation.code = code;
+                            _this.occupation.level = level;
+                        }
+                    });
+                }
+
+                if (this.occupCate && this.occupation) {
+                    occupChange($('.insuredinfo'), { val1: this.occupCate.code, val2: this.occupation.code });
+                } else {
+                    occupChange($('.insuredinfo'));
+                }
+                //国籍选择
+                $('.insuredinfo').on('change', '.nationality_list', function() {
+                    var target = $(this).next().children().remove().end(),
+                        sub = COUNTRY[$(this).val()],
+                        _html = '';
+                    for (var i in sub) {
+                        _html += '<option value="' + sub[i].code + '">' + sub[i].name + '</option>';
+                    }
+                    $(_html).appendTo(target);
+                });
+                if (this.citizenship.type) {
+                    $('.nationality_list').val(this.citizenship.type).change();
+                } else {
+                    if (this.state === '0') {
+                        $('.nationality_list').val('');
+                    }
+                    $('.nationality_list').change();
+                }
+                //婚姻选择
+                $('.insuredinfo').on('change', '.marriage_list', function() {
+                    if ($(this).val() === '7') {
+                        $(this).next().attr('disabled', false).css('background', '#fff')
+                    } else {
+                        $(this).next().attr('disabled', true).val('').css('background', '#f5f5f5');
+                        _this.marriage.des = ''
+                    }
+                });
+                if (this.state === '1') {
+                    if (this.marriage.code) {
+                        $('.marriage_list').val(this.marriage.code).change();
+                    } else {
+                        $('.marriage_list').change();
+                    }
+                } else {
+                    $('.marriage_list').val(this.marriage.code).change();
+                    $('.marriage_text').attr('disabled', true).css('background', '#f5f5f5');
+                }
+                //证件类型选择
+                $('.insuredinfo').on('change', '.paper_list', function() {
+                    $(this).val() === '7' ? $(this).next().attr('disabled', false).css('background', '#fff') : $(this).next().attr('disabled', true).val('').css('background', '#f5f5f5');
+                });
+                if (this.state === '1') {
+                    if (this.card_type.code) {
+                        $('.paper_list').val(this.card_type.code).change();
+                    } else {
+                        $('.paper_list').change();
+                    }
+                } else {
+                    $('.paper_list').val(this.card_type.code).change();
+                    $('.paper_list_text').attr('disabled', true).css('background', '#f5f5f5')
+                }
+            }
+        });
+        //新建客户信息模板
+        Vue.component('newtpl', {
+            template: '#new_mask',
+            props: ['infodata'],
+            data: function() {
+                return this.infodata
+            },
+            mounted: function() {
+                var _this = this;
+                //省选择
+                $('#address2').on('change', '.sheng_list', function() {
+                    //处理
+                    var parent = $(this).closest('.occupation');
+                    parent.find('.shi_list option:gt(0)').length && parent.find('.shi_list option:gt(0)').remove();
+                    parent.find('.qu_list option:gt(0)').length && parent.find('.qu_list option:gt(0)').remove();
+                    parent.next('li').find('.street').val('');
+                    var _code = this.value;
+                    if (_code === '-1') return;
+                    var sub = cityData[$(this).val()],
+                        _html = '';
+                    for (var i in sub) {
+                        _html += '<option value="' + sub[i].code + '">' + sub[i].name + '</option>';
+                    }
+                    parent.find('.shi_list').append($(_html));
+                });
+                //市选择
+                $('#address2').on('change', '.shi_list', function() {
+                    //处理
+                    var parent = $(this).closest('.occupation');
+                    parent.find('.qu_list option:gt(0)').length && parent.find('.qu_list option:gt(0)').remove();
+                    parent.next('li').find('.street').val('');
+                    var _code = this.value;
+                    if (_code === '-1') return;
+                    var sub = areData[$(this).val()],
+                        _html = '';
+                    for (var i in sub) {
+                        _html += '<option value="' + sub[i].code + '">' + sub[i].name + '</option>';
+                    }
+                    parent.find('.qu_list').append($(_html));
+                });
+                //区选择
+                $('#address2').on('change', '.qu_list', function() {
+                    $(this).closest('.li').find('.street').val('');
+                });
+                //日期初始化
+                var currYear = (new Date()).getFullYear();
+                var opt = {};
+                opt.date = { preset: 'date' };
+                opt.datetime = { preset: 'datetime' };
+                opt.time = { preset: 'time' };
+                opt.default = {
+                    theme: 'android-ics light', //皮肤样式
+                    display: 'modal', //显示方式
+                    mode: 'scroller', //日期选择模式
+                    dateFormat: 'yyyy-mm-dd',
+                    lang: 'zh',
+                    showNow: true,
+                    nowText: "今天",
+                    startYear: currYear - 65, //开始年份
+                    endYear: currYear + 65, //结束年份
+                };
+                $('.ptime').mobiscroll($.extend({}, true, opt['date'], opt['default'], {
+                    onSelect: function() {
+                        _this.birthday = this.value;
+                    }
+                }));
+                $('.longterm2').mobiscroll($.extend({}, true, opt['date'], opt['default'], {
+                    onSelect: function() {
+                        _this.cardTime = this.value;
+                    }
+                }));
+                $('.longterm').mobiscroll($.extend({}, true, opt['date'], opt['default'], {
+                    onSelect: function() {
+                        _this.cardStartTime = this.value;
+                    }
+                }));
+
+                //职业类别选择变化
+                function occupChange(target, arg) {
+                    OCCUPSEL.init({
+                        opt1: target.find('.occupation_big'),
+                        opt2: target.find('.occupation_small'),
+                        curVal: arg,
+                        containFirst: true
+                    }, function(data) {
+                        var code = data.code,
+                            level = data.level;
+                        if (code === '-1' || code === '') {
+                            target.find('.occupation_code').val('');
+                            target.find('.occupation_level').val('');
+                        } else {
+                            target.find('.occupation_code').val(code);
+                            target.find('.occupation_level').val(level);
+                            _this.occupation.code = code;
+                            _this.occupation.level = level;
+                        }
+                    });
+                }
+
+                if (this.occupCate && this.occupation) {
+                    occupChange($('.insuredinfo'), { val1: this.occupCate.code, val2: this.occupation.code });
+                } else {
+                    occupChange($('.insuredinfo'));
+                }
+                //国籍选择
+                $('.insuredinfo').on('change', '.nationality_list', function() {
+                    var target = $(this).next().children().remove().end(),
+                        sub = COUNTRY[$(this).val()],
+                        _html = '';
+                    for (var i in sub) {
+                        _html += '<option value="' + sub[i].code + '">' + sub[i].name + '</option>';
+                    }
+                    $(_html).appendTo(target);
+                });
+                //婚姻选择
+                $('.insuredinfo').on('change', '.marriage_list', function() {
+                    if ($(this).val() === '7') {
+                        $(this).next().attr('disabled', false).css('background', '#fff')
+                    } else {
+                        $(this).next().attr('disabled', true).val('').css('background', '#f5f5f5');
+                        _this.marriage.des = ''
+                    }
+                });
+                //证件类型选择
+                $('.insuredinfo').on('change', '.paper_list', function() {
+                    $(this).val() === '7' ? $(this).next().attr('disabled', false).css('background', '#fff') : $(this).next().attr('disabled', true).val('').css('background', '#f5f5f5');
+                });
+            }
+        });
+
+        //删除客户信息模板
+        Vue.component('deletetpl', {
+            template: '#delete_mask',
+            props: ['infodata'],
+            data: function() {
+                return this.infodata
+            }
+        });
+
+        var cust = new Vue({
+            el: '#policy',
+            data: {
+                showDialog: false,
+                showDelete: false,
+                showNew: false,
+                data: dataCust,
+                mydata: {
+                    age: '',
+                    applicantId: '',
+                    area: '',
+                    birthday: '',
+                    cardNum: '',
+                    cardStartTime: '',
+                    cardTime: '',
+                    card_type: '',
+                    citizenship: '',
+                    city: '',
+                    cityCode: '',
+                    community: '',
+                    createDate: '',
+                    userId: '',
+                    degree: '',
+                    duty: '',
+                    email: '',
+                    enterprise: '',
+                    familyAddress: '',
+                    genderCode: '',
+                    id: '',
+                    insuredId: '',
+                    lastModifiedDate: '',
+                    marriage: '',
+                    mobile: '',
+                    name: '',
+                    occupCate: '',
+                    occupation: '',
+                    phone: '', //新加电话
+                    planNo: '',
+                    planUUID: '',
+                    policyUUID: '',
+                    provinceCode: '',
+                    relation: '',
+                    smoke: '',
+                    street: '',
+                    yearIncome: '',
+                    state: '',
+                    agentCode:''
+                }
+            },
+            filters: {
+                sex(value) {
+                    return value == 1 ? '男' : '女'
+                }
+            },
+            methods: {
+                //查看被保人信息
+                look: function(data, num) {
+                    var custID = $(event.target).closest('tr').attr('policy-id');
+                    this.showDialog = true;
+                    this.$nextTick(function() {
+                        $('#look_mask_con').attr('policyId', custID);
+                        $('#look_mask_con').show();
+                        //                    if(!$('#look_mask_con').attr('policyId')){
+                        //                        $('#look_mask_con').find('.sex input').prop('disabled',false);
+                        //                        $('#look_mask_con').find('.from_time').prop('disabled',false).css('background','#fff');
+                        //                    }
+                    });
+                    $.extend(true, this.mydata, data);
+                    this.mydata.state = num;
+                    this.mydata.citizenship = JSON.parse(data.citizenship) || '';
+                    this.mydata.marriage = JSON.parse(data.marriage) || '';
+                    this.mydata.card_type = JSON.parse(data.card_type) || '';
+                    this.mydata.occupCate = JSON.parse(data.occupCate) || '';
+                    this.mydata.occupation = JSON.parse(data.occupation) || '';
+                    this.mydata.provinceCode = JSON.parse(data.provinceCode) || '';
+                    this.mydata.cityCode = JSON.parse(data.cityCode) || '';
+                    this.mydata.area = JSON.parse(data.area) || '';
+                },
+                //新建客户
+                newly_build: function(data) {
+                    this.showNew = true;
+                    this.$nextTick(function() {
+                        $('#new_mask_con').fadeIn(0);
+                    });
+                },
+                //删除弹层
+                delete_look: function(data) {
+                    this.showDelete = true;
+                    this.$nextTick(function() {
+                        $('#proposal_mask').fadeIn(0);
+                    });
+                    $.extend(true, this.mydata, data);
+                },
+                //关闭弹窗
+                close: function() {
+                    this.showDialog = false;
+                    this.showDelete = false;
+                    this.showNew = false;
+                    $('#look_mask_con').fadeOut(0);
+                    $('#proposal_mask').fadeOut(0);
+                    $('#new_mask_con').fadeOut(0);
+                },
+                //编辑弹层确定
+                submit_edit: function() {
+                    var _this = this;
+                    //验证
+                    function checkForm() {
+                        var $info = $('.insuredinfo'),
+                            $list = $info.find('.insuredinfo_con_list'),
+                            _obj = {};
+                        //投保人流水
+                        _obj.userId = _this.mydata.userId;
+                        //姓名
+                        var $name = $list.find('.pname'),
+                            nameVal = $name.val();
+                        if (!nameVal) {
+                            alert('请输入被保人姓名');
+                            return false;
+                        }
+                        _obj.name = nameVal;
+                        //性别
+                        var $sex = $list.find('.sex :checked');
+                        if (!$sex.length) {
+                            alert('请选择被保人性别');
+                            return false;
+                        }
+                        _obj.sex = $sex.val();
+                        //国籍
+                        var citizenship = $list.find('.nationality_list').val(),
+                            citisub = $list.find('.nationality_list').next().val();
+                        _obj.guojia = JSON.stringify({ type: citizenship, code: citisub });
+                        //出生日期
+                        var $birth = $list.find('.ptime'),
+                            birthVal = $birth.val();
+                        if (!birthVal) {
+                            alert('请输入被保人出生日期');
+                            return false;
+                        }
+                        _obj.birth = birthVal;
+                        //婚姻
+                        var $marriage = $list.find('.marriage_list'),
+                            marriage = $marriage.val(),
+                            marryText = $marriage.next().val();
+                        if (marriage === '7' && !marryText) {
+                            alert('请输入被保人婚姻状况');
+                            return false;
+                        }
+                        _obj.marr = JSON.stringify({ code: marriage, des: marryText });
+                        //证件类型
+                        var aIdType = {};
+                        var idType = $list.find('.paper_list')[0],
+                            idText = $list.find('.paper_list2')[0];
+                        if (idType === '7' && !idText) {
+                            alert('请填写第' + cno + '被保人证件类型');
+                            return false;
+                        }
+                        aIdType.code = idType.value;
+                        aIdType.name = idType.options[idType.selectedIndex].text;
+                        aIdType.info = idText.value;
+                        var aIdType = JSON.stringify(aIdType);
+                        _obj.idcon = aIdType;
+                        //证件号码
+                        var $cardNum = $list.find('.paper_code'),
+                            cardNum = $cardNum.val();
+                        if (!cardNum) {
+                            alert('请输入被保人证件号');
+                            return false;
+                        }
+                        if (idType.value === '0' && !/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/.test(cardNum)) {
+                            alert('被保人证件号不正确');
+                            return false;
+                        }
+                        //户口薄校验
+                        if (idType.value === '5' && !/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/.test(cardNum)) {
+                            alert('被保人户口薄不正确');
+                            return false;
+                        }
+
+                        //判断身份和性别是否一致
+                        var mySex = $list.find('.sex input:checked').next().text();
+                        if (idType.value === '0' && Getsex(cardNum) != mySex) {
+                            alert('被保人的身份证性别不正确');
+                            return false;
+                        }
+                        //判断户口薄和性别是否一致
+                        if (idType.value === '5' && Getsex(cardNum) != mySex) {
+                            alert('被保人的身份证性别不正确');
+                            return false;
+                        }
+                        //判断身份生日和生日是否一致
+                        var bir = $list.find('.from_time_me').val();
+                        var cubir = getBirthdatByIdNo(cardNum);
+                        if (idType.value === '0' && bir != cubir) {
+                            alert('被保人身份证日期不正确');
+                            return false;
+                        }
+                        //判断户口薄生日和生日是否一致
+                        if (idType.value === '5' && bir != cubir) {
+                            alert('被保人户口薄日期不正确');
+                            return false;
+                        }
+                        //身份证省校验
+                        var s_Code1 = s_Code.join('-');
+                        var re_x = /[x]/g;
+                        if (s_Code1.indexOf(cardNum.substring(0, 2)) == -1) {
+                            alert('投保人证件号省份不正确');
+                            return false;
+                        } else if (re_x.test(cardNum)) {
+                            alert('请输入大写的X');
+                            return false;
+                        }
+                        _obj.cardNum = cardNum;
+                        //证件起日期
+                        var cardStartTime = $list.find('.longterm').val();
+                        if (!cardStartTime) {
+                            alert('请输入被保人证件起效期');
+                            return false;
+                        }
+                        _obj.cardStartTime = cardStartTime;
+                        //证件有效期
+                        var $cardTime = $list.find('.longterm2'),
+                            cardTime = $cardTime.val();
+                        if (!cardTime) {
+                            alert('请输入被保人证件有效期');
+                            return false;
+                        }
+                        _obj.cardTime = cardTime;
+                        //工作单位
+                        var $wordUnit = $list.find('.work_unit'),
+                            wordUnit = $wordUnit.val();
+                        if (!wordUnit) {
+                            alert('请输入被保人工作单位');
+                            return false;
+                        }
+                        _obj.wordUnit = wordUnit;
+                        //职务
+                        var duty = $list.find('.duty').val();
+                        if (!duty) {
+                            alert('请填写被保人职务');
+                            return false;
+                        }
+                        _obj.duty = duty;
+                        //职业代码
+                        var $big = $list.find('.occupation_big'),
+                            $small = $list.find('.occupation_small'),
+                            coucp1 = {},
+                            coucp2 = {};
+                        if ($big.val() === '-1') {
+                            alert('请输入投保人职业大类');
+                            return false;
+                        }
+                        if ($small.val() === '-1') {
+                            alert('请输入投保人职业小类');
+                            return false;
+                        }
+                        coucp1.code = $big.val();
+                        coucp1.name = $big[0].options[$big[0].selectedIndex].text;
+                        coucp2.code = $small.val();
+                        coucp2.name = $small[0].options[$small[0].selectedIndex].text;
+                        coucp2.level = $small.find(':checked').attr('level');
+                        _obj.occupCate = JSON.stringify(coucp1);
+                        _obj.occupation = JSON.stringify(coucp2);
+                        //年收入
+                        var $yearIncome = $list.find('.income'),
+                            yearIncome = $yearIncome.val();
+                        if (!yearIncome) {
+                            alert('请输入被保人年收入');
+                            return false;
+                        }
+                        _obj.yearIncome = yearIncome;
+                        //省
+                        var oSheng = {};
+                        var sheng = $list.find('.sheng_list')[0];
+                        if (sheng === '-1') {
+                            alert('请选择被保人所在省（直辖市）');
+                            return false;
+                        }
+                        oSheng.code = sheng.value;
+                        oSheng.name = sheng.options[sheng.selectedIndex].text;
+                        var oSheng = JSON.stringify(oSheng);
+                        _obj.sheng = oSheng;
+                        //市
+                        var oShi = {};
+                        var shi = $list.find('.shi_list')[0];
+                        if (shi === '-1') {
+                            alert('请选择被保人所在市（县）');
+                            return false;
+                        }
+                        oShi.code = shi.value;
+                        oShi.name = shi.options[shi.selectedIndex].text;
+                        var oShi = JSON.stringify(oShi);
+                        _obj.shi = oShi;
+                        //区
+                        var oQu = {};
+                        var qu = $list.find('.qu_list')[0];
+                        if (qu === '-1') {
+                            alert('请选择被保人所在县（区）');
+                            return false;
+                        }
+                        oQu.code = qu.value;
+                        oQu.name = qu.options[qu.selectedIndex].text;
+                        var oQu = JSON.stringify(oQu);
+                        _obj.qu = oQu;
+                        //街道
+                        var street = $list.find('.street').val();
+                        if (!street) {
+                            alert('请选择被保人所在街道');
+                            return false;
+                        }
+                        _obj.street = street;
+                        //村(社区)
+                        var $community = $list.find('.community'),
+                            community = $community.val();
+                        if (!community) {
+                            alert('请填写被保人社区');
+                            return false;
+                        }
+                        _obj.community = community;
+                        //邮政编码
+                        var $postalcode = $list.find('.postalcode'),
+                            postalcode = $postalcode.val();
+                        if (!postalcode) {
+                            alert('请填写被保人邮政号码');
+                            return false;
+                        }
+                        if (!/^[1-9][0-9]{5}$/.test(postalcode)) {
+                            alert('请输入正确的邮政编码');
+                            return false;
+                        }
+                        _obj.postalcode = postalcode;
+                         //电话
+                        var phone = $list.find('.phone').val();
+                        var mobile = $list.find('.mobile').val();
+                        if (!mobile && !phone) {
+                            alert('请填写第' + cno + '被保人手机号或电话号');
+                            result.length = 0;
+                            $(window).scrollTop($list.find('.mobile').offset().top);
+                            return false;
+                        };
+                        if (mobile) {
+                            if (!/^1[3|4|5|7|8][0-9]{9}$/.test(mobile)) {
+                                alert('请输入正确的手机号码');
+                                result.length = 0;
+                                $(window).scrollTop($list.find('.mobile').offset().top);
+                                return false;
+                            }
+                        };
+                        if (phone) {
+                            if (!/(\(\d{3,4}\)|\d{3,4}-|\s)?\d{8}/.test(phone)) {
+                                alert('请输入正确的电话号码');
+                                result.length = 0;
+                                $(window).scrollTop($list.find('.phone').offset().top);
+                                return false;
+                            }
+                        };
+                        _obj.phone = phone;
+                        _obj.mobile = mobile;
+                        //电子邮箱
+                        var $email = $list.find('.email'),
+                            email = $email.val();
+                        // if (!email) {
+                        //     alert('请填写被保人电子邮箱');
+                        //     return false;
+                        // }
+                        // if (!/^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/.test(email)) {
+                        //     alert('请输入正确的邮箱');
+                        //     return false;
+                        // }
+                        _obj.email = email;
+                        return _obj;
+                    }
+
+                    //更新被保人信息
+                    var result = checkForm();
+                    if (!result) return;
+                    var custId = result.userId;
+                    now = (new Date).Format('yyyy-MM-dd');
+                    if (custId) {
+                        db.exeSql('UPDATE userInfo SET name = ?, genderCode = ?, citizenship = ?, birthday = ?, marriage = ?, card_type = ?, cardNum = ?,cardStartTime=?, cardTime = ?, enterprise = ?, occupCate = ?, occupation = ?, yearIncome = ?, provinceCode = ?, cityCode = ?, area = ?, street = ?, duty = ?, community = ?, postalcode = ?, phone = ?, mobile = ?, email = ?, lastModifiedDate = ?,agentCode = ?  WHERE userId = ?', [result.name, result.sex, result.guojia, result.birth, result.marr, result.idcon, result.cardNum,result.cardStartTime, result.cardTime, result.wordUnit, result.occupCate, result.occupation, result.yearIncome, result.sheng, result.shi, result.qu, result.street, result.duty, result.community, result.postalcode, result.phone, result.mobile, result.email, now,localStorage.logcode, custId], function(res) {
+                            _this.close();
+                            pages(0, function(data) {
+                                dataCust.uesr = data.list;
+                                dataCust.pages = data.totalPage;
+                            });
+                        });
+                    }
+                },
+                //删除弹层确定
+                submit_dalete: function(e) {
+                    var _this = this;
+                    _this.close();
+                    var custId = _this.mydata.userId;
+                    var policyId = _this.mydata.policyUUID;
+                    if (!policyId) {
+                        db.exeSql('DELETE FROM userInfo WHERE userId = ?', [custId], function(res) {
+                            if (res) {
+                                pages(0, function(data) {
+                                    dataCust.uesr = data.list;
+                                    dataCust.pages = data.totalPage;
+                                });
+                            }
+                        });
+                    } else {
+                        alert('不可删除')
+                    }
+                },
+                //新建客户弹层确定
+                submit_new: function(num) {
+                    var _this = this;
+                    //验证
+                    function checkForm() {
+                        var $info = $('.insuredinfo'),
+                            $list = $info.find('.insuredinfo_con_list'),
+                            _obj = {};
+                        //投保人流水
+                        //_obj.custId = _this.mydata.userId;
+                        //姓名
+                        var $name = $list.find('.pname'),
+                            nameVal = $name.val();
+                        if (!nameVal) {
+                            alert('请输入被保人姓名');
+                            return false;
+                        }
+                        _obj.name = nameVal;
+
+                        //性别
+                        var $sex = $list.find('.sex :checked');
+                        if (!$sex.length) {
+                            alert('请选择被保人性别');
+                            return false;
+                        }
+                        _obj.sex = $sex.val();
+                        //国籍
+                        var citizenship = $list.find('.nationality_list').val(),
+                            citisub = $list.find('.nationality_list').next().val();
+                        _obj.guojia = JSON.stringify({ type: citizenship, code: citisub });
+                        //出生日期
+                        var $birth = $list.find('.ptime'),
+                            birthVal = $birth.val();
+                        if (!birthVal) {
+                            alert('请输入被保人出生日期');
+                            return false;
+                        }
+                        _obj.birth = birthVal;
+                        //婚姻
+                        var $marriage = $list.find('.marriage_list'),
+                            marriage = $marriage.val(),
+                            marryText = $marriage.next().val();
+                        if (marriage === '7' && !marryText) {
+                            alert('请输入被保人婚姻状况');
+                            return false;
+                        }
+                        _obj.marr = JSON.stringify({ code: marriage, des: marryText });
+                        //证件类型
+                        var aIdType = {};
+                        var idType = $list.find('.paper_list')[0],
+                            idText = $list.find('.paper_list2')[0];
+                        if (idType === '7' && !idText) {
+                            alert('请填写第' + cno + '被保人证件类型');
+                            result.length = 0;
+                            return false;
+                        }
+                        aIdType.code = idType.value;
+                        aIdType.name = idType.options[idType.selectedIndex].text;
+                        aIdType.info = idText.value;
+                        var aIdType = JSON.stringify(aIdType);
+                        _obj.idcon = aIdType;
+                        /***2017-8-25添加身份证和户口薄校验*************************************************************************************************************/
+                        //证件号码
+                        var $cardNum = $list.find('.paper_code'),
+                            cardNum = $cardNum.val();
+                        if (!cardNum) {
+                            alert('请输入被保人证件号');
+                            return false;
+                        }
+                        if (idType.value === '0' && !/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/.test(cardNum)) {
+                            alert('被保人证件号不正确');
+                            return false;
+                        }
+                        //户口薄校验
+                        if (idType.value === '5' && !/(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/.test(cardNum)) {
+                            alert('被保人户口薄不正确');
+                            return false;
+                        }
+
+                        //判断身份和性别是否一致
+                        var mySex = $list.find('.sex input:checked').next().text();
+                        if (idType.value === '0' && Getsex(cardNum) != mySex) {
+                            alert('被保人的身份证性别不正确');
+                            return false;
+                        }
+                        //判断户口薄和性别是否一致
+                        if (idType.value === '5' && Getsex(cardNum) != mySex) {
+                            alert('被保人的身份证性别不正确');
+                            return false;
+                        }
+                        //判断身份生日和生日是否一致
+                        var bir = $list.find('.from_time_me').val();
+                        var cubir = getBirthdatByIdNo(cardNum);
+                        if (idType.value === '0' && bir != cubir) {
+
+                            alert('被保人身份证日期不正确');
+                            return false;
+                        }
+                        //判断户口薄生日和生日是否一致
+                        if (idType.value === '5' && bir != cubir) {
+
+                            alert('被保人户口薄日期不正确');
+                            return false;
+                        }
+                        _obj.cardNum = cardNum;
+                        //证件起日期
+                        var cardStartTime = $list.find('.longterm').val();
+                        if (!cardStartTime) {
+                            alert('请输入被保人证件起效期');
+                            return false;
+                        }
+                        _obj.cardStartTime = cardStartTime;
+                        //证件有效期
+                        var $cardTime = $list.find('.longterm2'),
+                            cardTime = $cardTime.val();
+                        if (!cardTime) {
+                            alert('请输入被保人证件有效期');
+                            return false;
+                        }
+                        _obj.cardTime = cardTime;
+                        //工作单位
+                        var $wordUnit = $list.find('.work_unit'),
+                            wordUnit = $wordUnit.val();
+                        if (!wordUnit) {
+                            alert('请输入被保人工作单位');
+                            return false;
+                        }
+                        _obj.wordUnit = wordUnit;
+                        //职务
+                        var duty = $list.find('.duty').val();
+                        if (!duty) {
+                            alert('请填写被保人职务');
+                            return false;
+                        }
+                        _obj.duty = duty;
+                        //职业代码
+                        var $big = $list.find('.occupation_big'),
+                            $small = $list.find('.occupation_small'),
+                            coucp1 = {},
+                            coucp2 = {};
+                        if ($big.val() === '-1') {
+                            alert('请输入投保人职业大类');
+                            return false;
+                        }
+                        if ($small.val() === '-1') {
+                            alert('请输入投保人职业小类');
+                            $(window).scrollTop($small.parent().offset().top);
+                            return null;
+                        }
+                        coucp1.code = $big.val();
+                        coucp1.name = $big[0].options[$big[0].selectedIndex].text;
+                        coucp2.code = $small.val();
+                        coucp2.name = $small[0].options[$small[0].selectedIndex].text;
+                        coucp2.level = $small.find(':checked').attr('level');
+                        _obj.occupCate = JSON.stringify(coucp1);
+                        _obj.occupation = JSON.stringify(coucp2);
+
+                        //年收入
+                        var $yearIncome = $list.find('.income'),
+                            yearIncome = $yearIncome.val();
+                        if (!yearIncome) {
+                            alert('请输入被保人年收入');
+                            return false;
+                        }
+                        _obj.yearIncome = yearIncome;
+
+                        //省
+                        var oSheng = {};
+                        var sheng = $list.find('.sheng_list')[0];
+                        if (sheng === '-1') {
+                            alert('请选择被保人所在省（直辖市）');
+                            return false;
+                        }
+                        oSheng.code = sheng.value;
+                        oSheng.name = sheng.options[sheng.selectedIndex].text;
+                        var oSheng = JSON.stringify(oSheng);
+                        _obj.sheng = oSheng;
+
+                        //市
+                        var oShi = {};
+                        var shi = $list.find('.shi_list')[0];
+                        if (shi === '-1') {
+                            alert('请选择被保人所在市（县）');
+                            return false;
+                        }
+                        oShi.code = shi.value;
+                        oShi.name = shi.options[shi.selectedIndex].text;
+                        var oShi = JSON.stringify(oShi);
+                        _obj.shi = oShi;
+
+                        //区
+                        var oQu = {};
+                        var qu = $list.find('.qu_list')[0];
+                        if (qu === '-1') {
+                            alert('请选择被保人所在县（区）');
+                            return false;
+                        }
+                        oQu.code = qu.value;
+                        oQu.name = qu.options[qu.selectedIndex].text;
+                        var oQu = JSON.stringify(oQu);
+                        _obj.qu = oQu;
+
+                        //街道
+                        var street = $list.find('.street').val();
+                        if (!street) {
+                            alert('请选择被保人所在街道');
+                            return false;
+                        }
+                        _obj.street = street;
+                        //村(社区)
+                        var $community = $list.find('.community'),
+                            community = $community.val();
+                        if (!community) {
+                            alert('请填写被保人社区');
+                            return false;
+                        }
+                        _obj.community = community;
+                        //邮政编码
+                        var $postalcode = $list.find('.postalcode'),
+                            postalcode = $postalcode.val();
+                        if (!postalcode) {
+                            alert('请填写被保人邮政号码');
+                            return false;
+                        }
+                        if (!/^[1-9][0-9]{5}$/.test(postalcode)) {
+                            alert('请输入正确的邮政编码');
+                            return false;
+                        }
+                        _obj.postalcode = postalcode;
+                        //电话
+                        var phone = $list.find('.phone').val();
+                        var mobile = $list.find('.mobile').val();
+                        if (!mobile && !phone) {
+                            alert('请填写第' + cno + '被保人手机号或电话号');
+                            result.length = 0;
+                            $(window).scrollTop($list.find('.mobile').offset().top);
+                            return false;
+                        };
+                        if (mobile) {
+                            if (!/^1[3|4|5|7|8][0-9]{9}$/.test(mobile)) {
+                                alert('请输入正确的手机号码');
+                                result.length = 0;
+                                $(window).scrollTop($list.find('.mobile').offset().top);
+                                return false;
+                            }
+                        };
+                        if (phone) {
+                            if (!/(\(\d{3,4}\)|\d{3,4}-|\s)?\d{8}/.test(phone)) {
+                                alert('请输入正确的电话号码');
+                                result.length = 0;
+                                $(window).scrollTop($list.find('.phone').offset().top);
+                                return false;
+                            }
+                        };
+                        _obj.phone = phone;
+                        _obj.mobile = mobile;
+                        //电子邮箱
+                        var $email = $list.find('.email'),
+                            email = $email.val();
+                        // if (!email) {
+                        //     alert('请填写被保人电子邮箱');
+                        //     return false;
+                        // }
+                        // if (!/^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/.test(email)) {
+                        //     alert('请输入正确的邮箱');
+                        //     return false;
+                        // }
+                        _obj.email = email;
+                        return _obj;
+                    }
+
+                    //添加被保人信息
+                    var result = checkForm();
+                    if (!result) return;
+                    //var custId = result.custId;
+                    custId = db.getUUID('PT');
+                    now = (new Date).Format('yyyy-MM-dd');
+                    custId = db.getUUID('PT');
+                    console.log(localStorage.logcode)
+                    db.exeSql('INSERT INTO userInfo (userId, name, genderCode, citizenship, birthday, marriage, card_type,cardNum, cardStartTime, cardTime, enterprise, occupCate, occupation, yearIncome, provinceCode, cityCode, area, street, duty, community, postalcode, phone, mobile, email, createDate,agentCode) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)', [custId, result.name, result.sex, result.guojia, result.birth, result.marr, result.idcon, result.cardNum,result.cardStartTime,result.cardTime, result.wordUnit, result.occupCate, result.occupation, result.yearIncome, result.sheng, result.shi, result.qu, result.street, result.duty, result.community, result.postalcode, result.phone, result.mobile, result.email, now,localStorage.logcode], function(res) {
+                        if (res) {
+                            _this.close();
+                            pages(0, function(data) {
+                                dataCust.uesr = data.list;
+                                dataCust.pages = data.totalPage;
+                            });
+                        }
+                    });
+                },
+                //搜索客户
+                search: function() {
+                    var nameText = $('.oddnum').val();
+                    var _this = this;
+                    db.query("SELECT * FROM userInfo WHERE name LIKE '%" + nameText + "%'", [], function(res) {
+                        if (res.length) {
+                            _this.data.uesr = res;
+                        } else {
+                            alert('没有此客户')
+                        }
+                    });
+                },
+                //搜索清空
+                empty: function(e) {
+                    var input = $(e.target);
+                    input.keyup(function() {
+                        if ($(this).val() == '') {
+                            pages(0, function(data) {
+                                dataCust.uesr = data.list;
+                                dataCust.pages = data.totalPage;
+                            });
+                        }
+                    })
+                },
+                //重置按钮
+                reset: function() {
+                    $('.oddnum').val('');
+                    pages(0, function(data) {
+                        dataCust.uesr = data.list;
+                        dataCust.pages = data.totalPage;
+                    });
+                },
+                next: function() {
+                    var _this = this;
+                    pages(++_this.curpage, function(data) {
+                        dataCust.uesr = data.list;
+                        dataCust.pages = data.totalPage;
+                    });
+                },
+                prev: function() {
+                    var _this = this;
+                    pages(--_this.curpage, function(data) {
+                        dataCust.uesr = data.list;
+                        dataCust.pages = data.totalPage;
+                    })
+                }
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>

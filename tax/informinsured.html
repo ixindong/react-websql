@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <title>被保人告知</title>
+    <link rel="stylesheet" href="css/webapp_reset.css">
+    <link rel="stylesheet" href=css/style.css>
+    <style>
+        .title>span{
+            width: 12px;
+            height: 12px;
+            display: inline-block;
+            border: 1px solid #333;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 12px;
+        }
+        input[type=text]{
+            text-align: center;
+        }
+        .info_list_mask2>div{
+            position: absolute;
+            top: 50%;
+            left: 4%;
+            transform: translateY(-50%);
+            width: 92%;
+            z-index: 3;
+        }
+        .quesInfo .info_con .info_list li.isHide{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+<header><span>被保人告知</span><a href="../index.html" class="return" >返回</a></header>
+<section>
+    <div class="quesInfo"></div>
+    <p class="beneficiary_btn mb15 clearfix"><a href="javascript:;" class="prev">上一步</a><a href="javascript:;" class="next">下一步</a></p>
+</section>
+
+
+<!--                                模板                              -->
+<div class="tempalte-life">
+    <!-- 被保人告知模板 -->
+    <div id="tpl_inform">
+        <div class="inform mb15" custId="{{custId}}" quesId={{quesId}} qversion="001">
+            <p class="title">第<span>{{insuredNo}}</span>被保险人告知</p>
+            <div class="info_con">
+                <ol class="info_list">
+                    <li>
+                        <p><span class="ques_no">1</span>、被保险人的身高(厘米cm)/体重(千克kg)</p>
+                        <p class="fill" qcode="010">
+                            <input type="number" class="q-height" value="{{height}}" oninput="if(value.length>3)value=value.slice(0,3)"/><span>cm</span>/
+                            <input type="number" class="q-weight" value="{{weight}}" oninput="if(value.length>3)value=value.slice(0,3)"/><span>kg</span></p>
+                    </li>
+                    <li>
+<p><span class="ques_no">2</span>、被保险人的医疗费用支付方式：<br>①公费医疗②社会医疗保险③商业医疗保险④自费⑤补充医疗保险</p>
+                        <p class="pay" qcode="170">
+                            &nbsp;&nbsp;<input type="checkbox" class="pays" id="pay_{{index}}_1" value="1"><label for="pay_{{index}}_1"></label>①
+                            <input type="checkbox" class="pays" id="pay_{{index}}_2" value="2"><label for="pay_{{index}}_2"></label>②
+                            <input type="checkbox" class="pays" id="pay_{{index}}_3" value="3"><label for="pay_{{index}}_3"></label>③
+                            <input type="checkbox" class="pays" id="pay_{{index}}_4" value="4"><label for="pay_{{index}}_4"></label>④
+                            <input type="checkbox" class="pays" id="pay_{{index}}_5" value="5"><label for="pay_{{index}}_5"></label>⑤
+                        </p>
+                    </li>
+                    <li>
+                        <p><span class="ques_no">3</span>、是否有吸烟习惯？如有请告知每日吸烟量与年数。</p>
+                        <p class="q-smoke" qcode="180">
+                            &nbsp;&nbsp;<input type="radio" name="choice_{{insuredNo}}" value="1"/><span>是</span>
+                            <input type="radio" name="choice_{{insuredNo}}" value="2" checked/><span>否</span>
+                        </p>
+                        <div class="info_list_mask">
+                            <span>每日<input type="text" class="g-everyday" value="{{everyday}}">根</span>
+                            <span>年数</span><input type="text" class="g-years1" value="{{years1}}">
+                        </div>
+                    </li>
+                    <li>
+                        <p><span class="ques_no">4</span>、是否有饮酒习惯？如有请告知种类(①白酒②啤酒③葡萄酒④黄酒)、每日饮酒量(两)与年数。</p>
+                        <p class="q-drink" qcode="190">
+                            &nbsp;&nbsp;<input type="radio" name="drink_{{insuredNo}}" value="1" /><span>是</span>
+                            <input type="radio" name="drink_{{insuredNo}}" value="2"  checked /><span>否</span>
+                        </p>
+                        <div class="info_list_mask">
+                            <span>种类<input type="text" class="q-type" value="{{type}}"></span>
+                            <span>每日饮料量<input type="text" class="g-num" value="{{num}}"></span>
+                            <span>年数<input type="text" class="g-year2" value="{{years2}}"></span>
+                        </div>
+                    </li>
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">5</span>、是否有正在生效的商业人身险(医疗险,重大疾病险,护理保险,意外险或寿险)产品？</p>-->
+                        <!--<p class="q-takeeffect" qcode="200">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="takeeffect_{{insuredNo}}" value="1" /><span>是</span>-->
+                            <!--<input type="radio" name="takeeffect_{{insuredNo}}" value="2" checked/><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-lifeinsurance" value="{{lifeinsurance}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <li>
+                        <p><span class="ques_no">5</span>、是否有人身保险被保险公司拒保、延期、加费、免责的投保经历或向保险公司提出过理赔申请？</p>
+                        <p class="q-declinature" qcode="210">
+                            &nbsp;&nbsp;<input type="radio" name="declinature_{{insuredNo}}" value="1" /><span>是</span>
+                            <input type="radio" name="declinature_{{insuredNo}}" value="2" checked /><span>否</span>
+                        </p>
+                        <div class="info_list_mask info_list_mask2">
+                            <span>请注明 <input type="text" class="g-declinature" value="{{declinatures}}"></span>
+                        </div>
+                    </li>
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">7</span>、有无危险运动爱好？</p>-->
+                        <!--<p class="q-motion" qcode="040">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="motion_{{insuredNo}}" value="1" /><span>是</span>-->
+                            <!--<input type="radio" name="motion_{{insuredNo}}" value="2" checked /><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-motion" value="{{motions}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <li>
+                        <p><span class="ques_no">6</span>、过去十年内是否曾住院检查或治疗(包括疗养院、康复医院等医疗机构)？</p>
+                        <p class="q-treatment" qcode="050">
+                            &nbsp;&nbsp;<input type="radio" name="treatment_{{insuredNo}}" value="1"  /><span>是</span>
+                            <input type="radio" name="treatment_{{insuredNo}}" value="2" checked /><span>否</span>
+                        </p>
+                        <div class="info_list_mask info_list_mask2">
+                            <span>请注明 <input type="text" class="g-treatment" value="{{treatments}}"></span>
+                        </div>
+                    </li>
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">9</span>、过去十年内是否做过手术(包括门诊手术)？</p>-->
+                        <!--<p class="q-operation" qcode="060">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="operation_{{insuredNo}}" value="1" /><span>是</span>-->
+                            <!--<input type="radio" name="operation_{{insuredNo}}" value="2"  checked /><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-operation" value="{{operations}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">10</span>、过去十年内是否接受过心理或药物成瘾性治疗？</p>-->
+                        <!--<p class="q-medicine" qcode="070">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="medicine_{{insuredNo}}" value="1"  /><span>是</span>-->
+                            <!--<input type="radio" name="medicine_{{insuredNo}}" value="2"  checked /><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-medicine" value="{{medicines}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">11</span>、过去两年内是否参加身体检查并发现结果异常？</p>-->
+                        <!--<p class="q-test" qcode="090">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="test_{{insuredNo}}" value="1" /><span>是</span>-->
+                            <!--<input type="radio" name="test_{{insuredNo}}" value="2"  checked /><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-test" value="{{tests}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">12</span>、您在过去三年内是否因疾病而持续治疗超过2周？</p>-->
+                        <!--<p class="q-inspect" qcode="080">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="inspect_{{insuredNo}}" value="1"  /><span>是</span>-->
+                            <!--<input type="radio" name="inspect_{{insuredNo}}" value="2"  checked /><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-inspect" value="{{inspects}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">13</span>、过去一年内是否使用过药物？</p>-->
+                        <!--<p class="q-medication" qcode="100">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="medication_{{insuredNo}}" value="1"  /><span>是</span>-->
+                            <!--<input type="radio" name="medication_{{insuredNo}}" value="2" checked /><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-medication" value="{{medications}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">14</span>、过去一年中是否有发热、疼痛、大小便异常、体重明显变化或者其它不适症状？</p>-->
+                        <!--<p class="q-symptom" qcode="110">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="symptom_{{insuredNo}}" value="1"  /><span>是</span>-->
+                            <!--<input type="radio" name="symptom_{{insuredNo}}" value="2" checked /><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-symptom" value="{{symptoms}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <li>
+                        <p><span class="ques_no">7</span>、是否患有以下疾病：A、呼吸系统疾病：支气管扩张，肺气肿，慢性支气管炎，肺心病，尘肺，肺纤维化，肺栓塞，原发性肺动脉高压； B、泌尿系统疾病：慢性肾炎，肾病综合征，肾积水，慢性肾功能衰竭，慢性肾盂肾炎； C、消化系统疾病：溃疡性结肠炎，克隆病，慢性肝炎，肝纤维化，肝硬化，慢性胰腺炎； D、心血管系统疾病：高血压2级（收缩压≥160mmHg,或舒张压≥100mmHg）及以上，风湿性心脏病，心肌病，心绞痛，冠心病，心肌梗死，病态窦性综合征，慢性心力衰竭，心内膜炎，心脏瓣膜病，动脉瘤； E、血液、淋巴系统疾病：白血病，再生障碍性贫血，淋巴瘤，骨髓瘤，血小板减少性紫癜，血友病； F、骨骼、关节、肌肉、结缔组织疾病：类风湿性关节炎，强直性脊柱炎，干燥综合征，股骨头坏死，慢性脊髓炎，系统性红斑狼疮，系统性硬皮病； G、内分泌、代谢系统疾病：糖尿病，肢端肥大症、肾上腺疾病； H、脑、神经系统、精神类疾病：精神疾病，癫痫，脑血管疾病（脑出血，脑梗死，脑血栓），蛛网膜下腔出血，脑炎，脑膜炎，脑肿瘤，脑动脉瘤，垂体疾病，帕金森病，脊髓空洞症，重症肌无力，肌营养不良症，多发性硬化； I、生殖系统疾病：侵蚀性葡萄胎； J、肿瘤或新生物：任何部位的恶性肿瘤，尚未证实性质的肿瘤或肿块； K、器官移植或器官移植术后抗排异治疗； L、艾滋病，性病，感染性疾病：HIV病毒感染，艾滋病及其相关综合征； M、眼、耳、鼻、皮肤疾病：白内障，青光眼，视神经病变，视网膜病变，内耳疾病，银屑病； N、残疾：五官、躯干、关节、四肢的缺损；四肢、关节、肌肉力量、听力、言语、咀嚼、吞咽的功能障碍； O、先天性疾病、遗传性疾病。</p>
+                        <p class="q-disease" qcode="140">
+                            &nbsp;&nbsp;<input type="radio" name="disease_{{insuredNo}}" value="1"  /><span>是</span>
+                            <input type="radio" name="disease_{{insuredNo}}" value="2" checked /><span>否</span>
+                        </p>
+                        <div class="info_list_mask info_list_mask2">
+                            <span>请注明 <input type="text" class="g-disease" value="{{diseases}}"></span>
+                        </div>
+                    </li>
+                    <!--<li>-->
+                        <!--<p><span class="ques_no">16</span>、父母兄弟姐妹是否有高血压、糖尿病、恶性肿瘤、心脏 病、高脂血症、肾衰竭、中风、多囊肾等疾病？</p>-->
+                        <!--<p class="q-inheritance" qcode="220">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="inheritance_{{insuredNo}}" value="1"  /><span>是</span>-->
+                            <!--<input type="radio" name="inheritance_{{insuredNo}}" value="2" checked /><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-inheritance" value="{{inheritances}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li class="children isHide">-->
+                        <!--<p><span class="ques_no">17</span>、(3周岁及以下儿童回答)是否有新生儿窒息、早产儿、产伤、出生体重异常、发育迟缓等？</p>-->
+                        <!--<p class="q-children" qcode="">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="children_{{insuredNo}}" value="1"  /><span>是</span>-->
+                            <!--<input type="radio" name="children_{{insuredNo}}" value="2" checked/><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-children" value="{{children}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li class="gravida isHide">-->
+                        <!--<p><span class="ques_no">18</span>、(16周岁及以上女性回答)是否怀孕？如是请告知妊娠周数以及是否有妊娠并发症</p>-->
+                        <!--<p class="q-pregnant" qcode="240" >-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="pregnant_{{insuredNo}}" value="1"  /><span>是</span>-->
+                            <!--<input type="radio" name="pregnant_{{insuredNo}}" value="2" checked/><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-pregnant" value="{{pregnants}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                    <!--<li class="minor isHide">-->
+                        <!--<p><span class="ques_no">19</span>、(18周岁以下未成年人回答)是否已拥有正在生效的以死亡为 给付保险金条件的人身保险？如有请告知身故保险金额总额。</p>-->
+                        <!--<p class="q-death" qcode="">-->
+                            <!--&nbsp;&nbsp;<input type="radio" name="death_{{insuredNo}}" value="1" /><span>是</span>-->
+                            <!--<input type="radio" name="death_{{insuredNo}}" value="2" checked/><span>否</span>-->
+                        <!--</p>-->
+                        <!--<div class="info_list_mask info_list_mask2">-->
+                            <!--<span>请注明 <input type="text" class="g-death" value="{{deaths}}"></span>-->
+                        <!--</div>-->
+                    <!--</li>-->
+                </ol>
+            </div>
+            <!--<div class="remarks" qcode="">-->
+                <!--<h3>投保备注信息</h3><br/>-->
+                <!--<p class="mb15 choice_btn">-->
+                    <!--<span>是否需要录入投保备注信息：</span>-->
+                    <!--<input type="radio" name="remarks_{{insuredNo}}" value="1" class="q-remarks" /><span>是</span>&nbsp;&nbsp;-->
+                    <!--<input type="radio" name="remarks_{{insuredNo}}" value="2" class="q-remarks" checked /><span>否</span>-->
+                <!--</p>-->
+                <!--<p class="remarks_info"><textarea class="g-remarks" disabled="true">{{remark}}</textarea></p>-->
+            <!--</div>-->
+        </div>
+    </div>
+</div>
+<!-- 返回顶部 -->
+<a href="javascript:;" class="return_btn"></a>
+
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/style.js"></script>
+<script src="js/websql.js"></script>
+<script>
+    $(function(){
+        /*************************************************  页面初始化  ************************************************/
+        //创建数据库类
+        var db = WebSql().openDB();
+        
+        //判断是否是新增保单还是编辑保单
+        var policyId = localStorage.proposalId,
+            QUES_INDEX = localStorage.quesIndex,
+            QUES_COUNT = 0;
+            
+            loadQues(policyId,QUES_INDEX);        
+        
+        
+
+        /***************************** 公用方法部分 *****************************/
+        //根据保单流水查询告知
+        function loadQues(id,quesNo){
+            db.query('SELECT p.insuredId,p.planNo,c.genderCode,c.birthday FROM plan p JOIN customer c ON p.insuredId = c.customerId WHERE p.policyUUID = ? ORDER BY planNo', [id], function(cust){
+                
+                if(cust.length){
+                    QUES_COUNT = cust.length;
+                    var _cust = cust.filter(function(item){return item.planNo === quesNo;});
+                    db.query('SELECT * FROM questAnswer where policyUUID = ? AND id = ?', [id, quesNo], function(res){
+                        res.length ? createQues(res, _cust) : createQues([], _cust);
+                    });
+                }
+            });
+        }
+
+        //创建QuesDom
+        function createQues(result,cust){
+            var tpl = _getHtml($('#tpl_inform'));
+            if(result.length){
+                for(var i in result){
+                    var _answer = JSON.parse(result[i].answer),
+                        _detail = JSON.parse(result[i].detail),
+                        _payType = _detail.pay.split(',');
+
+                    var _html = tpl.replace(/\{\{quesId\}\}/g, result[i].questUUID)
+                                   .replace(/\{\{custId\}\}/g, result[i].customerId)
+                                   .replace(/\{\{insuredNo\}\}/g, result[i].id)
+                                   .replace(/\{\{index\}\}/g, i)
+                                   .replace(/\{\{height\}\}/g, _detail.hw?_detail.hw.split(',')[0]:'')
+                                   .replace(/\{\{weight\}\}/g, _detail.hw?_detail.hw.split(',')[1]:'')
+                                   .replace(/\{\{everyday\}\}/g, _detail.smoke?_detail.smoke.split(',')[0]:'')
+                                   .replace(/\{\{years1\}\}/g, _detail.smoke?_detail.smoke.split(',')[1]:'')
+                                   .replace(/\{\{type\}\}/g, _detail.drink?_detail.drink.split(',')[0]:'')
+                                   .replace(/\{\{num\}\}/g, _detail.drink?_detail.drink.split(',')[1]:'')
+                                   .replace(/\{\{years2\}\}/g, _detail.drink?_detail.drink.split(',')[2]:'')
+                                   .replace(/\{\{lifeinsurance\}\}/g, _detail.takeeffect)
+                                   .replace(/\{\{declinatures\}\}/g, _detail.declinature)
+                                   .replace(/\{\{motions\}\}/g, _detail.motion)
+                                   .replace(/\{\{treatments\}\}/g, _detail.treatment)
+                                   .replace(/\{\{operations\}\}/g, _detail.operation)
+                                   .replace(/\{\{medicines\}\}/g, _detail.medicine)
+                                   .replace(/\{\{tests\}\}/g, _detail.test)
+                                   .replace(/\{\{inspects\}\}/g, _detail.inspect)
+                                   .replace(/\{\{medications\}\}/g, _detail.medication)
+                                   .replace(/\{\{symptoms\}\}/g, _detail.symptom)
+                                   .replace(/\{\{diseases\}\}/g, _detail.disease)
+                                   .replace(/\{\{inheritances\}\}/g, _detail.inheritance)
+                                   .replace(/\{\{children\}\}/g, _detail.children)
+                                   .replace(/\{\{pregnants\}\}/g, _detail.pregnant)
+                                   .replace(/\{\{deaths\}\}/g, _detail.death)
+                                   .replace(/\{\{remark\}\}/g, _detail.remark);
+                    
+                    var $item = $(_html),$list = $item.find('.info_list>li');
+                    //checkbox赋值
+                    for(var j in _payType){
+                        $list.find('.pay .pays').eq(+_payType[j]-1).prop('checked',true);
+                    }
+                    //radio赋值
+                     _answer.isSmoke !== '0' && $list.find('.q-smoke :radio[value="'+_answer.isSmoke+'"]').prop('checked',true).parent().next().css('display',_answer.isSmoke==='1'&&'block');
+                     _answer.isDrink !== '0' && $list.find('.q-drink :radio[value="'+_answer.isDrink+'"]').prop('checked',true).parent().next().css('display',_answer.isDrink==='1'&&'block');
+                     _answer.isTakeeffect !== '0' && $list.find('.q-takeeffect :radio[value="'+_answer.isTakeeffect+'"]').prop('checked',true).parent().next().css('display',_answer.isTakeeffect==='1'&&'block');
+                     _answer.isDeclinature !== '0' && $list.find('.q-declinature :radio[value="'+_answer.isDeclinature+'"]').prop('checked',true).parent().next().css('display',_answer.isDeclinature==='1'&&'block');
+                     _answer.isMotion !== '0' && $list.find('.q-motion :radio[value="'+_answer.isMotion+'"]').prop('checked',true).parent().next().css('display',_answer.isMotion==='1'&&'block');
+                     _answer.isTreatment !== '0' && $list.find('.q-treatment :radio[value="'+_answer.isTreatment+'"]').prop('checked',true).parent().next().css('display',_answer.isTreatment==='1'&&'block');
+                     _answer.isOperation !== '0' && $list.find('.q-operation :radio[value="'+_answer.isOperation+'"]').prop('checked',true).parent().next().css('display',_answer.isOperation==='1'&&'block');
+                     _answer.isMedicine !== '0' && $list.find('.q-medicine :radio[value="'+_answer.isMedicine+'"]').prop('checked',true).parent().next().css('display',_answer.isMedicine==='1'&&'block');
+                     _answer.isTest !== '0' && $list.find('.q-test :radio[value="'+_answer.isTest+'"]').prop('checked',true).parent().next().css('display',_answer.isTest==='1'&&'block');
+                     _answer.isInspect !== '0' && $list.find('.q-inspect :radio[value="'+_answer.isInspect+'"]').prop('checked',true).parent().next().css('display',_answer.isInspect==='1'&&'block');
+                     _answer.isMedication !== '0' && $list.find('.q-medication :radio[value="'+_answer.isMedication+'"]').prop('checked',true).parent().next().css('display',_answer.isMedication==='1'&&'block');
+                     _answer.isSymptom !== '0' && $list.find('.q-symptom :radio[value="'+_answer.isSymptom+'"]').prop('checked',true).parent().next().css('display',_answer.isSymptom==='1'&&'block');
+                     _answer.isDisease !== '0' && $list.find('.q-disease :radio[value="'+_answer.isDisease+'"]').prop('checked',true).parent().next().css('display',_answer.isDisease==='1'&&'block');
+                     _answer.isInheritance !== '0' && $list.find('.q-inheritance :radio[value="'+_answer.isInheritance+'"]').prop('checked',true).parent().next().css('display',_answer.isInheritance==='1'&&'block');
+                     _answer.isChildren !== '0' && $list.find('.q-children :radio[value="'+_answer.isChildren+'"]').prop('checked',true).parent().next().css('display',_answer.isChildren==='1'&&'block');
+                     _answer.isPregnant !== '0' && $list.find('.q-pregnant :radio[value="'+_answer.isPregnant+'"]').prop('checked',true).parent().next().css('display',_answer.isPregnant==='1'&&'block');
+                     _answer.isDeath !== '0' && $list.find('.q-death :radio[value="'+_answer.isDeath+'"]').prop('checked',true).parent().next().css('display',_answer.isDeath==='1'&&'block');
+                     _answer.isRemark === '0' ? $item.find('.remarks .g-remarks').css('background','#ddd')
+                                              : $item.find('.remarks :radio[value="'+_answer.isRemark+'"]').prop('checked',true).parent().next().find('textarea').attr('disabled',_answer.isRemark==='1'&&false);
+                    
+                    $item.appendTo($('section .quesInfo'));
+                    quesShow(cust[i]);
+                }
+            }else{
+                for(var i in cust){
+                    var _html = tpl.replace(/\{\{quesId\}\}/g, '')
+                                   .replace(/\{\{custId\}\}/g, cust[i].insuredId)
+                                   .replace(/\{\{insuredNo\}\}/g, cust[i].planNo)
+                                   .replace(/\{\{index\}\}/g, i);
+                    var $item = $(_html);
+                    $item.appendTo($('section .quesInfo')).find('input[type="text"]').val('').end().find('textarea').val('').css('background','#ddd');
+                    quesShow(cust[i]);
+                }
+            }
+        }
+
+        //根据性别(1男，2女)、年龄显示17-19问题
+        function quesShow(obj){
+            var gender = obj.genderCode,age = getAge(obj.birthday),list = $('.quesInfo .info_con .info_list'),index = list.find('li:visible').length;
+            //3周岁及以下    
+            if(age <= 3) list.find('.children').removeClass('isHide').find('.ques_no').text(++index);
+            //16周岁及以上女性
+            if(age >= 16 && gender === '2') list.find('.gravida').removeClass('isHide').find('.ques_no').text(++index);
+            //18周岁以下
+            if(age < 18) list.find('.minor').removeClass('isHide').find('.ques_no').text(++index);
+        }
+
+        //根据时间(xxxx-xx-xx)获取距今多少年
+        function getAge(birth){
+            var arr = birth.split('-'),year1 = arr[0],mon1 = arr[1],day1 = arr[2],
+                now = new Date(),year2 = now.getFullYear(),mon2 = now.getMonth()+1,day2 = now.getDate(),
+                ageDiff = year2 - year1,returnAge;
+            if(!ageDiff) return 0;//同年 则为0岁
+            if(ageDiff<0) return -1;//表示出生日期输入错误 晚于今天  
+            if(mon2==mon1){
+                return (day2-day1<0?ageDiff-1:ageDiff); 
+            }else{
+                return (mon2-mon1<0?ageDiff-1:ageDiff);
+            }
+        }
+
+        //表单验证
+        function checkForm(){
+            var _result = [];
+            $('.quesInfo .inform').each(function(){
+                //检查弹层的是否为空
+                var maskCheck = true;
+                $(this).find('.info_con .info_list .info_list_mask:visible').each(function(){
+                    var _isOk = true;
+                    $(this).find('input').each(function(){
+                        if($(this).val() === ''){
+                            _isOk = false;
+                            maskCheck = false;
+                            return false;
+                        }
+                    });
+                    if(!_isOk){
+                        alert('请输入选项信息');
+                        $(window).scrollTop($(this).parent().offset().top);
+                        _result.length = 0;
+                        return false;
+                    }
+                });
+                if(!maskCheck) return false;
+
+                var custId = $(this).attr('custId'),
+                    qno = $(this).find('.title span').text(),
+                    quesId = $(this).attr('quesId'),
+                    qver = $(this).attr('qversion'),
+                    $list = $(this).find('.info_con .info_list'),
+                    code = {},
+                    detail = {},
+                    ifCode = {};
+                
+                // 1, 身高体重
+                var $hw = $list.find('>li .fill'),
+                    height = $hw.find('.q-height').val();
+                if(height === ''){
+                    alert('请填写告知[' + qno + ']的被保人身高');
+                    $(window).scrollTop($hw.parent().offset().top);
+                    _result.length = 0;
+                    return false;
+                }
+                var weight = $hw.find('.q-weight').val();
+                if(weight === ''){
+                    alert('请填写告知[' + qno + ']的被保人体重');
+                    _result.length = 0;
+                    $(window).scrollTop($hw.parent().offset().top);
+                    return false;
+                }
+                code.hw = $hw.attr('qcode');
+                ifCode.isHw = '0';
+                detail.hw = height+','+weight;
+
+                // 2, 支付方式
+                var payType = [],
+                    $pay = $list.find('>li .pay');
+                $pay.find('.pays').each(function(){
+                    if($(this).is(':checked')){
+                        payType.push($(this).val());
+                    }
+                });
+                var payTypeState = false
+                if(!payType.length){
+                    alert('请勾选告知[' + qno + ']的被保险人的医疗费用支付方式');
+                    $(window).scrollTop($pay.parent().offset().top);
+                    _result.length = 0;
+                    return false;
+                }else{
+                    payType.map(prod=>{
+                        if(prod==5){
+                            payTypeState = true
+                        }
+                    })
+                }
+                var productData = JSON.parse(localStorage.productData)
+                if(productData.orClause == 1 && payTypeState == false){
+                    alert('请勾选补充医疗保险！')
+                    return false
+                }
+                code.pay = $pay.attr('qcode');
+                ifCode.isPay = '0';
+                detail.pay = payType.join(',');
+
+                // 3, 吸烟
+                var $smoke = $list.find('>li .q-smoke'),
+                    $isSmoke = $smoke.find(':checked'),
+                    $smokeInfo = $smoke.next(),
+                    everyDay = $smokeInfo.find('.g-everyday').val(),
+                    year1 = $smokeInfo.find('.g-years1').val();
+                code.smoke = $smoke.attr('qcode');
+                ifCode.isSmoke = $isSmoke.length ? $isSmoke.val() : '0';
+                detail.smoke = (everyDay&&year1) ? (everyDay+','+year1) : '';
+                
+                // 4, 饮酒
+                var $drink = $list.find('>li .q-drink')
+                    $isDrink = $drink.find(':checked'),
+                    $drinkInfo = $drink.next(),
+                    type = $drinkInfo.find('.q-type').val(),
+                    num = $drinkInfo.find('.g-num').val(),
+                    year2 = $drinkInfo.find('.g-year2').val();
+                code.drink = $drink.attr('qcode');
+                ifCode.isDrink = $isDrink.length ? $isDrink.val() : '0';
+                detail.drink = (type&&num&&year2) ? (type+','+num+','+year2) : '';
+
+
+                // 6, 是否被拒保
+                var $declinature = $list.find('>li .q-declinature'),
+                    $isDeclinature = $declinature.find(':checked'),
+                    $eclinatureInfo = $declinature.next(),
+                    declinature = $eclinatureInfo.find('.g-declinature').val();
+                code.declinature = $declinature.attr('qcode');
+                ifCode.isDeclinature = $isDeclinature.length ? $isDeclinature.val() : '0';
+                detail.declinature = declinature;
+
+
+
+                // 8, 是否住院或治疗
+                var $treatment = $list.find('>li .q-treatment'),
+                    $isTreatment = $treatment.find(':checked'),
+                    $treatmentInfo = $treatment.next(),
+                    treatment = $treatmentInfo.find('.g-treatment').val();
+                code.treatment = $treatment.attr('qcode');
+                ifCode.isTreatment = $isTreatment.length ? $isTreatment.val() : '0';
+                detail.treatment = treatment;
+
+
+
+                // 15, 患有重大疾病
+                var $disease = $list.find('>li .q-disease'),
+                    $isDisease = $disease.find(':checked'),
+                    $diseaseInfo = $disease.next(),
+                    disease = $diseaseInfo.find('.g-disease').val();
+                code.disease = $disease.attr('qcode');
+                ifCode.isDisease = $isDisease.length ? $isDisease.val() : '0';
+                detail.disease = disease;
+
+                //合并信息
+                var code = JSON.stringify(code);
+                var ifCode = JSON.stringify(ifCode);
+                var detail  = JSON.stringify(detail);
+                _result.push({_policyId:policyId , _questId:quesId, _custId:custId, _qno:qno, _ver:qver, _code:code, _ifCode:ifCode, _detail:detail});
+            });
+            return _result;
+        }
+
+        //页面跳转路由
+        function rounter(derict){
+            if(derict === 'next'){
+                if(QUES_INDEX == QUES_COUNT){
+                    localStorage.quesIndex = QUES_INDEX;
+                    location.href = 'completeinformation.html';
+                }else{
+                    localStorage.quesIndex = ++QUES_INDEX;
+                    location.reload();
+                }
+            }else{
+                if(QUES_INDEX == 1){
+                    location.href = '../newInsuranceplan.html';
+                }else{
+                    localStorage.quesIndex = --QUES_INDEX;
+                    location.reload(); 
+                }
+            }
+        }
+
+        /*************************************************  页面事件部分  **********************************************/
+        //注意事项为是的情况下!
+        $('.quesInfo').on('change','.inform .info_list li :radio',function(){
+            $(this).val() === '1' ? $(this).parent().next().show() : $(this).parent().next().fadeOut(0,function(){$(this).find('input').val('');});
+        });
+
+        //投保备注信息
+        $('.quesInfo').on('change','.inform .remarks .choice_btn :radio',function(){
+            $(this).val() === '2' ? $(this).parent().next('.remarks_info').find('textarea').attr('disabled',true).css('background','#ddd').val('') : $(this).parent().next('.remarks_info').find('textarea').attr('disabled',false).css('background','#fff');
+        });
+
+        //上一步
+        $('section .prev').click(function(){
+        	localStorage.setItem('key','222');
+            rounter('prev');
+        });
+
+        //下一步
+        $('section .next').click(function(){
+            $('.tempalte-life').hide();
+            var dataArr = checkForm();
+            if(!dataArr.length) return;
+
+            for(var i in dataArr){
+                var item = dataArr[i],
+
+                    quuid = item._questId;
+                console.log(item,'item')
+                //update或insert 告知表（告知流水，保单流水, 告知id, 是否代码, 告知内容, 客户id）
+                if(quuid){
+                    db.exeSql('UPDATE questAnswer SET id = ?, version = ?, code = ?, answer = ?, detail = ?, customerId = ? WHERE policyUUID = ? AND questUUID = ?', [item._qno, item._ver, item._code, item._ifCode, item._detail, item._custId, policyId, quuid], function(res){
+                        if(i == dataArr.length-1) rounter('next');
+                    });
+                }else{
+                    quuid = db.getUUID('PQ', item._qno);
+                    db.exeSql('INSERT INTO questAnswer (questUUID, policyUUID, id, version, code, answer, detail, customerId) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',[quuid, item._policyId, item._qno, item._ver, item._code, item._ifCode, item._detail, item._custId],function(res){
+                        if(i == dataArr.length-1) rounter('next');
+                    });
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

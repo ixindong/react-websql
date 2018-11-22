@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache"> 
+<META HTTP-EQUIV="Expires" CONTENT="0"> 
+  <title>主界面</title>
+  <link rel="stylesheet" href="css/webapp_reset.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .back {
+      color: #fff;
+      margin-right: 5%;
+    }
+
+    .index_mask {
+      display: none;
+    }
+
+    .ywy_list li {
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 10px;
+      line-height: 20px;
+    }
+
+    .insure_built_bid .mask_con_main {
+      height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="clearfix">
+    <span>主界面</span>
+    <a href="javascript:;" class="back fr">退出</a>
+  </header>
+  <section>
+    <ul class="homepage clearfix">
+      <li id="plan_list">
+        <!--productlist.html-->
+        <a href="newProductlist.html">
+          <p>
+            <img src="images/img_circular.png" alt="">
+          </p> <span>移动出单</span> </a>
+      </li>
+      <li>
+        <a href="customermanagement.html">
+          <p>
+            <img src="images/img_circular2.png" alt="">
+          </p> <span>客户管理</span> </a>
+      </li>
+      <li>
+        <a href="policycenter.html">
+          <p>
+            <img src="images/img_circular3.png" alt="">
+          </p> <span>保单中心</span> </a>
+      </li>
+      <li id="proposal">
+        <a href="proposalmanagement.html">
+        <!-- <a href="javascript:"> -->
+          <p>
+            <img src="images/img_circular4.png" alt="">
+          </p> <span>建议书管理</span> </a>
+      </li>
+      <li id="plan_lists">
+        <a href="newProductlist.html" style="color:#00c2c9;">
+         <!--<a href="javascript:" style="color:#00c2c9;"> -->
+          <p>
+            <img src="images/img_circular6.png" alt="">
+          </p> <span>简易平台</span> </a>
+      </li>
+      <li id="plan_listss">
+        <a href="newProductlist.html" style="color:#00c2c9;">
+        <!-- <a href="javascript:" style="color:#00c2c9;"> -->
+          <p>
+            <img src="images/shuiyou.png" alt="">
+          </p> <span style="color: #aac974">税优平台</span> </a>
+      </li>
+    </ul>
+  </section>
+  <!--交叉销售代理人弹层-->
+  <div class="insure_built insure_built_bid index_mask">
+    <div class="mask">
+      <div class="mask_con">
+        <div class="mask_con_main" style="overflow-y: auto;">
+          <p class="index_prompt">
+            业务员列表
+          </p>
+          <div class="index_text">
+            <ul class="ywy_list">
+            </ul>
+          </div>
+        </div>
+        <div class="mask_con_btn index_btn" style="border-top: 0;">
+          <p class="clearfix">
+            <a href="javascript:;" style="width: 50%; text-align: center" class="submit_bt">确定</a><a href="javascript:;" style="width: 50%; text-align: center" class="submit_return">返回</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery-1.9.1.min.js"></script>
+  <script src="js/style.js"></script>
+  <script src="js/websql.js"></script>
+  <script src="js/kk-1.1.52.min.js"></script>
+  <script>
+    //模拟数据
+
+var mydata = {
+    "error": "成功",
+    "errorcode": "0",
+    // "data": {
+        "teamcode": "",
+        "loginflag": "0",
+        "authToken": "8ed8e1a5-5083-40b6-a069-c66ffa08326d",
+        "tokenholdtime": "4",
+        "receivablepay": "",
+        "weixinpaycode": "11",
+        "initpw": "0",
+        "swith_payccp": [{
+            "classcode": "01",
+            "type": "110111"
+        }, {
+            "classcode": "09",
+            "type": "110111"
+        }, {
+            "classcode": "10",
+            "type": "110111"
+        }, {
+            "classcode": "21",
+            "type": "110111"
+        }
+
+        ],
+        "versioncontrol": {
+            "watermark": "off",
+            "ilogrisk": "YEK,AUV,ZID,YEM,ZUM,ZEM,ZBO,ZBP,ZFP,ZBV,ZJJ,ZFG,ZUB,ZFO,ZKF,ZES,ZDB,ZGM",
+            "jskuaiqian": "on",
+            "openrisk": "1,2,3, ,5",
+            "weixinpaycode": "11",
+            "alipaycode": "00",
+            "controlmark": "0B",
+            "receivablepay": "",
+            "outlinepayflag": "0",
+            "khyx_cdzlcjg": "0",
+            "swith_Extendedwarranty": "1",
+            "ZGU_ifPass": "1",
+            "swith_autograph": "0",
+            "swith_prediscount": "1",
+            "imageuplod": "1",
+            "istaxreliefs": "on",
+            "version": "on",
+            "amountfloat": "0",
+            "ccaid": "on",
+            "fee_reform": "on",
+            "underwriter": "on",
+            "compareprice": "off",
+            "feeversion": "off",
+            "paymentflag": "on",
+            "renewcopy": "0",
+            "distributioncontrol": "0",
+            "cxpselectcontrol": "0",
+            "psychiatric": "off",
+            "towapurl": "http://10.133.177.175:7005/wap/personelCenter/manager/decode?canshu=",
+            "showstarthour": "on",
+            "issfa": "off",
+            "showabcd": "off",
+            "policyclaimcontrol": "off",
+            "rolecode": "0",
+            "renewqtedit": "on",
+            "is_vehicle_plat": "off",
+            "renewbylicenseNo": "on",
+            "crosssellingrenew": "off",
+            "vinqueryjycontrol": "off",
+            "netvinqueryjycontrol": "off",
+            "postmandatory": "off",
+            "socialcode": "off",
+            "issmsuserinfoeditable": "on",
+            "costrateflag": "on",
+            "poundagecalculate": "off",
+
+
+            "smseditable": "on",
+            "multitaskdeal": "off",
+            "scoreactivity": "0",
+            "payplatformcar": "off",
+            "isnewhx": "on",
+            "isnewwx": "off",
+            "carownercheck": "off",
+            "newcarlicensebyengineno": "on",
+            "acclaimnode": "on",
+            "epolicy": "22110",
+            "eproposal": "0N",
+            "headuserflag": "0",
+            "switch_payment": "off",
+            "switch_mergepay": "0",
+            "switch_xp": "1",
+            "isdax": "on",
+            "iscache": "1",
+            "jointsales": "1",
+            "jointsalesebs": "0",
+            "giftpackage": "on",
+            "swith_motoflag": "",
+            "realnameflag": "0",
+            "assetagentflag": "0",
+            "netquick": "on",
+            "newentrance": "off",
+            "newtradition": "on",
+            "quoteaddinsured": "off",
+            "marketfeeshow": "0",
+            "marketfeeedit": "0",
+            "marketfeemaxshow": "0",
+            "switch_planinfo": "on",
+            "switch_dzb": "0",
+            "issametouinsured": "1",
+            "ismarketfeeflag": "1"
+        },
+        "umtuser": {
+            "flag": "",
+            "logincode": "2111010008",
+            "groupusercode": "",
+            "usercode": "1101000009",
+            "username": "洪丰",
+            "comcode": "86110000",
+            "comname": "中国人民财产保险股份有限公司北京市分公司",
+            "email": "",
+            "usertype": "",
+            "validstatus": "1",
+            "sex": "",
+            "telephone": "",
+            "mobile": "15201331430",
+            "comid": "86110000",
+            "birthday": "",
+            "age": "",
+            "companyid": "03",
+            "companyname": "人保健康",
+            "pcomcode": "11000000",
+            "pcomid": "11000000",
+            "lastoptime": "2018-11-22 13:54:02",
+            "lastlogintime": "2018-11-22 13:54:02",
+            "validtime": "2018-11-22 17:54:02",
+
+
+
+
+            "agentcate": "01",
+            "agentcatename": "个人直销"
+
+        },
+        "sales": [],
+        "rolelist": [],
+        "property": {
+            "menulist": [
+                "UMGRZR1001",
+                "UMGR9999"
+
+            ]
+        }
+    // }
+}
+    //建议书
+    $('#proposal').click(function(){
+      // alert('此模块开发中，暂未开放！')
+    })
+    //在线投保
+    $('#plan_list').click(function () {
+        localStorage.type = '00'
+        localStorage.editType = 'normal'
+    })
+    $('#plan_lists').click(function () {
+        localStorage.type = '10'
+        localStorage.editType = 'normal'
+        //alert('此模块开发中，暂未开放！')
+    })
+    $('#plan_listss').click(function () {
+        localStorage.type = '20'
+        localStorage.editType = 'normal'
+        // alert('此模块开发中，暂未开放！')
+    })
+    //创建表
+    var db = WebSql().openDB();
+
+    function initDB() {
+      var db = WebSql().openDB(),
+        n = 0;
+      //保单表
+      db.exeSql(
+        'CREATE TABLE IF NOT EXISTS policy (uuid TEXT REAL UNIQUE, code TEXT, applicantUUID TEXT, payUUID TEXT, imagetifUUID TEXT, agentcode TEXT, isForSelf TEXT, lastModifiedTime TEXT, status TEXT, policyDate TEXT, validDate TEXT, productList TEXT)', [],
+        function(res) {
+          if (++n === 10) location.href = 'insuranceplan.html';
+        });
+      //保险计划表
+      db.exeSql('CREATE TABLE IF NOT EXISTS plan (planUUID TEXT REAL UNIQUE, policyUUID TEXT, planNo TEXT, insuredId TEXT, applicantId TEXT,productData TEXT)', [], function(res) {
+        if (++n === 10) location.href = 'insuranceplan.html';
+      });
+      //产品表
+      db.exeSql(
+        'CREATE TABLE IF NOT EXISTS product (productUUID TEXT REAL UNIQUE, planUUID TEXT,appendPrem TEXT, planNo TEXT, code TEXT, name TEXT, abbrName TEXT, productDefId TEXT, insureType TEXT, insureValue TEXT, insurePeriod TEXT, insurePeriodes TEXT, insureDesc TEXT, payDesc TEXT, payModeDesc TEXT, payMode TEXT, payType TEXT, payValue TEXT, payPeriod TEXT, payPeriodes TEXT, amount TEXT, premium TEXT, quantity TEXT, attach TEXT, dividends TEXT, policyUUID TEXT)', [],
+        function(res) {
+          if (++n === 10) location.href = 'insuranceplan.html';
+        });
+      //客户表
+      db.exeSql(
+        'CREATE TABLE IF NOT EXISTS customer (customerId TEXT REAL UNIQUE, name TEXT, genderCode TEXT, birthday TEXT, occupCate TEXT, occupation TEXT, relation TEXT, Brelation TEXT, lastModifiedDate TEXT, createDate TEXT, citizenship TEXT, smoke TEXT, marriage TEXT, degree TEXT, enterprise TEXT, provinceCode TEXT, street TEXT, cityCode TEXT, cardNum TEXT,cardStartTime TEXT, cardTime TEXT, city TEXT, familyAddress TEXT, area TEXT, duty TEXT, yearIncome TEXT, community TEXT, postalcode TEXT, card_type TEXT, phone TEXT, email TEXT, mobile TEXT, age TEXT, policyUUID TEXT, id TEXT)', [],
+        function(res) {
+          if (++n === 10) location.href = 'insuranceplan.html';
+        });
+      //告知表
+      db.exeSql('CREATE TABLE IF NOT EXISTS questAnswer (questUUID TEXT REAL UNIQUE, policyUUID TEXT, code TEXT, version TEXT, id TEXT, answer TEXT, detail TEXT, customerId TEXT)', [], function(res) {
+        if (++n === 10) location.href = 'insuranceplan.html';
+      });
+      //收益人表
+      db.exeSql('CREATE TABLE IF NOT EXISTS benefit (benefitUUID TEXT REAL UNIQUE, policyUUID TEXT, isByLaw TEXT, insuredId TEXT, name TEXT, relation TEXT, relationword TEXT, cardType TEXT, cardNum TEXT, benefitScale NUMBER, benefitOrder NUMBER)', [],
+        function(res) {
+          if (++n === 10) location.href = 'insuranceplan.html';
+        });
+      //支付信息表
+      db.exeSql(
+        'CREATE TABLE IF NOT EXISTS policypay (policyPayUUID TEXT REAL UNIQUE, policyUUID TEXT, bankName TEXT, bankCode TEXT, bankAccountName TEXT, bankAccountCode TEXT, value TEXT, payTypeCode TEXT, rollPayTypeCode TEXT, remind TEXT, rollPaytypeDesc TEXT, payTypeDesc TEXT, applytype TEXT, printtype TEXT)', [],
+        function(res) {
+          if (++n === 10) location.href = 'insuranceplan.html';
+        });
+      //上传图片缓存表
+      db.exeSql('CREATE TABLE IF NOT EXISTS imagetif (imageUUId TEXT REAL UNIQUE, policyUUId TEXT, id TEXT, imgSrc TEXT)', [], function(res) {
+        if (++n === 10) location.href = 'insuranceplan.html';
+      });
+      //用户信息表
+      db.exeSql(
+        'CREATE TABLE IF NOT EXISTS userInfo (userId TEXT REAL UNIQUE, name TEXT, genderCode TEXT, birthday TEXT, occupCate TEXT, occupation TEXT, lastModifiedDate TEXT, createDate TEXT, citizenship TEXT, smoke TEXT, marriage TEXT, degree TEXT, enterprise TEXT, provinceCode TEXT, street TEXT, cityCode TEXT, cardNum TEXT,cardStartTime TEXT, cardTime TEXT, city TEXT, familyAddress TEXT, area TEXT, duty TEXT, yearIncome TEXT, community TEXT, postalcode TEXT, card_type TEXT, phone TEXT, email TEXT, mobile TEXT, age TEXT, agentCode TEXT)', [],
+        function(res) {
+          if (++n === 10) location.href = 'insuranceplan.html';
+        });
+      db.exeSql('CREATE TABLE IF NOT EXISTS addInsurance (addUUID TEXT,planUUID TEXT, name TEXT, abbrName TEXT, amount TEXT, payValue TEXT, insurePeriod TEXT, premium TEXT, policyUUID TEXT, fxCode TEXT, fxAmount TEXT)', [], function(res) {
+        if (++n === 10) location.href = 'insuranceplan.html';
+      });
+    }
+
+    var bok = false;
+    var bok2 = false;
+    localStorage.signData = '';
+    var agenInfo = null;
+    var conpanyid = null;
+    //检测平台函数
+    var keySale = null;
+    var keyname = null;
+    localStorage.salesid = '';
+    var type = '1';
+
+    //从安卓获取数据
+    function getData() {
+      var result = window.android.getdate();
+      return result
+    }
+    $(function() {
+    //  var json = JSON.parse(getData());
+       var json = mydata;
+    //  window.localStorage.crossSelling = JSON.stringify(getData());
+       window.localStorage.crossSelling = JSON.stringify(mydata);
+      /*手机端数据*/
+      var userInfo = json.umtuser;
+      localStorage.sales = json.sales;
+      var keyInfo = json.authToken;
+      var agentlist = json.sales;
+      agenInfo = json.umtuser;
+      conpanyid = json.umtuser.companyid;
+      if (conpanyid === '03') {
+        localStorage.salesid = '0';
+        keySale = agenInfo.logincode; //  登录业务员code
+        keyname = agenInfo.username; //  业务员名字
+        localStorage.logcode = keySale; // 保单中心 绑定保单
+        localStorage.salecode = keySale;
+        localStorage.salename = keyname;
+        next();
+      } else {
+        // 如果 sales  里面有值 那么就取出对应的业务员信息否者 获取当前登录的业务员信息
+        if (agentlist != '') {
+          // 获取 只带健康险的  业务员
+          var aList = agentlist.filter(function(size) {
+            return size.riskdesc == '健康保险';
+          });
+          // 判断业务员的数量
+          if (localStorage.next == 1) {} else {
+            if (aList.length > 0) {
+              for (var i = 0; i < aList.length; i++) {
+                if (aList.length == 1) {
+                  $('.index_mask').hide();
+                  // 继续程序
+                  localStorage.next = 1;
+                  //获取业务员 信息 存入 localStorage
+                  keySale = JSON.stringify(aList[i].salescode); //  业务员code
+                  keyname = JSON.stringify(aList[i].salesname); //  业务员名字
+                  var reg = new RegExp('"', "g"); // 去重
+                  keySale = keySale.replace(reg, ""); //  业务员code
+                  keyname = keyname.replace(reg, ""); //  业务员名字
+                  //存入localStorage
+                  localStorage.logcode = keySale; // 保单中心 绑定保单
+                  localStorage.salecode = keySale;
+                  localStorage.salename = keyname;
+                  next();
+                } else {
+                  $('.index_mask').show();
+                  var html = $('<li>' + aList[i].salesname + '</li>');
+                  $('.ywy_list').append(html);
+                }
+              }
+            } else {
+              localStorage.salesid = "0";
+              keySale = agenInfo.logincode; //  登录业务员code
+              keyname = agenInfo.username; //  业务员名字
+              localStorage.logcode = keySale; // 保单中心 绑定保单
+              localStorage.salecode = keySale;
+              localStorage.salename = keyname;
+              next();
+            }
+          }
+        } else {
+          localStorage.salesid = "0";
+          keySale = agenInfo.logincode; //  登录业务员code
+          keyname = agenInfo.username; //  业务员名字
+          localStorage.logcode = keySale; // 保单中心 绑定保单
+          localStorage.salecode = keySale;
+          localStorage.salename = keyname;
+          next();
+        }
+      }
+
+      //阻断
+      function next() {
+        // localStorage.companyid = agenInfo.companyid;
+        localStorage.companyid = '03';
+        //localStorage.usercode = agenInfo.usercode;
+        localStorage.usercode = agenInfo.logincode;
+        // 读取Token 进行判断
+        var datas = {
+          apiname: 'S-Au-Auth',
+          header: {
+            "token": keyInfo,
+            "comcode": agenInfo.comcode,
+            "usercode": agenInfo.logincode,
+            "comid": agenInfo.comid
+          },
+          body: {
+            "usercode": agenInfo.logincode,
+            "token": keyInfo,
+            "companyid": agenInfo.companyid
+          }
+        };
+        var crossSelling = mydata
+        //  var crossSelling = getData()
+    var indexdata = {
+                    index: 'loginSalesman',
+                    keySale: {
+                        // //业务员账号
+                        // agentAccount: JSON.parse(crossSelling).umtuser.logincode,
+                        // //业务员姓名
+                        // agentName: JSON.parse(crossSelling).umtuser.username,
+                        // //机构编码
+                        // orgCode: JSON.parse(crossSelling).umtuser.comcode,
+                        // //渠道
+                        // channel: JSON.parse(crossSelling).umtuser.companyid,
+                        // //登陆账号
+                        // loginAccount: JSON.parse(crossSelling).umtuser.logincode,
+                        // //集团统一工号
+                        // workNumber: JSON.parse(crossSelling).umtuser.logincode,
+                        // //登陆日期
+                        // loginDate: JSON.parse(crossSelling).umtuser.lastlogintime
+                        // pc
+                        // 业务员账号
+                        agentAccount: crossSelling.umtuser.logincode,
+                        //业务员姓名
+                        agentName: crossSelling.umtuser.username,
+                        //机构编码
+                        orgCode: crossSelling.umtuser.comcode,
+                        //渠道
+                        channel: crossSelling.umtuser.companyid,
+                        //登陆账号
+                        loginAccount: crossSelling.umtuser.logincode,
+                        //集团统一工号
+                        workNumber: crossSelling.umtuser.logincode,
+                        //登陆日期
+                        loginDate: crossSelling.umtuser.lastlogintime
+                    },
+                    header: {
+                        "token": crossSelling.authToken,//pc
+                        // "token": JSON.parse(crossSelling).authToken,//移动
+                        "usercode": localStorage.usercode
+                    },
+                    body: {
+                        "companyid": localStorage.companyid
+                    }
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                    // url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                    data: JSON.stringify(indexdata), //请求的参数,JSON Object
+                    success: function(data) { //成功回调
+                        // console.log('成功' + data)
+                    },
+                    error: function(code) { //失败回调
+                        // alert('错误' + JSON.stringify(code));
+                    }
+                });
+        // TOken 验证请求
+        $.ajax({
+          type: 'post',
+           url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+         // url:'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+          data: JSON.stringify(datas),
+          success: function(data) {
+            var agentdata = JSON.parse(data);
+            if (agentdata.errorcode == '0') {
+              localStorage.token = agentdata.data.token;
+              bok = true;
+              if (bok) {
+                db.exeSql('CREATE TABLE IF NOT EXISTS agentitem (crsSaleChnl TEXT, crsBussType TEXT, grpAgentCom TEXT, grpAgentCode TEXT, GrpAgentName TEXT, GrpAgentIDNo TEXT, userId TEXT, loginName TEXT, userName TEXT)', [], function(res) {
+                  if (res) {
+                    db.exeSql('INSERT INTO agentitem (crsSaleChnl, crsBussType, crsBussType, grpAgentCom, grpAgentCode, GrpAgentName, GrpAgentIDNo, userId, loginName, userName) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', ['', '', '', '', '',
+                      '', '', userInfo.userID, userInfo.loginName, userInfo.userName
+                    ], function(res) {
+                      //alert(res)
+                      // 第一步访问后台操作。
+                      var indexdata = {
+                        index: 'index',
+                        keySale: keySale,
+                        header: {
+                          "token": localStorage.token,
+                          "usercode": localStorage.usercode
+                        },
+                        body: {
+                          "companyid": localStorage.companyid,
+                            "name":agenInfo.username,
+                        }
+                      };
+                      if (keySale != null) {
+                        //代理请求
+                        $.ajax({
+                           url: 'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                         // url:'http://rbet.mypicc.com.cn:8111/base/distribution.do',
+                          type: 'POST',
+                          data: JSON.stringify(indexdata),
+                          success: function(data) { //成功回调
+                            window.localStorage.agent = 12313132131;
+                            var agendata = agenInfo;
+                            var agent = '';
+                            if (JSON.parse(data).command == '1') {
+                              agent = JSON.parse(data).extra.agent;
+                            } else {
+                              localStorage.next = 2;
+                              alert("非互动渠道销售成员,不支持交叉销售");
+                              return false;
+                            }
+                            localStorage.agent_userCode = agent.groupAgentCode;
+                            localStorage.branchId = agent.branchId;
+                            localStorage.remarks = agent.remarks;
+                            localStorage.agenphone = agent.mobile; // 电话
+                            if (localStorage.agent_userCode == agenInfo.logincode) {} else {
+                              if (agent.remarks == '14' || agent.remarks == '15') {} else {
+                                localStorage.next = 2;
+                                alert('非互动渠道销售成员,不支持交叉销售');
+                                window.android.back();
+                                return false;
+                              }
+                            }
+                            db.exeSql(
+                              'CREATE TABLE IF NOT EXISTS agentinfo (id TEXT, branchId TEXT, code TEXT, groupAgentCode TEXT, mobile TEXT, name TEXT, orgId TEXT, remarks TEXT, saleChnl TEXT, bussType TEXT, agentCom TEXT, agentCode TEXT, agentName TEXT, agentIDNo TEXT)', [],
+                              function(res) {
+                                if (res) {
+                                  setTimeout(function() {
+                                    db.query('SELECT * FROM agentinfo', [], function(ares) {
+                                      var agenCode = [];
+                                      if (ares.length) {
+                                        localStorage.agent_userCode = agent.groupAgentCode;
+                                        for (var i in ares) {
+                                          agenCode.push(ares[i].groupAgentCode);
+                                        }
+                                        if (agenCode.toString().indexOf(keySale) > -1) {
+                                          db.exeSql(
+                                            'UPDATE agentinfo SET branchId = ?, code = ?, groupAgentCode = ?, mobile = ?, name = ?, orgId = ?, remarks = ?, saleChnl = ?, bussType = ?, agentcom = ?, agentCode = ?, agentName = ?, agentIDNo = ?', [
+                                              agent.branchId, agent.code, agent.groupAgentCode, agent.mobile, agent.name, agent.orgId, agent.remarks, agendata.companyid, '01', agendata.comcode, agendata.logincode,
+                                              agendata.username, ''
+                                            ],
+                                            function(res) {
+                                              if (res) {
+                                                if (type === '1') { //用户请求使用应用
+                                                  //相应操作
+                                                } else if (type == '2') { //被推送消息拉起
+                                                  //相应操作
+                                                } else if (type == '3') { //被其他应用拉起
+                                                  //相应操作
+                                                  var type2 = args.callArgs;
+                                                  var code = type2.date;
+                                                  if (code === '333501') {
+                                                    var arr = [{
+                                                      "code": "333501",
+                                                      "abbrName": "百万安行",
+                                                      "name": "百万安行个人护理保险",
+                                                      "amount": "10000",
+                                                      "insurePeriod": "30",
+                                                      "payPeriod": "5,10",
+                                                      "checked": true,
+                                                      "addit": [{
+                                                        "code": "532501",
+                                                        "name": "附加百万安行个人交通意外伤害保险",
+                                                        "abbrName": "附加交通意外",
+                                                        "amount": "10000",
+                                                        "insurePeriod": "30",
+                                                        "payPeriod": "5",
+                                                        "checked": true
+                                                      }, {
+                                                        "code": "532401",
+                                                        "name": "附加百万安行个人意外伤害保险",
+                                                        "abbrName": "附加个人意外",
+                                                        "amount": "10000",
+                                                        "insurePeriod": "30",
+                                                        "payPeriod": "5",
+                                                        "checked": true
+                                                      }]
+                                                    }];
+                                                    localStorage.productType = JSON.stringify(arr);
+                                                    localStorage.policyId = '';
+                                                    initDB();
+                                                    location.href = 'insuranceplan.html';
+
+                                                  }
+                                                }
+                                                //$('.index_mask').hide()
+                                              }
+                                            });
+                                        } else {
+
+                                          db.exeSql(
+                                            'INSERT INTO agentinfo (id, branchId, code, groupAgentCode, mobile, name, orgId, remarks, saleChnl, bussType, agentCom, agentCode, agentName, agentIDNo) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+                                              db.getUUID('AG'), agent.branchId, agent.code, agent.groupAgentCode, agent.mobile, agent.name, agent.orgId, agent.remarks, agendata.companyid, '01', agendata.comcode,
+                                              agendata.logincode, agendata.username, ''
+                                            ],
+                                            function(res11) {
+                                              if (type === '1') { //用户请求使用应用
+                                                //相应操作
+                                              } else if (type == '2') { //被推送消息拉起
+                                                //相应操作
+                                              } else if (type == '3') { //被其他应用拉起
+                                                //相应操作
+                                                var type2 = args.callArgs;
+                                                var code = type2.date;
+                                                if (code === '333501') {
+                                                  var arr = [{
+                                                    "code": "333501",
+                                                    "abbrName": "百万安行",
+                                                    "name": "百万安行个人护理保险",
+                                                    "amount": "10000",
+                                                    "insurePeriod": "30",
+                                                    "payPeriod": "5,10",
+                                                    "checked": true,
+                                                    "addit": [{
+                                                      "code": "532501",
+                                                      "name": "附加百万安行个人交通意外伤害保险",
+                                                      "abbrName": "附加交通意外",
+                                                      "amount": "10000",
+                                                      "insurePeriod": "30",
+                                                      "payPeriod": "5",
+                                                      "checked": true
+                                                    }, {
+                                                      "code": "532401",
+                                                      "name": "附加百万安行个人意外伤害保险",
+                                                      "abbrName": "附加个人意外",
+                                                      "amount": "10000",
+                                                      "insurePeriod": "30",
+                                                      "payPeriod": "5",
+                                                      "checked": true
+                                                    }]
+                                                  }]
+                                                  localStorage.productType = JSON.stringify(arr);
+                                                  localStorage.policyId = '';
+                                                  initDB();
+                                                  location.href = 'insuranceplan.html';
+                                                }
+                                              }
+                                              //$('.index_mask').hide()
+                                            });
+                                        }
+                                      } else {
+                                        localStorage.agent_userCode = agent.groupAgentCode;
+                                        db.exeSql(
+                                          'INSERT INTO agentinfo (id, branchId, code, groupAgentCode, mobile, name, orgId, remarks, saleChnl, bussType, agentCom, agentCode, agentName, agentIDNo) VALUES( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+                                            db.getUUID('AG'), agent.branchId, agent.code, agent.groupAgentCode, agent.mobile, agent.name, agent.orgId, agent.remarks, agendata.companyid, '01', agendata.comcode,
+                                            agendata.logincode, agendata.username, ''
+                                          ],
+                                          function(res) {
+                                            if (type === '1') { //用户请求使用应用
+                                              //相应操作
+                                            } else if (type == '2') { //被推送消息拉起
+                                              //相应操作
+                                            } else if (type == '3') { //被其他应用拉起
+                                              //相应操作
+                                              var type2 = args.callArgs;
+                                              var code = type2.date;
+                                              if (code === '333501') {
+                                                var arr = [{
+                                                  "code": "333501",
+                                                  "abbrName": "百万安行",
+                                                  "name": "百万安行个人护理保险",
+                                                  "amount": "10000",
+                                                  "insurePeriod": "30",
+                                                  "payPeriod": "5,10",
+                                                  "checked": true,
+                                                  "addit": [{
+                                                    "code": "532501",
+                                                    "name": "附加百万安行个人交通意外伤害保险",
+                                                    "abbrName": "附加交通意外",
+                                                    "amount": "10000",
+                                                    "insurePeriod": "30",
+                                                    "payPeriod": "5",
+                                                    "checked": true
+                                                  }, {
+                                                    "code": "532401",
+                                                    "name": "附加百万安行个人意外伤害保险",
+                                                    "abbrName": "附加个人意外",
+                                                    "amount": "10000",
+                                                    "insurePeriod": "30",
+                                                    "payPeriod": "5",
+                                                    "checked": true
+                                                  }]
+                                                }]
+                                                localStorage.productType = JSON.stringify(arr);
+                                                localStorage.policyId = '';
+                                                initDB();
+                                                location.href = 'insuranceplan.html';
+                                              }
+                                            }
+                                            //  $('.index_mask').hide()
+                                          });
+                                      }
+
+                                    });
+                                  }, 1)
+                                } else {
+                                  localStorage.next = 2;
+                                  alert('创建表出错，请重新登录！如果问题无法解决，请联系开发人员。 ');
+                                  window.android.back();
+                                  return false;
+                                }
+                              });
+                            }
+                          // },
+                          // error: function(code, msg) { //失败回调
+                          //   localStorage.next = 2;
+                          //   alert('代理请求业务员失败 。')
+                          //   window.android.back();
+                          //   return false;
+                          // }
+                        });
+                      }
+                    });
+                  }
+                  // });
+                });
+              } else {
+                localStorage.salecode = '';
+                localStorage.salename = '';
+                localStorage.salephone = '';
+                localStorage.logcode = ''; // 保单中心 绑定保单
+                localStorage.next = 2;
+                alert('没有用户信息');
+                window.android.back();
+              }
+            } else if (agentdata.errorcode == '1') {
+              alert('没有用户信息');
+              localStorage.keyInfo = '';
+              localStorage.next = 2;
+              window.android.back();
+              return false;
+            }
+          },
+          error: function(b) {
+            alert('TOken验证请求失败');
+            window.android.back();
+          }
+        });
+
+      }
+    })
+    // 如果业务员 大于1 那么就弹出业务员列表让客户选择
+    $('.ywy_list').on('click', 'li', function() {
+      var a_name = $(this).text();
+      var aList3;
+      var aList2 = agentlist.filter(function(size) {
+        return size.salesname == a_name;
+      });
+      for (var i = 0; i < aList2.length; i++) {
+        aList3 = aList2[i]
+      }
+      keySale = JSON.stringify(aList3.salescode); //  业务员code
+      keyname = JSON.stringify(aList3.salesname); //  业务员名字
+      var reg = new RegExp('"', "g");
+      keySale = keySale.replace(reg, ""); //  业务员code
+      keyname = keyname.replace(reg, ""); //  业务员名字
+      localStorage.logcode = keySale; // 保单中心 绑定保单
+      localStorage.salecode = keySale;
+      localStorage.salename = keyname;
+      localStorage.next = 1;
+      console.log('05' + localStorage.logcode);
+      $('.index_mask').hide();
+      // 继续程序
+      next();
+    });
+
+    $('.submit_return').click(function() {
+      localStorage.next = 2;
+      localStorage.keyInfo = '';
+    });
+    //退出时情况本地存储信息和退出健康险模块
+    $('body').on('click', '.back', function() {
+      //db.dropTable('agentinfo')
+      localStorage.salecode = '';
+      localStorage.salename = '';
+      localStorage.salephone = '';
+      localStorage.logcode = ''; // 保单中心 绑定保单
+      localStorage.next = 2;
+      setTimeout(function() {
+        db.exeSql('DELETE FROM agentitem', [], function(res) {
+          window.android.back();
+        });
+      }, 1000)
+    })
+  </script>
+</body>
+
+</html>

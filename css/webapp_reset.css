@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+/*
+** HTML5移动重置样式表
+*/
+/* ============================ 重置css样式 ============================ */ 
+/* 清除内外边距 */
+body,html,header,footer,section,span,p,h1,h2,h3,h4,ul,ol,li,select,input,button,textarea,aside,article{
+  margin: 0;
+  padding: 0;
+}
+/* 设置默认字体 */
+body,button,input,select,textarea{ font: 62.5%/1 "黑体", Tahoma, Helvetica, Arial, sans-serif; }
+/* 重置列表元素 */
+ul, ol { list-style: none; }
+/* 重置文本格式元素 */
+a { text-decoration: none; }
+a:focus { outline:none; }
+img{
+ 
+  border:none;
+  vertical-align:middle;
+  }
+/* 重置表格元素 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+/* ========================= 页面常用样式 CSS样式 =========================== */  
+html,body{
+  width:100%;
+  overflow-x:hidden;  
+}
+body{
+  -text-size-adjust:none;
+  overflow:hidden;
+  -webkit-user-select:none;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+}
+input,
+textarea{
+  outline:medium;
+}
+select{
+  border-radius:0;
+}
+input[type=text],
+input[type=number]{
+  border-radius:0;
+  appearance:button;
+  -moz-appearance:button; /* Firefox */
+  -webkit-appearance:button; /* Safari 和 Chrome */
+}
+select{
+  appearance:none;-moz-appearance:none; -webkit-appearance:none
+}
+/*清除浮动*/
+.clearfix:after{
+  display:block;
+  clear:both;
+  height:0;
+  visibility:hidden;
+  content:" ";
+}
+.fr{float:right;}
+.fl{float:left;}
+em{font-style:normal;}
